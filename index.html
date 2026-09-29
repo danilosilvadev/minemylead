@@ -205,6 +205,35 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 @media(max-width:900px){.mgrid{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}.pipe div:nth-child(3){border-left:0}.pipe div:nth-child(n+3){border-top:1px solid var(--line)}}
 @media(max-width:480px){.wt div{grid-template-columns:110px 1fr 28px}.src{grid-template-columns:1fr}}
 
+
+/* engine + tool */
+.eng{display:grid;grid-template-columns:repeat(3,1fr);margin-top:20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.eng div{padding:22px 24px;border-left:1px solid var(--line)}
+.eng div:first-child{border-left:0}
+.eng b{display:block;font:800 30px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.eng span{display:block;margin-top:8px;font-size:14px;color:var(--ink2)}
+.qb{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+.qin{display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;position:sticky;top:92px}
+.qin label{display:grid;gap:8px;font:600 14px "Instrument Sans",sans-serif}
+.qin label em{font-style:normal;font-weight:400;color:var(--ink2)}
+.qin input{font:400 16px "Instrument Sans",sans-serif;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.qin input:focus{outline:3px solid var(--hl);border-color:var(--ink)}
+.qin .btn{justify-content:center;cursor:pointer}
+.qin .note{margin:0}
+.qout{display:grid;gap:16px}
+.qg{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.qg h3{font:500 12px "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);padding:14px 20px;background:var(--surface2);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.qr{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line)}
+.qr:last-child{border-bottom:0}
+.qr code{font:500 14.5px "JetBrains Mono",monospace;overflow-wrap:anywhere;flex:1 1 240px}
+.qs{display:flex;flex-wrap:wrap;gap:6px}
+.qs a{font:500 12px "Instrument Sans",sans-serif;padding:5px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.qs a:hover{background:var(--hl);border-color:var(--ink)}
+.qempty{padding:28px;color:var(--ink2);border:1px dashed var(--line);border-radius:16px}
+.qnext{margin-top:22px;font-size:16px;color:var(--ink2)}
+.qnext a{color:var(--ink);font-weight:600}
+@media(max-width:900px){.qb{grid-template-columns:1fr}.qin{position:static}.eng{grid-template-columns:1fr}.eng div{border-left:0;border-top:1px solid var(--line)}.eng div:first-child{border-top:0}}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -213,7 +242,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 <nav class="nav">
   <div class="wrap">
     <a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
-    <div class="links"><a href="#how">How it works</a><a href="#included">What you get</a><a href="#method">Method</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+    <div class="links"><a href="#how">How it works</a><a href="#included">What you get</a><a href="#method">Method</a><a href="#tool">Free tool</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
     <a class="btn" href="mailto:contact@minemylead.com?subject=Pilot%20batch">Get a pilot batch</a>
   </div>
 </nav>
@@ -346,6 +375,31 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <div><b class="mono">03 Score</b><span>0 to 100 against your buyer</span></div>
       <div><b class="mono">04 Verify</b><span>Source link checked, samples audited</span></div>
     </div>
+    <div class="eng">
+      <div><b>98,000+</b><span>public profiles scored so far</span></div>
+      <div><b>385,000+</b><span>buying signals read</span></div>
+      <div><b>6</b><span>public sources, one scoring model</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="tool">
+  <div class="wrap">
+    <div class="head">
+      <p class="kick">Free tool</p>
+      <h2>Find your first leads yourself.</h2>
+      <p class="sub">Type your problem. Get the exact phrases buyers use, with one-click searches on our six sources. Runs in your browser, nothing is sent anywhere.</p>
+    </div>
+    <div class="qb">
+      <form class="qin" onsubmit="return false" autocomplete="off">
+        <label>The problem you solve<input id="qp" type="text" value="reconciling invoices by hand" maxlength="80"></label>
+        <label>What they use today <em>(optional)</em><input id="qt" type="text" value="spreadsheets" maxlength="60"></label>
+        <button type="button" class="btn alt" id="qcopy">Copy all phrases</button>
+        <p class="note">Example prefilled. Replace it with yours.</p>
+      </form>
+      <div class="qout" id="qout" aria-live="polite"></div>
+    </div>
+    <p class="qnext">That is step 1 of 4 by hand. We run all four across 98,000+ scored profiles. <a href="mailto:contact@minemylead.com?subject=Pilot%20batch">Get a pilot batch</a></p>
   </div>
 </section>
 
@@ -412,11 +466,50 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">AI-sourced, qualified leads with proof on every one.</p></div>
     <div class="cols">
-      <div><h4>Product</h4><a href="#how">How it works</a><a href="#included">What you get</a><a href="#method">Method</a><a href="#pricing">Pricing</a></div>
+      <div><h4>Product</h4><a href="#how">How it works</a><a href="#included">What you get</a><a href="#method">Method</a><a href="#tool">Free tool</a><a href="#pricing">Pricing</a></div>
       <div><h4>Company</h4><a href="#faq">FAQ</a><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div>
     </div>
     <p class="legal">&copy; 2026 MineMyLead. Built on public data. Request removal at contact@minemylead.com.</p>
   </div>
 </footer>
+<script>
+(function(){
+  var SRC=[
+    ["GitHub",function(q){return "https://github.com/search?type=issues&q="+encodeURIComponent(q)}],
+    ["Hacker News",function(q){return "https://hn.algolia.com/?dateRange=pastYear&sort=byDate&type=comment&query="+encodeURIComponent(q)}],
+    ["YouTube",function(q){return "https://www.youtube.com/results?search_query="+encodeURIComponent(q)}],
+    ["Substack",function(q){return "https://substack.com/search/"+encodeURIComponent(q)}],
+    ["DEV",function(q){return "https://dev.to/search?q="+encodeURIComponent(q)}],
+    ["X",function(q){return "https://x.com/search?f=live&q="+encodeURIComponent(q)}]
+  ];
+  var G=[
+    ["Pain, in their words","35 pts",false,["{p} hours every week","sick of {p}","how do you handle {p}","{p} is a nightmare"]],
+    ["Switching intent","fit",true,["alternative to {t}","replace {t}","{t} too expensive","leaving {t}"]],
+    ["Buying signal","buyer",false,["recommend a tool for {p}","looking for software for {p}","evaluating options for {p}","budget approved {p}"]]
+  ];
+  var ip=document.getElementById("qp"),it=document.getElementById("qt"),out=document.getElementById("qout"),cp=document.getElementById("qcopy"),all=[];
+  function esc(x){return x.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function render(){
+    var p=ip.value.trim(),t=it.value.trim(),h="";all=[];
+    if(!p){out.innerHTML='<div class="qempty">Type the problem you solve to see the phrases.</div>';return}
+    G.forEach(function(g){
+      if(g[2]&&!t)return;
+      h+='<div class="qg"><h3><span>'+g[0]+'</span><span>'+g[1]+'</span></h3>';
+      g[3].forEach(function(tpl){
+        var q=tpl.split("{p}").join(p).split("{t}").join(t);all.push(q);
+        h+='<div class="qr"><code>'+esc(q)+'</code><span class="qs">'+SRC.map(function(s){return '<a href="'+esc(s[1](q))+'" target="_blank" rel="noopener">'+s[0]+'</a>'}).join("")+'</span></div>';
+      });
+      h+='</div>';
+    });
+    out.innerHTML=h;
+  }
+  ip.addEventListener("input",render);it.addEventListener("input",render);
+  cp.addEventListener("click",function(){
+    var done=function(){cp.textContent="Copied";setTimeout(function(){cp.textContent="Copy all phrases"},1600)};
+    try{navigator.clipboard.writeText(all.join("\n")).then(done,function(){})}catch(e){}
+  });
+  render();
+})();
+</script>
 </body>
 </html>
