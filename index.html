@@ -254,6 +254,16 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 @media(max-width:900px){.scb{grid-template-columns:1fr}.scout{position:static}.sel{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.sel{grid-template-columns:1fr}}
 
+
+.qd{padding:14px 20px;font-size:14.5px;color:var(--ink2);border-bottom:1px solid var(--line)}
+.srcs{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+.srcs h3{font:500 12px "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-bottom:18px}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 24px}
+.sg b{display:block;font:700 16px "Bricolage Grotesque",sans-serif;margin-bottom:4px}
+.sg span{display:block;font-size:14px;color:var(--ink2);line-height:1.5}
+@media(max-width:900px){.sg{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.sg{grid-template-columns:1fr}}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -408,7 +418,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     <div class="head">
       <p class="kick">Free tool</p>
       <h2>Find your first leads yourself.</h2>
-      <p class="sub">Type your problem. Get the exact phrases buyers use, with one-click searches on our six sources. Runs in your browser, nothing is sent anywhere.</p>
+      <p class="sub">Type your problem. Get the exact phrases buyers use, to search on our six sources. Runs in your browser, nothing is sent anywhere.</p>
     </div>
     <div class="qb">
       <form class="qin" onsubmit="return false" autocomplete="off">
@@ -418,6 +428,17 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
         <p class="note">Example prefilled. Replace it with yours.</p>
       </form>
       <div class="qout" id="qout" aria-live="polite"></div>
+    </div>
+    <div class="srcs">
+      <h3 class="mono">Search these phrases on our six sources</h3>
+      <div class="sg">
+        <div><b>GitHub</b><span>Issues and discussions. Builders describe broken workflows in detail, so you see real usage.</span></div>
+        <div><b>Hacker News</b><span>Comments. Founders and operators ask for tools, so buyer level is high.</span></div>
+        <div><b>YouTube</b><span>Video comments. Practitioners ask how to do the task, so the pain is daily.</span></div>
+        <div><b>Substack</b><span>Posts and comments. Operators write about the problem at length and are easy to reach.</span></div>
+        <div><b>DEV Community</b><span>Articles and comments. Builders compare tools, so you catch switching intent.</span></div>
+        <div><b>X</b><span>Public posts. Complaints as they happen, so the lead is fresh.</span></div>
+      </div>
     </div>
     <div class="sch">
       <div class="head" style="margin:56px 0 28px">
@@ -520,18 +541,10 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 </footer>
 <script>
 (function(){
-  var SRC=[
-    ["GitHub",function(q){return "https://github.com/search?type=issues&q="+encodeURIComponent(q)}],
-    ["Hacker News",function(q){return "https://hn.algolia.com/?dateRange=pastYear&sort=byDate&type=comment&query="+encodeURIComponent(q)}],
-    ["YouTube",function(q){return "https://www.youtube.com/results?search_query="+encodeURIComponent(q)}],
-    ["Substack",function(q){return "https://substack.com/search/"+encodeURIComponent(q)}],
-    ["DEV",function(q){return "https://dev.to/search?q="+encodeURIComponent(q)}],
-    ["X",function(q){return "https://x.com/search?f=live&q="+encodeURIComponent(q)}]
-  ];
   var G=[
-    ["Pain, in their words","35 pts",false,["{p} hours every week","sick of {p}","how do you handle {p}","{p} is a nightmare"]],
-    ["Switching intent","fit",true,["alternative to {t}","replace {t}","{t} too expensive","leaving {t}"]],
-    ["Buying signal","buyer",false,["recommend a tool for {p}","looking for software for {p}","evaluating options for {p}","budget approved {p}"]]
+    ["Pain, in their words","35 pts",false,["{p} hours every week","sick of {p}","how do you handle {p}","{p} is a nightmare"],"People venting about the problem. Pain in their own words is the strongest buying signal, so it carries the most weight."],
+    ["Switching intent","fit",true,["alternative to {t}","replace {t}","{t} too expensive","leaving {t}"],"People already paying for something else and unhappy with it. They know the problem and are ready to switch."],
+    ["Buying signal","buyer",false,["recommend a tool for {p}","looking for software for {p}","evaluating options for {p}","budget approved {p}"],"People asking for a solution right now. The closest signal to a purchase."]
   ];
   var ip=document.getElementById("qp"),it=document.getElementById("qt"),out=document.getElementById("qout"),cp=document.getElementById("qcopy"),all=[];
   function esc(x){return x.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -540,10 +553,10 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     if(!p){out.innerHTML='<div class="qempty">Type the problem you solve to see the phrases.</div>';return}
     G.forEach(function(g){
       if(g[2]&&!t)return;
-      h+='<div class="qg"><h3><span>'+g[0]+'</span><span>'+g[1]+'</span></h3>';
+      h+='<div class="qg"><h3><span>'+g[0]+'</span><span>'+g[1]+'</span></h3><p class="qd">'+g[4]+'</p>';
       g[3].forEach(function(tpl){
         var q=tpl.split("{p}").join(p).split("{t}").join(t);all.push(q);
-        h+='<div class="qr"><code>'+esc(q)+'</code><span class="qs">'+SRC.map(function(s){return '<a href="'+esc(s[1](q))+'" target="_blank" rel="noopener">'+s[0]+'</a>'}).join("")+'</span></div>';
+        h+='<div class="qr"><code>'+esc(q)+'</code></div>';
       });
       h+='</div>';
     });
