@@ -234,6 +234,26 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 .qnext a{color:var(--ink);font-weight:600}
 @media(max-width:900px){.qb{grid-template-columns:1fr}.qin{position:static}.eng{grid-template-columns:1fr}.eng div{border-left:0;border-top:1px solid var(--line)}.eng div:first-child{border-top:0}}
 
+
+/* scorecard */
+.scb{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+.scin{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:18px}
+.scin label{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 0;font:600 14px "Instrument Sans",sans-serif}
+.scin label em{font-style:normal;font:500 12px "JetBrains Mono",monospace;color:var(--ink2);margin-left:6px}
+.scin select,.scin textarea{flex:1 1 100%;font:400 15px "Instrument Sans",sans-serif;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.scin textarea{resize:vertical;line-height:1.5}
+.scin textarea:focus,.scin select:focus{outline:3px solid var(--hl);border-color:var(--ink)}
+.sel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.scout{background:var(--deep);color:var(--deep-ink);border-radius:16px;padding:28px;position:sticky;top:92px}
+.scout b{font:800 76px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.scout .mono{color:var(--deep-mute);margin-left:8px}
+.scout s{display:block;height:10px;border-radius:5px;background:#243650;margin:18px 0;overflow:hidden;text-decoration:none}
+.scout s i{display:block;height:100%;width:0;background:var(--hl);transition:width .25s}
+.scout #sv{font:700 20px "Bricolage Grotesque",sans-serif}
+.scout .note{color:var(--deep-mute)}
+@media(max-width:900px){.scb{grid-template-columns:1fr}.scout{position:static}.sel{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.sel{grid-template-columns:1fr}}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -399,6 +419,32 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       </form>
       <div class="qout" id="qout" aria-live="polite"></div>
     </div>
+    <div class="sch">
+      <div class="head" style="margin:56px 0 28px">
+        <p class="kick">Step 2</p>
+        <h2 style="font-size:clamp(26px,3vw,36px)">Then score what you find.</h2>
+        <p class="sub">Paste a public post. We read the pain and buying words, you set the rest. Same weights we use.</p>
+      </div>
+      <div class="scb">
+        <div class="scin">
+          <label>The post or comment<textarea id="sq" rows="5" maxlength="600">We spend hours every week reconciling invoices by hand. Looking to replace our spreadsheet process before we hire. Budget is approved.</textarea></label>
+          <div class="sel">
+            <label>Pain, in their words <em>35</em><select id="s-pain"><option value="0">None</option><option value="0.5">Some</option><option value="1">Strong</option></select></label>
+            <label>Usage intensity <em>15</em><select id="s-use"><option value="0">None</option><option value="0.5">Some</option><option value="1">Strong</option></select></label>
+            <label>Fit with your offer <em>15</em><select id="s-fit"><option value="0">None</option><option value="0.5" selected>Some</option><option value="1">Strong</option></select></label>
+            <label>Buyer profile <em>15</em><select id="s-buy"><option value="0">None</option><option value="0.5">Some</option><option value="1">Strong</option></select></label>
+            <label>Recency <em>10</em><select id="s-rec"><option value="0">Over a year</option><option value="0.5" selected>Past year</option><option value="1">Past month</option></select></label>
+            <label>Reachability <em>10</em><select id="s-rea"><option value="0">No contact</option><option value="0.5" selected>Some</option><option value="1">Direct</option></select></label>
+          </div>
+        </div>
+        <div class="scout" aria-live="polite">
+          <b id="sn">0</b><span class="mono">/ 100</span>
+          <s><i id="sbar"></i></s>
+          <p id="sv"></p>
+          <p class="note">Pain, usage and buyer are pre-set from the words in the post. Change any of them.</p>
+        </div>
+      </div>
+    </div>
     <p class="qnext">That is step 1 of 4 by hand. We run all four across 98,000+ scored profiles. <a href="mailto:contact@minemylead.com?subject=Pilot%20batch">Get a pilot batch</a></p>
   </div>
 </section>
@@ -509,6 +555,30 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     try{navigator.clipboard.writeText(all.join("\n")).then(done,function(){})}catch(e){}
   });
   render();
+})();
+</script>
+<script>
+(function(){
+  var W={"s-pain":35,"s-use":15,"s-fit":15,"s-buy":15,"s-rec":10,"s-rea":10};
+  var q=document.getElementById("sq"),n=document.getElementById("sn"),bar=document.getElementById("sbar"),v=document.getElementById("sv");
+  function el(i){return document.getElementById(i)}
+  function hits(re,t){var m=t.match(re);return m?new Set(m.map(function(x){return x.toLowerCase()})).size:0}
+  function lvl(k){return k>=2?"1":k===1?"0.5":"0"}
+  function detect(){
+    var t=q.value;
+    el("s-pain").value=lvl(hits(/hours|by hand|manual|nightmare|sick of|tired of|frustrat|painful|dropping the ball|hate|too expensive|not working|broken|wasting/gi,t));
+    el("s-use").value=lvl(hits(/every (day|week|month)|daily|weekly|hours|all the time|constantly|each (day|week)/gi,t));
+    el("s-buy").value=/budget|evaluating|approved|signed off/i.test(t)?"1":/looking for|recommend|replace|alternative|switch/i.test(t)?"0.5":"0";
+    calc();
+  }
+  function calc(){
+    var tot=0;for(var k in W)tot+=W[k]*parseFloat(el(k).value);
+    tot=Math.round(tot);n.textContent=tot;bar.style.width=tot+"%";
+    v.textContent=tot>=80?"Contact now":tot>=60?"Worth a message":tot>=40?"Weak signal":"Skip";
+  }
+  q.addEventListener("input",detect);
+  for(var k in W)el(k).addEventListener("change",calc);
+  detect();
 })();
 </script>
 </body>
