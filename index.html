@@ -6,6 +6,11 @@
 <meta name="color-scheme" content="light">
 <title>MineMyLead</title>
 <meta name="description" content="We use AI across the internet to find the best lead match for your company, qualify each one, attach proof and hand you their contact.">
+<link rel="canonical" href="https://minemylead.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://minemylead.com/">
+<meta property="og:image" content="https://minemylead.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="MineMyLead">
 <meta property="og:description" content="AI-sourced, qualified leads with proof on every one. 100 leads, one niche, one week.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%23ffe14d'/%3E%3C/svg%3E">
@@ -218,6 +223,22 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 
 
 
+
+/* taste + form */
+.taste{margin-top:20px;display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between;padding:26px 32px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.taste h3{font-size:22px;margin-bottom:6px}
+.taste p{color:var(--ink2);font-size:15.5px;max-width:38em}
+.tp{display:flex;align-items:center;gap:20px}
+.tp b{font:800 44px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.final .wrap{grid-template-columns:1fr 1fr}
+.lf{display:grid;gap:14px;width:100%}
+.lf label{display:grid;gap:7px;font:600 14px "Instrument Sans",sans-serif;color:var(--deep-ink)}
+.lf input,.lf textarea,.lf select{font:400 16px "Instrument Sans",sans-serif;padding:12px 14px;border:1px solid #2b3f5c;border-radius:10px;background:#16263d;color:var(--deep-ink);width:100%}
+.lf input:focus,.lf textarea:focus,.lf select:focus{outline:3px solid var(--hl);border-color:var(--hl)}
+.lf .btn{justify-content:center;cursor:pointer;font-size:17px}
+.lst{margin:0!important;font-size:14px!important;min-height:1.4em;color:var(--deep-mute)}
+@media(max-width:860px){.final .wrap{grid-template-columns:1fr}}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -227,7 +248,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
     <div class="links"><a href="#how">How it works</a><a href="#included">What you get</a><a href="#method">Method</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
-    <a class="btn" href="mailto:contact@minemylead.com?subject=Pilot%20batch">Get a pilot batch</a>
+    <a class="btn" href="#start">Get a pilot batch</a>
   </div>
 </nav>
 
@@ -239,7 +260,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <h1>Sell to the people who <mark>already need</mark> what you sell.</h1>
       <p class="lede">We use AI across the internet to find the best lead match for your company. <b>We qualify each one, attach the proof, and hand you their contact</b>, so you can sell to the people who really need your business.</p>
       <div class="cta">
-        <a class="btn lg hl" href="mailto:contact@minemylead.com?subject=Pilot%20batch">Get a pilot batch &middot; $490</a>
+        <a class="btn lg hl" href="#start">Get a pilot batch &middot; $490</a>
         <a class="btn lg alt" href="#how">See how it works</a>
       </div>
       <div class="assure"><span>Public sources only</span><span>Bad leads replaced</span><span>No contract</span></div>
@@ -378,7 +399,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
         <p class="kick" style="margin-bottom:0">The pilot</p>
         <div class="amt"><b>$490</b><span>one time &middot; about $4.90 a lead</span></div>
         <p>100 qualified leads for one niche, in a week. No subscription, no contract. You keep every lead.</p>
-        <a class="btn lg" href="mailto:contact@minemylead.com?subject=Pilot%20batch">Get a pilot batch</a>
+        <a class="btn lg" href="#start">Get a pilot batch</a>
         <p class="fine">Scoping call first, so the rules fit your buyer. Bad leads are replaced, not refunded.</p>
       </div>
       <div class="r">
@@ -392,6 +413,10 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
         </ul>
         <p class="after">Want a steady flow? After the pilot we quote recurring batches based on your niche and volume.</p>
       </div>
+    </div>
+    <div class="taste">
+      <div><h3>Not sure yet? Start with a taste.</h3><p>10 qualified leads for one niche, in 48 hours. The $49 is credited in full toward the pilot if you buy within 14 days.</p></div>
+      <div class="tp"><b>$49</b><a class="btn lg" href="#start" data-offer="taste">Get a taste</a></div>
     </div>
   </div>
 </section>
@@ -407,19 +432,27 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <details><summary>Where does the data come from?</summary><p>Six public sources, listed in Method above. Nothing private, no scraped email lists.</p></details>
       <details><summary>Does this work for my niche?</summary><p>It works where your buyers talk in public. If they do not, we tell you on the first call.</p></details>
             <details><summary>How do you make sure the leads are real?</summary><p>Each lead links to its proof, and we audit samples by hand. A lead that fails gets replaced.</p></details>
+            <details><summary>How do I pay?</summary><p>Send your niche first. We reply with a secure payment link once we confirm we can find your buyers.</p></details>
+            <details><summary>What if the batch is not good?</summary><p>Leads that miss the brief are replaced. We do not refund, we fix the batch.</p></details>
             <details><summary>Can someone ask to be removed?</summary><p>Yes. Ask and we remove it.</p></details>
     </div>
   </div>
 </section>
 
-<div class="final">
+<div class="final" id="start">
   <div class="wrap">
     <div>
       <h2>Stop guessing who needs you.</h2>
       <p>Send us your niche. We tell you how many real leads exist.</p>
     </div>
     <div class="side">
-      <div class="cta"><a class="btn lg hl" href="mailto:contact@minemylead.com?subject=Pilot%20batch">Get a pilot batch &middot; $490</a></div>
+      <form id="lead" class="lf">
+        <label>Your email<input name="email" type="email" required autocomplete="email"></label>
+        <label>What do you sell, and to whom?<textarea name="brief" rows="3" required maxlength="500"></textarea></label>
+        <label>Start with<select name="offer" id="offer"><option value="Pilot batch, 100 leads, $490">Pilot batch &middot; 100 leads &middot; $490</option><option value="Taste batch, 10 leads, $49">Taste &middot; 10 leads &middot; $49</option></select></label>
+        <button class="btn lg hl" type="submit">Send</button>
+        <p class="lst" id="lst" aria-live="polite"></p>
+      </form>
       <p class="mail">Or write to <a href="mailto:contact@minemylead.com">contact@minemylead.com</a></p>
     </div>
   </div>
@@ -433,8 +466,28 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <div><h4>Product</h4><a href="#how">How it works</a><a href="#included">What you get</a><a href="#method">Method</a><a href="#pricing">Pricing</a></div>
       <div><h4>Company</h4><a href="#faq">FAQ</a><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div>
     </div>
-    <p class="legal">&copy; 2026 MineMyLead. Built on public data. Request removal at contact@minemylead.com.</p>
+    <p class="legal">&copy; 2026 MineMyLead. Built on public data. Request removal at contact@minemylead.com. <a href="privacy.html" style="display:inline;margin-left:12px">Privacy</a> <a href="terms.html" style="display:inline;margin-left:12px">Terms</a></p>
   </div>
 </footer>
+<script>
+(function(){
+  var ENDPOINT="";
+  var f=document.getElementById("lead"),st=document.getElementById("lst"),of=document.getElementById("offer");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-offer=taste]"),function(a){a.addEventListener("click",function(){of.selectedIndex=1})});
+  f.addEventListener("submit",function(e){
+    e.preventDefault();
+    var d={email:f.email.value,brief:f.brief.value,offer:f.offer.value};
+    if(!ENDPOINT){
+      location.href="mailto:contact@minemylead.com?subject="+encodeURIComponent(d.offer)+"&body="+encodeURIComponent("Email: "+d.email+"\n\n"+d.brief);
+      st.textContent="Opening your email app. If nothing opens, write to contact@minemylead.com.";
+      return;
+    }
+    st.textContent="Sending...";
+    fetch(ENDPOINT,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},body:JSON.stringify(d)})
+      .then(function(r){st.textContent=r.ok?"Received. We will reply by email.":"Something went wrong. Write to contact@minemylead.com.";if(r.ok)f.reset()})
+      .catch(function(){st.textContent="Something went wrong. Write to contact@minemylead.com."});
+  });
+})();
+</script>
 </body>
 </html>
