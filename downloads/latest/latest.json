@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "name": "minemylead",
+  "version": "0.1.0",
+  "tag": "v0.1.0",
+  "repo": "danilosilvadev/MineMyLead-app",
+  "channel": "local",
+  "default_serve": "http://127.0.0.1:8787/chat",
+  "url_pattern": "https://github.com/danilosilvadev/MineMyLead-app/releases/download/v0.1.0/{filename}",
+  "latest_url_pattern": "https://github.com/danilosilvadev/MineMyLead-app/releases/latest/download/{filename}",
+  "assets": [
+    {
+      "os": "linux",
+      "arch": "x86_64",
+      "target": "x86_64-unknown-linux-gnu",
+      "filename": "minemylead-linux-x86_64",
+      "linkage": "dynamic-glibc",
+      "sha256": "f9f1ef577b6e1b8494639f7fa47d6b6dc2e3876fd918c81c2053c854367597a8",
+      "url": "https://github.com/danilosilvadev/MineMyLead-app/releases/download/v0.1.0/minemylead-linux-x86_64"
+    },
+    {
+      "os": "windows",
+      "arch": "x86_64",
+      "target": "x86_64-pc-windows-msvc",
+      "filename": "minemylead-windows-x86_64.exe",
+      "linkage": "static-crt",
+      "sha256": "a29bc3ee7ca9053c32eb7a4c1f9e512afdcc14c6b81793b2f80048d65e5a28be",
+      "url": "https://github.com/danilosilvadev/MineMyLead-app/releases/download/v0.1.0/minemylead-windows-x86_64.exe"
+    }
+  ]
+}
