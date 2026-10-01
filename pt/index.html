@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>MineMyLead</title>
-<meta name="description" content="Usamos IA em toda a internet para encontrar os leads que mais combinam com a sua empresa, qualificar cada um, anexar a prova e entregar o contato.">
+<meta name="description" content="Um programa local mais R$ 149 por mês. Cerca de 100 leads qualificados todo mês para o seu nicho, com prova, e rascunhos de abordagem que você envia.">
 <link rel="canonical" href="https://minemylead.com/pt/">
 <link rel="alternate" hreflang="en" href="https://minemylead.com/">
 <link rel="alternate" hreflang="pt-BR" href="https://minemylead.com/pt/">
@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://minemylead.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="MineMyLead">
-<meta property="og:description" content="Leads qualificados por IA, com prova em cada um. 100 leads, um nicho, uma semana.">
+<meta property="og:description" content="Um programa local e um pipeline mensal de leads. Cerca de 100 leads qualificados por mês, com prova, e rascunhos que você envia.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%23ffe14d'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,14 +45,14 @@ mark{background:linear-gradient(transparent 58%,var(--hl) 58%,var(--hl) 92%,tran
 .logo .mk{width:28px;height:28px;border-radius:8px;background:var(--brand);display:grid;place-items:center}
 .logo .mk i{display:block;width:16px;height:6px;border-radius:2px;background:var(--hl)}
 .logo b{font-weight:800}
-.links{display:flex;gap:28px;font-size:15px;font-weight:500;color:var(--ink2)}
+.links{display:flex;gap:18px;font-size:15px;font-weight:500;color:var(--ink2)}
 .links a{text-decoration:none}.links a:hover{color:var(--ink)}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:var(--brand-ink);font:600 15px "Instrument Sans",sans-serif;padding:12px 20px;border-radius:10px;text-decoration:none;border:1px solid transparent;transition:transform .15s,box-shadow .15s}
 .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
 .btn.lg{padding:15px 26px;font-size:16px;border-radius:12px}
 .btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
 .btn.hl{background:var(--hl);color:var(--hl-ink)}
-@media(max-width:860px){.links{display:none}}
+@media(max-width:980px){.links{display:none}}
 
 /* hero */
 .hero{padding:72px 0 56px}
@@ -229,6 +229,13 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 
 
 
+/* download */
+.dls{display:flex;flex-wrap:wrap;gap:12px}
+.dlnote{margin-top:18px;font-size:16px;color:var(--ink2);max-width:44em}
+.dlnote code,.dlmeta code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.92em;background:var(--surface);border:1px solid var(--line);padding:1px 6px;border-radius:6px}
+.dlmeta{margin-top:12px;font-size:14px;color:var(--ink2);max-width:46em}
+.dlmeta a{color:var(--ink);font-weight:600}
+
 /* taste + form */
 .taste{margin-top:20px;display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between;padding:26px 32px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
 .taste h3{font-size:22px;margin-bottom:6px}
@@ -255,8 +262,8 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 <nav class="nav">
   <div class="wrap">
     <a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
-    <div class="links"><a href="#how">Como funciona</a><a href="#included">O que você recebe</a><a href="#method">Método</a><a href="#pricing">Preços</a><a href="#faq">FAQ</a></div>
-    <div class="navr"><a class="lang" href="/" hreflang="en" lang="en" onclick="try{localStorage.setItem('mml_lang','en')}catch(e){}">EN</a><a class="btn" href="#start">Quero um lote piloto</a></div>
+    <div class="links"><a href="#how">Como funciona</a><a href="#download">Baixar</a><a href="#included">O que você recebe</a><a href="#pricing">Preços</a><a href="#faq">FAQ</a></div>
+    <div class="navr"><a class="lang" href="/" hreflang="en" lang="en" onclick="try{localStorage.setItem('mml_lang','en')}catch(e){}">EN</a><a class="btn" href="#start" data-offer="sub">Assinar</a></div>
   </div>
 </nav>
 
@@ -264,35 +271,35 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 <div class="hero">
   <div class="wrap">
     <div>
-      <span class="pill"><i></i>Pesquisa com IA &middot; fontes públicas &middot; prova em cada lead</span>
-      <h1>Venda para quem <mark>já precisa</mark> do seu produto.</h1>
-      <p class="lede">Usamos IA em toda a internet para encontrar os leads que mais combinam com a sua empresa. <b>Qualificamos cada um, anexamos a prova e entregamos o contato</b>, para você vender para quem realmente precisa do seu negócio.</p>
+      <span class="pill"><i></i>Programa local &middot; pipeline mensal &middot; fontes públicas</span>
+      <h1>Quem <mark>já precisa</mark> de você, todo mês.</h1>
+      <p class="lede">O MineMyLead é um programa local na sua máquina e uma <b>assinatura de R$ 149 por mês</b>. Todo mês, cerca de 100 leads qualificados para o seu nicho: as palavras deles, a fonte, uma nota e o contato. Nós redigimos a abordagem. <b>Você envia.</b></p>
       <div class="cta">
-        <a class="btn lg hl" href="#start">Quero um lote piloto &middot; R$ 990</a>
-        <a class="btn lg alt" href="#how">Veja como funciona</a>
+        <a class="btn lg hl" href="#start" data-offer="sub">Assinar &middot; R$ 149/mês</a>
+        <a class="btn lg alt" href="#download">Baixar o programa</a>
       </div>
-      <div class="assure"><span>Só fontes públicas</span><span>Leads ruins substituídos</span><span>Sem contrato</span></div>
+      <div class="assure"><span>Só fontes públicas</span><span>Leads ruins substituídos</span><span>Só rascunhos, você envia</span></div>
     </div>
     <figure style="margin:0">
       <div class="win" role="img" aria-label="Exemplo de um visualizador de leads listando leads qualificados, cada um com uma citação, uma fonte e uma nota de aderência">
-        <div class="bar"><i></i><i></i><i></i><span>lote-piloto / 100 leads</span></div>
-        <div class="tools"><span class="chip on">Todos os 100</span><span class="chip">Nota 80+</span><span class="chip">Não contatados</span><span class="chip">Com link da fonte</span></div>
+        <div class="bar"><i></i><i></i><i></i><span>este mês / ~100 leads</span></div>
+        <div class="tools"><span class="chip on">Este mês</span><span class="chip">Nota 80+</span><span class="chip">Não contatados</span><span class="chip">Com link da fonte</span></div>
         <div class="row"><div><div class="who">m&bull;&bull;&bull;&bull;&bull;a &middot; Líder de operações <em>Tópico de fórum</em></div><p class="q">&ldquo;Gastamos horas toda semana fazendo isso na mão. Existe algo que resolva isso sozinho?&rdquo;</p></div><div class="sc"><b>91</b><s><i style="width:91%"></i></s></div></div>
         <div class="row"><div><div class="who">d&bull;&bull;&bull;&bull;&bull;k &middot; Fundador <em>Post de comunidade</em></div><p class="q">&ldquo;Quero trocar nosso processo em planilha antes de contratar. Alguma indicação?&rdquo;</p></div><div class="sc"><b>86</b><s><i style="width:86%"></i></s></div></div>
         <div class="row"><div><div class="who">s&bull;&bull;&bull;&bull;&bull;n &middot; Head de Suporte <em>Site de avaliações</em></div><p class="q">&ldquo;Nossa ferramenta atual vive falhando e ninguém responde nossos chamados.&rdquo;</p></div><div class="sc"><b>83</b><s><i style="width:83%"></i></s></div></div>
         <div class="row"><div><div class="who">t&bull;&bull;&bull;&bull;&bull;e &middot; CTO <em>Post público</em></div><p class="q">&ldquo;Avaliando opções neste trimestre. O orçamento está aprovado, só falta escolher.&rdquo;</p></div><div class="sc"><b>78</b><s><i style="width:78%"></i></s></div></div>
         <div class="foot"><span>Citação &middot; link da fonte &middot; nota &middot; contato</span><span>ordenado por aderência</span></div>
       </div>
-      <p class="cap">Exemplo ilustrativo. Lotes reais trazem a citação, o nome e o link reais.</p>
+      <p class="cap">Exemplo ilustrativo. Leads reais trazem a citação, o nome e o link reais.</p>
     </figure>
   </div>
 </div>
 
 <div class="stats">
   <div class="wrap">
-    <div class="stat"><b>100</b><span>leads qualificados no lote piloto</span></div>
-    <div class="stat"><b>7 dias</b><span>da conversa de escopo ao lote completo</span></div>
-    <div class="stat"><b>10 leads</b><span>nos primeiros dias, para validar o fit</span></div>
+    <div class="stat"><b>~100</b><span>leads qualificados por mês, um nicho</span></div>
+    <div class="stat"><b>R$ 149</b><span>por mês, o programa e o pipeline</span></div>
+    <div class="stat"><b>~48h</b><span>para a amostra de 10 leads, se quiser testar antes</span></div>
     <div class="stat"><b>100%</b><span>vêm com link para as próprias palavras</span></div>
   </div>
 </div>
@@ -310,8 +317,8 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
         <tbody>
           <tr><td>Como um lead é escolhido</td><td class="no">Cargo e tamanho da empresa, no chute</td><td class="yes">A própria pessoa descreveu o seu problema</td></tr>
           <tr><td>Prova</td><td class="no">Nenhuma</td><td class="yes">As palavras exatas e um link para a fonte</td></tr>
-          <tr><td>Sua primeira mensagem</td><td class="no">Começa fria, do zero</td><td class="yes">Começa a partir do que a pessoa acabou de dizer</td></tr>
-          <tr><td>Feito para</td><td class="no">Todo mundo, reciclado</td><td class="yes">Seu nicho, seu comprador, um lote por vez</td></tr>
+          <tr><td>Sua primeira mensagem</td><td class="no">Começa fria, do zero</td><td class="yes">Um rascunho a partir do que a pessoa disse. Você envia</td></tr>
+          <tr><td>Feito para</td><td class="no">Todo mundo, reciclado</td><td class="yes">O seu nicho, atualizado todo mês</td></tr>
           <tr><td>Se um lead estiver errado</td><td class="no">O prejuízo é seu</td><td class="yes">Nós substituímos</td></tr>
         </tbody>
       </table>
@@ -323,13 +330,29 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div class="head">
       <p class="kick">Como funciona</p>
-      <h2>Conte a dor. Receba as pessoas.</h2>
+      <h2>Instale o programa. Receba um pipeline.</h2>
     </div>
     <div class="steps">
-      <div class="step"><span class="when">DIA 0</span><h3>Você descreve a dor</h3><p>Uma conversa rápida. Transformamos o que o seu comprador diz em regras de pontuação.</p></div>
-      <div class="step"><span class="when">DIAS 1&ndash;3</span><h3>Buscamos e qualificamos</h3><p>A IA varre fontes públicas e pontua cada pessoa em relação ao seu comprador. Os 10 primeiros leads chegam para validar o fit.</p></div>
-      <div class="step"><span class="when">DIA 7</span><h3>Você recebe o lote</h3><p>100 leads ranqueados com prova e contato. Você faz a abordagem e fica com todos os leads.</p></div>
+      <div class="step"><span class="when">CONFIGURAÇÃO</span><h3>Você descreve a dor</h3><p>Baixe o programa e rode na sua máquina. Uma conversa rápida transforma o que o seu comprador diz em regras de pontuação.</p></div>
+      <div class="step"><span class="when">TODO MÊS</span><h3>Cerca de 100 leads qualificados</h3><p>Buscamos em fontes públicas e pontuamos cada pessoa em relação ao seu comprador. Prova, nota e contato entram no programa.</p></div>
+      <div class="step"><span class="when">NA HORA DE VENDER</span><h3>Rascunhos, e você envia</h3><p>Rascunhos de abordagem a partir do que a pessoa disse. Você envia cada mensagem. Sem DM, e-mail ou InMail automáticos.</p></div>
     </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <div class="head">
+      <p class="kick">Baixar</p>
+      <h2>O programa roda na sua máquina.</h2>
+      <p class="sub">Um binário, versão 0.1.0, para Linux e Windows. O download é público. O pacote de leads de cada mês é para assinantes.</p>
+    </div>
+    <div class="dls">
+      <a class="btn lg" href="/downloads/latest/minemylead-linux-x86_64" download="minemylead-linux-x86_64">Linux x86_64</a>
+      <a class="btn lg alt" href="/downloads/latest/minemylead-windows-x86_64.exe" download="minemylead-windows-x86_64.exe">Windows x86_64</a>
+    </div>
+    <p class="dlnote">Rode o binário com <code>serve</code> e abra <a href="http://127.0.0.1:8787/chat">http://127.0.0.1:8787/chat</a>. No Linux, marque o arquivo como executável antes (<code>chmod +x</code>).</p>
+    <p class="dlmeta">Somas de verificação: <a href="/downloads/latest/SHA256SUMS">SHA256SUMS</a>. Arquivo da versão: <a href="/downloads/latest/latest.json">latest.json</a>. A mesma build também está fixada em <a href="/downloads/v0.1.0/minemylead-linux-x86_64">Linux</a> e <a href="/downloads/v0.1.0/minemylead-windows-x86_64.exe">Windows</a>, em <code>/downloads/v0.1.0/</code>.</p>
   </div>
 </section>
 
@@ -344,7 +367,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3A4 4 0 0 0 13 5.3l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.7l1-1"/></svg><h3>O link da fonte</h3><p>Abra o post público original.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>Uma nota e o motivo</h3><p>Ranqueado de 0 a 100, com o motivo.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><h3>O contato</h3><p>Perfis e canais públicos da pessoa.</p></div>
-      <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg><h3>Um CSV e um visualizador</h3><p>Ordene, filtre e acompanhe a abordagem.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg><h3>Rascunhos de abordagem</h3><p>Um rascunho da primeira mensagem, a partir das palavras da pessoa. Você envia. Sem DM, e-mail ou InMail automáticos.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 4v5h-5M20 12a8 8 0 0 1-14 5l-2-2M4 20v-5h5"/></svg><h3>Substituições incluídas</h3><p>Lead fora do briefing é trocado.</p></div>
     </div>
   </div>
@@ -403,31 +426,31 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div class="head">
       <p class="kick">Preços</p>
-      <h2>Um preço. Um lote pronto.</h2>
+      <h2>O programa, e um pipeline todo mês.</h2>
     </div>
     <div class="price">
       <div class="l">
-        <p class="kick" style="margin-bottom:0">O piloto</p>
-        <div class="amt"><b>R$ 990</b><span>preço de lançamento &middot; pagamento único &middot; R$ 9,90 por lead</span></div>
-        <p>100 leads qualificados para um nicho, em uma semana. Sem assinatura, sem contrato. Você fica com todos os leads.</p>
-        <a class="btn lg" href="#start">Quero um lote piloto</a>
-        <p class="fine">Primeiro uma conversa de escopo, para as regras servirem ao seu comprador. Leads ruins são substituídos, não reembolsados.</p>
+        <p class="kick" style="margin-bottom:0">Assinatura</p>
+        <div class="amt"><b>R$ 149</b><span>por mês</span></div>
+        <p>O programa de desktop, cerca de 100 leads qualificados todo mês para um nicho e rascunhos para ajudar a vender. Você envia cada mensagem. Você fica com os leads.</p>
+        <a class="btn lg" href="#start" data-offer="sub">Assinar</a>
+        <p class="fine">Mês a mês, um nicho, sem fidelidade anual. Primeiro uma conversa de escopo, para as regras servirem ao seu comprador. Leads ruins são substituídos, não reembolsados.</p>
       </div>
       <div class="r">
-        <h3>O que vem no lote</h3>
+        <h3>O que entra no mês</h3>
         <ul>
-          <li>Regras de qualificação escritas para o seu comprador</li>
-          <li>Primeiros 10 leads em dias, para validar o fit</li>
+          <li>O programa para Linux e Windows</li>
+          <li>Cerca de 100 leads qualificados para um nicho</li>
           <li>Citação, link da fonte, nota e contato de cada um</li>
+          <li>Rascunhos de abordagem que você mesmo envia</li>
           <li>Leads ruins ou mortos substituídos</li>
-          <li>CSV mais um visualizador local</li>
         </ul>
-        <p class="after">Quer um fluxo constante? Depois do piloto, cotamos lotes recorrentes conforme o seu nicho e volume.</p>
+        <p class="after">Mais de um nicho, ou um volume mensal maior, é uma cotação sob medida. Escreva e dizemos se as fontes públicas aguentam.</p>
       </div>
     </div>
     <div class="taste">
-      <div><h3>Ainda em dúvida? Comece com uma amostra.</h3><p>10 leads qualificados para um nicho, em 48 horas. Os R$ 250 são abatidos integralmente do piloto se você comprar em até 14 dias.</p></div>
-      <div class="tp"><b>R$ 250</b><a class="btn lg" href="#start" data-offer="taste">Quero a amostra</a></div>
+      <div><h3>Ainda em dúvida? Comece com uma amostra.</h3><p>10 leads qualificados para um nicho, em cerca de 48 horas. Os R$ 49 são abatidos integralmente do primeiro mês se você assinar em até 14 dias.</p></div>
+      <div class="tp"><b>R$ 49</b><a class="btn lg" href="#start" data-offer="taste">Quero a amostra</a></div>
     </div>
   </div>
 </section>
@@ -443,8 +466,11 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <details><summary>De onde vêm os dados?</summary><p>De nove fontes públicas, listadas em Método acima. Nada privado, sem listas de e-mail raspadas.</p></details>
       <details><summary>Funciona para o meu nicho?</summary><p>Funciona onde os seus compradores falam em público. Se não falarem, avisamos na primeira conversa.</p></details>
             <details><summary>Como vocês garantem que os leads são reais?</summary><p>Cada lead tem link para a prova, e auditamos amostras à mão. Lead que falha é substituído.</p></details>
-            <details><summary>Como eu pago?</summary><p>Envie primeiro o seu nicho. Respondemos com um link de pagamento seguro assim que confirmarmos que conseguimos achar os seus compradores.</p></details>
-            <details><summary>E se o lote não estiver bom?</summary><p>Leads fora do briefing são substituídos. Não fazemos reembolso, corrigimos o lote.</p></details>
+            <details><summary>Vocês enviam as mensagens por mim?</summary><p>Não. Escrevemos rascunhos de abordagem a partir da prova pública. Você envia cada mensagem. Não há DM, e-mail ou InMail automáticos.</p></details>
+            <details><summary>Posso baixar o programa sem assinar?</summary><p>Sim. Os binários de Linux e Windows são públicos. Os pacotes mensais de leads são para assinantes.</p></details>
+            <details><summary>Como eu pago?</summary><p>Envie primeiro o seu nicho. Respondemos com um link de pagamento seguro assim que confirmarmos que conseguimos achar os seus compradores em fontes públicas.</p></details>
+            <details><summary>E se um mês não estiver bom?</summary><p>Leads fora do briefing são substituídos. Não reembolsamos um mês já entregue; corrigimos o pacote.</p></details>
+            <details><summary>E se eu precisar de mais de um nicho?</summary><p>A oferta publicada é um nicho na assinatura de R$ 149 por mês, ou a amostra de R$ 49 se você quiser começar menor. Um volume maior ou mais de um nicho é uma cotação sob medida. Escreva para nós.</p></details>
             <details><summary>Alguém pode pedir para ser removido?</summary><p>Sim. É só pedir que removemos.</p></details>
     </div>
   </div>
@@ -454,13 +480,13 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div>
       <h2>Pare de adivinhar quem precisa de você.</h2>
-      <p>Envie o seu nicho. Dizemos quantos leads reais existem.</p>
+      <p>Envie o seu nicho. A assinatura é o programa mais cerca de 100 leads qualificados por mês. Avisamos antes se as fontes públicas não derem conta.</p>
     </div>
     <div class="side">
       <form id="lead" class="lf">
         <label>Seu e-mail<input name="email" type="email" required autocomplete="email"></label>
         <label>O que você vende, e para quem?<textarea name="brief" rows="3" required maxlength="500"></textarea></label>
-        <label>Começar com<select name="offer" id="offer"><option value="Lote piloto, 100 leads, R$ 990">Lote piloto &middot; 100 leads &middot; R$ 990</option><option value="Amostra, 10 leads, R$ 250">Amostra &middot; 10 leads &middot; R$ 250</option></select></label>
+        <label>Começar com<select name="offer" id="offer"><option value="Assinatura, cerca de 100 leads por mês, R$ 149">Assinatura &middot; ~100 leads/mês &middot; R$ 149</option><option value="Amostra, 10 leads, R$ 49">Amostra &middot; 10 leads &middot; R$ 49</option></select></label>
         <button class="btn lg hl" type="submit">Enviar</button>
         <p class="lst" id="lst" aria-live="polite"></p>
       </form>
@@ -472,9 +498,9 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 
 <footer>
   <div class="wrap">
-    <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">Leads qualificados por IA, com prova em cada um.</p></div>
+    <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">Um programa local e um pipeline mensal de leads qualificados, com prova em cada um.</p></div>
     <div class="cols">
-      <div><h4>Produto</h4><a href="#how">Como funciona</a><a href="#included">O que você recebe</a><a href="#method">Método</a><a href="#pricing">Preços</a></div>
+      <div><h4>Produto</h4><a href="#how">Como funciona</a><a href="#download">Baixar</a><a href="#included">O que você recebe</a><a href="#method">Método</a><a href="#pricing">Preços</a></div>
       <div><h4>Empresa</h4><a href="#faq">FAQ</a><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div>
     </div>
     <p class="legal">&copy; 2026 MineMyLead. Feito com dados públicos. Peça a remoção em contact@minemylead.com. <a href="privacidade.html" style="display:inline;margin-left:12px">Privacidade</a> <a href="termos.html" style="display:inline;margin-left:12px">Termos</a></p>
@@ -484,7 +510,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 (function(){
   var ENDPOINT="";
   var f=document.getElementById("lead"),st=document.getElementById("lst"),of=document.getElementById("offer");
-  Array.prototype.forEach.call(document.querySelectorAll("[data-offer=taste]"),function(a){a.addEventListener("click",function(){of.selectedIndex=1})});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-offer]"),function(a){a.addEventListener("click",function(){of.selectedIndex=a.getAttribute("data-offer")==="taste"?1:0})});
   f.addEventListener("submit",function(e){
     e.preventDefault();
     var d={email:f.email.value,brief:f.brief.value,offer:f.offer.value};
