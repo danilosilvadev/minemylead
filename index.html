@@ -21,6 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/demo/consult.css">
 <style>
 :root{
   color-scheme:light;
@@ -296,6 +297,63 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   </div>
 </div>
 
+<section id="consult" class="consult-sec" data-consult aria-labelledby="consult-title">
+  <div class="wrap">
+    <div class="head">
+      <p class="kick">Try the consult</p>
+      <h2 id="consult-title">Tap a prompt. The pack <mark>answers.</mark></h2>
+      <p class="sub">A dark-window preview of the desktop chat. Every reply is scripted from a 10-lead sample. Nothing is typed, sent, or mined.</p>
+    </div>
+    <div class="consult">
+      <div class="consult-bar" aria-hidden="true"><i></i><i></i><i></i><span>consult · sample pack · scripted demo</span></div>
+      <div class="consult-body">
+        <aside class="consult-side" aria-label="Consult sidebar">
+          <div class="consult-brand">
+            <span class="mk" aria-hidden="true"><i></i></span>
+            <div>
+              <strong>Consult</strong>
+              <span>Sample pack · 10 leads</span>
+            </div>
+          </div>
+          <p class="consult-hint"><b>Hint.</b> Chat reads this pack. It does not mine new leads, and it does not send messages.</p>
+          <p class="consult-stat"><span>4 A</span><span>3 B</span><span>3 C</span><span>0 sent</span></p>
+        </aside>
+        <div class="consult-main">
+          <div class="consult-thread" data-thread role="region" aria-label="Consult thread" tabindex="0">
+            <article class="msg msg-bot">
+              <div class="msg-av" aria-hidden="true"><i></i></div>
+              <div class="msg-body">
+                <h3>Sample pack is open</h3>
+                <p>Consult is open on the sample pack (10 leads). Ask for the scoreboard, the similarity graph, unsent drafts for Ada, her ICP score, or what the full pack adds. Tap a prompt below. Typing stays off.</p>
+              </div>
+            </article>
+          </div>
+          <p class="consult-status" data-status aria-live="polite"></p>
+          <div class="consult-cta" data-cta hidden>
+            <p><strong>Download the free sample</strong>Same 10-lead consult, in the Linux and Windows app.</p>
+            <a class="btn hl" href="#download">Download free sample</a>
+          </div>
+          <div class="consult-compose">
+            <div class="consult-chips" role="group" aria-label="Scripted prompts" aria-describedby="consult-lock">
+              <button type="button" class="consult-chip" data-demo="scoreboard" aria-pressed="false">Pipeline scoreboard</button>
+              <button type="button" class="consult-chip" data-demo="neurograph" aria-pressed="false">Neurograph</button>
+              <button type="button" class="consult-chip" data-demo="drafts" aria-pressed="false">Draft outreach for Ada</button>
+              <button type="button" class="consult-chip" data-demo="icp" aria-pressed="false">ICP fit</button>
+              <button type="button" class="consult-chip" data-demo="upgrade" aria-pressed="false">Full pack</button>
+            </div>
+            <div class="consult-inputrow">
+              <div class="consult-fake" data-composer aria-hidden="true"><span data-composer-text>Typing is off</span></div>
+              <button type="button" class="consult-send" disabled aria-disabled="true">Send</button>
+            </div>
+            <p class="consult-lock" id="consult-lock">Free typing is off. Tap a prompt. This preview never calls an API.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap">Illustrative names and quotes. The download consults the real sample file on your machine.</p>
+  </div>
+</section>
+
 <div class="stats">
   <div class="wrap">
     <div class="stat"><b>~10</b><span>sample leads, free with the app</span></div>
@@ -513,6 +571,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     <p class="legal">&copy; 2026 MineMyLead. Built on public data. Request removal at contact@minemylead.com. <a href="privacy.html" style="display:inline;margin-left:12px">Privacy</a> <a href="terms.html" style="display:inline;margin-left:12px">Terms</a></p>
   </div>
 </footer>
+<script src="/demo/consult.js"></script>
 <script src="/checkout-config.js"></script>
 <script>
 (function(){

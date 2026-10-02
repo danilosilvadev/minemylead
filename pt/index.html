@@ -21,6 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/demo/consult.css">
 <style>
 :root{
   color-scheme:light;
@@ -296,6 +297,63 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   </div>
 </div>
 
+<section id="consult" class="consult-sec" data-consult aria-labelledby="consult-title">
+  <div class="wrap">
+    <div class="head">
+      <p class="kick">Experimente o consult</p>
+      <h2 id="consult-title">Toque um prompt. O pacote <mark>responde.</mark></h2>
+      <p class="sub">Uma prévia, em janela escura, do chat do app. Cada resposta é roteirizada a partir de uma amostra de 10 leads. Nada é digitado, enviado ou minerado.</p>
+    </div>
+    <div class="consult">
+      <div class="consult-bar" aria-hidden="true"><i></i><i></i><i></i><span>consult · amostra · demo roteirizada</span></div>
+      <div class="consult-body">
+        <aside class="consult-side" aria-label="Barra lateral do Consult">
+          <div class="consult-brand">
+            <span class="mk" aria-hidden="true"><i></i></span>
+            <div>
+              <strong>Consult</strong>
+              <span>Amostra · 10 leads</span>
+            </div>
+          </div>
+          <p class="consult-hint"><b>Dica.</b> O chat lê este pacote. Ele não minera leads novos e não envia mensagens.</p>
+          <p class="consult-stat"><span>4 A</span><span>3 B</span><span>3 C</span><span>0 enviadas</span></p>
+        </aside>
+        <div class="consult-main">
+          <div class="consult-thread" data-thread role="region" aria-label="Conversa do Consult" tabindex="0">
+            <article class="msg msg-bot">
+              <div class="msg-av" aria-hidden="true"><i></i></div>
+              <div class="msg-body">
+                <h3>A amostra está aberta</h3>
+                <p>O Consult está aberto no pacote de amostra (10 leads). Peça o placar, o grafo de similaridade, rascunhos sem envio para a Ada, a nota de ICP dela, ou o que o pacote completo acrescenta. Toque um prompt abaixo. A digitação continua desligada.</p>
+              </div>
+            </article>
+          </div>
+          <p class="consult-status" data-status aria-live="polite"></p>
+          <div class="consult-cta" data-cta hidden>
+            <p><strong>Baixe a amostra grátis</strong>A mesma consulta de 10 leads, no app de Linux e Windows.</p>
+            <a class="btn hl" href="#download">Baixar amostra grátis</a>
+          </div>
+          <div class="consult-compose">
+            <div class="consult-chips" role="group" aria-label="Prompts roteirizados" aria-describedby="consult-lock">
+              <button type="button" class="consult-chip" data-demo="scoreboard" aria-pressed="false">Placar do pipeline</button>
+              <button type="button" class="consult-chip" data-demo="neurograph" aria-pressed="false">Neurografo</button>
+              <button type="button" class="consult-chip" data-demo="drafts" aria-pressed="false">Rascunho para a Ada</button>
+              <button type="button" class="consult-chip" data-demo="icp" aria-pressed="false">Aderência ao ICP</button>
+              <button type="button" class="consult-chip" data-demo="upgrade" aria-pressed="false">Pacote completo</button>
+            </div>
+            <div class="consult-inputrow">
+              <div class="consult-fake" data-composer aria-hidden="true"><span data-composer-text>Digitação desligada</span></div>
+              <button type="button" class="consult-send" disabled aria-disabled="true">Enviar</button>
+            </div>
+            <p class="consult-lock" id="consult-lock">A digitação está desligada. Toque um prompt. Esta prévia não chama nenhuma API.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap">Nomes e citações ilustrativos. O download consulta o arquivo de amostra real na sua máquina.</p>
+  </div>
+</section>
+
 <div class="stats">
   <div class="wrap">
     <div class="stat"><b>~10</b><span>leads de amostra, grátis com o app</span></div>
@@ -513,6 +571,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     <p class="legal">&copy; 2026 MineMyLead. Feito com dados públicos. Peça a remoção em contact@minemylead.com. <a href="privacidade.html" style="display:inline;margin-left:12px">Privacidade</a> <a href="termos.html" style="display:inline;margin-left:12px">Termos</a></p>
   </div>
 </footer>
+<script src="/demo/consult.js"></script>
 <script src="/checkout-config.js"></script>
 <script>
 (function(){
