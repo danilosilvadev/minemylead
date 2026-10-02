@@ -15,7 +15,7 @@
       "target": "x86_64-unknown-linux-gnu",
       "filename": "minemylead-linux-x86_64",
       "linkage": "dynamic-glibc",
-      "sha256": "17f9f1bf5e9ae8d68672ed20d1a01e58cfe1b6e258faea233d5ef0b8b960e35e",
+      "sha256": "e29d5756b1ff837f435821ee54f98becc6d9600e7f8912657c99a9ed85a497b2",
       "url": "https://github.com/danilosilvadev/MineMyLead-app/releases/download/v0.1.0/minemylead-linux-x86_64"
     },
     {
@@ -24,7 +24,7 @@
       "target": "x86_64-pc-windows-msvc",
       "filename": "minemylead-windows-x86_64.exe",
       "linkage": "static-crt",
-      "sha256": "62e5421f6b9ec4de6e90477ae32227a8e9b9013c0d61b140ebd77df8313a90a9",
+      "sha256": "1a654a2717761216ea912dff2fea0ab9e5c0c0caf4121cba4ff1dbf79d6fffef",
       "url": "https://github.com/danilosilvadev/MineMyLead-app/releases/download/v0.1.0/minemylead-windows-x86_64.exe"
     }
   ]
