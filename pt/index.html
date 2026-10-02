@@ -305,50 +305,94 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <p class="sub">Uma prévia, em janela escura, do chat do app. Cada resposta é roteirizada a partir de uma amostra de 10 leads. Nada é digitado, enviado ou minerado.</p>
     </div>
     <div class="consult">
-      <div class="consult-bar" aria-hidden="true"><i></i><i></i><i></i><span>consult · amostra · demo roteirizada</span></div>
-      <div class="consult-body">
-        <aside class="consult-side" aria-label="Barra lateral do Consult">
-          <div class="consult-brand">
-            <span class="mk" aria-hidden="true"><i></i></span>
-            <div>
-              <strong>Consult</strong>
-              <span>Amostra · 10 leads</span>
+      <aside class="consult-side" data-sidebar aria-label="Conversas">
+        <div class="side-top">
+          <button class="ghost" data-new-chat type="button">Nova conversa</button>
+        </div>
+        <nav class="conv-list" data-conv-list aria-label="Conversas"></nav>
+        <div class="side-bottom">
+          <button class="ghost" data-open-graph type="button">Neurografo</button>
+          <button class="ghost" data-open-settings type="button">Ajustes</button>
+        </div>
+      </aside>
+      <div class="consult-main">
+        <header class="app">
+          <button class="menu-btn" data-menu type="button" aria-label="Conversas" aria-expanded="false">☰</button>
+          <div class="model-wrap">
+            <button class="model-btn" data-model type="button" aria-haspopup="listbox" aria-expanded="false">Codex</button>
+            <div class="model-menu" data-model-menu role="listbox" hidden>
+              <button class="menu-item" type="button" role="option" data-host="codex" aria-checked="true">Codex</button>
+              <button class="menu-item" type="button" role="option" data-host="claude_code" aria-checked="false">Claude Code</button>
+              <button class="menu-item" type="button" role="option" data-host="gemini" aria-checked="false">Gemini (Antigravity)</button>
+              <button class="menu-item" type="button" role="option" data-host="grok" aria-checked="false">Grok</button>
+              <button class="menu-item" type="button" role="option" data-host="cursor_composer" aria-checked="false">Cursor Composer</button>
+              <button class="menu-item" data-menu-settings type="button">Ajustes</button>
             </div>
           </div>
-          <p class="consult-hint"><b>Dica.</b> O chat lê este pacote. Ele não minera leads novos e não envia mensagens.</p>
-          <p class="consult-stat"><span>4 A</span><span>3 B</span><span>3 C</span><span>0 enviadas</span></p>
-        </aside>
-        <div class="consult-main">
-          <div class="consult-thread" data-thread role="region" aria-label="Conversa do Consult" tabindex="0">
-            <article class="msg msg-bot">
-              <div class="msg-av" aria-hidden="true"><i></i></div>
-              <div class="msg-body">
-                <h3>A amostra está aberta</h3>
-                <p>O Consult está aberto no pacote de amostra (10 leads). Peça o placar, o grafo de similaridade, rascunhos sem envio para a Ada, a nota de ICP dela, ou o que o pacote completo acrescenta. Toque um prompt abaixo. A digitação continua desligada.</p>
-              </div>
-            </article>
+          <div class="model-note" data-model-note>Codex CLI não está no PATH — as habilidades do pacote ainda respondem</div>
+        </header>
+        <div class="thread" data-thread role="region" aria-label="Conversa do Consult" tabindex="0">
+          <div class="column empty" data-empty>
+            <div class="mark" aria-hidden="true">M</div>
+            <p class="empty-title">Como posso ajudar com os seus leads?</p>
+            <p class="banner">Amostra grátis · 10 leads. Planos da semana e a exportação filtrada pedem um .db pago em Ajustes.</p>
+            <p class="product-note">Consulta sobre o pacote SQLite nesta máquina, só rascunhos — você envia. A amostra grátis tem cerca de 10 leads. Um pacote pago é um caminho .db em Ajustes. Três sugestões ficam acima da caixa e seguem as habilidades deste pacote.</p>
           </div>
-          <p class="consult-status" data-status aria-live="polite"></p>
-          <div class="consult-cta" data-cta hidden>
+          <div class="column messages" data-messages hidden></div>
+        </div>
+        <div class="graph" data-graph hidden>
+          <div class="graph-bar">
+            <button class="quiet" data-why type="button">Por que eles</button>
+            <button class="quiet" data-close-graph type="button">Voltar ao chat</button>
+          </div>
+          <div class="graph-stage" data-graph-stage></div>
+          <aside class="graph-side" data-graph-side aria-label="Grupos"></aside>
+        </div>
+        <div class="composer-wrap">
+          <div class="consult-cta banner" data-cta hidden>
             <p><strong>Baixe a amostra grátis</strong>A mesma consulta de 10 leads, no app de Linux e Windows.</p>
-            <a class="btn hl" href="#download">Baixar amostra grátis</a>
+            <a class="primary" href="#download">Baixar amostra grátis</a>
           </div>
-          <div class="consult-compose">
-            <div class="consult-chips" role="group" aria-label="Prompts roteirizados" aria-describedby="consult-lock">
-              <button type="button" class="consult-chip" data-demo="scoreboard" aria-pressed="false">Placar do pipeline</button>
-              <button type="button" class="consult-chip" data-demo="neurograph" aria-pressed="false">Neurografo</button>
-              <button type="button" class="consult-chip" data-demo="drafts" aria-pressed="false">Rascunho para a Ada</button>
-              <button type="button" class="consult-chip" data-demo="icp" aria-pressed="false">Aderência ao ICP</button>
-              <button type="button" class="consult-chip" data-demo="upgrade" aria-pressed="false">Pacote completo</button>
-            </div>
-            <div class="consult-inputrow">
-              <div class="consult-fake" data-composer aria-hidden="true"><span data-composer-text>Digitação desligada</span></div>
-              <button type="button" class="consult-send" disabled aria-disabled="true">Enviar</button>
-            </div>
-            <p class="consult-lock" id="consult-lock">A digitação está desligada. Toque um prompt. Esta prévia não chama nenhuma API.</p>
+          <div class="suggestions" data-suggestions role="group" aria-label="Sugestões" aria-describedby="consult-lock">
+            <button type="button" data-demo="scoreboard">Mostra o placar do pipeline desta amostra.</button>
+            <button type="button" data-demo="neurograph">Mostra o neurografo desta amostra.</button>
+            <button type="button" data-demo="drafts">Redige a abordagem para a Ada. Não envie.</button>
+          </div>
+          <form class="composer" data-composer action="#">
+            <textarea rows="1" readonly placeholder="Pergunte sobre as pessoas do seu pacote" aria-label="Mensagem" aria-describedby="consult-lock"></textarea>
+            <button class="send" type="submit" disabled aria-label="Enviar">↑</button>
+          </form>
+          <p class="fine" id="consult-lock">Os rascunhos ficam no chat. Você envia. <span data-pack-fine>/workspace/fixtures/sample/sample.db</span></p>
+        </div>
+      </div>
+      <div class="settings" data-settings hidden>
+        <div class="sheet" role="dialog" aria-labelledby="settings-title">
+          <h2 id="settings-title">Ajustes</h2>
+          <p class="product-note">Escolha um host de linguagem local e o pacote SQLite. Deixe o caminho vazio para ficar na amostra grátis. Nenhuma chave de API fica aqui. Esta prévia não lê um arquivo.</p>
+          <h3>Host de linguagem</h3>
+          <p class="product-note">Codex, Claude Code, Gemini (Antigravity), Grok e Cursor Composer passam por CLIs já autenticados nesta máquina. As habilidades determinísticas (placar, rascunhos, evidência, neurografo) respondem sem host.</p>
+          <div data-host-list>
+            <button class="host-choice" type="button" data-host="codex" aria-checked="true"><strong>Codex</strong><small>CLI e IDE do Codex, da OpenAI</small></button>
+            <button class="host-choice" type="button" data-host="claude_code" aria-checked="false"><strong>Claude Code</strong><small>Claude Code, da Anthropic</small></button>
+            <button class="host-choice" type="button" data-host="gemini" aria-checked="false"><strong>Gemini (Antigravity)</strong><small>Gemini pelo CLI Antigravity</small></button>
+            <button class="host-choice" type="button" data-host="grok" aria-checked="false"><strong>Grok</strong><small>Grok, da xAI</small></button>
+            <button class="host-choice" type="button" data-host="cursor_composer" aria-checked="false"><strong>Cursor Composer</strong><small>Cursor Composer</small></button>
+          </div>
+          <p class="product-note" data-stub>O CLI do Codex não foi encontrado no PATH. As habilidades do pacote ainda respondem.</p>
+          <h3>Pacote SQLite</h3>
+          <label class="path">Caminho do pacote pago (vazio = amostra grátis)
+            <input data-pack-path type="text" spellcheck="false" value="/workspace/fixtures/sample/sample.db" placeholder="C:\packs\leads.db ou /home/voce/leads.db">
+          </label>
+          <p class="product-note" data-pack-source>Usando um caminho de amostra.</p>
+          <p class="save-note" data-save-note></p>
+          <div class="row">
+            <button class="danger" data-quit type="button">Sair do MineMyLead</button>
+            <button class="quiet" data-close-settings type="button">Fechar</button>
+            <button class="primary" data-save-settings type="button">Salvar</button>
           </div>
         </div>
       </div>
+      <p class="consult-status" data-status aria-live="polite"></p>
     </div>
     <p class="cap">Nomes e citações ilustrativos. O download consulta o arquivo de amostra real na sua máquina.</p>
   </div>
