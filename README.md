@@ -1,3 +1,7 @@
 # MineMyLead
 
-Landing page for minemylead.com. Static, single file.
+Static site for [minemylead.com](https://minemylead.com), published with GitHub Pages from this repository.
+
+The commercial offer is a **one-time niche pack** (SQLite file the buyer keeps), not a subscription. The desktop app is a free download and includes about 10 sample leads to consult.
+
+Checkout is documented in [docs/CHECKOUT.md](docs/CHECKOUT.md). When Stripe Payment Links exist, paste the public URLs into `checkout-config.js`. Do not commit Stripe secret keys.

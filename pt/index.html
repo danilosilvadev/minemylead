@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>MineMyLead</title>
-<meta name="description" content="Um programa local mais R$ 149 por mês. Cerca de 100 leads qualificados todo mês para o seu nicho, com prova, e rascunhos de abordagem que você envia.">
+<meta name="description" content="App de desktop grátis com cerca de 10 leads de amostra para consultar. Pacote SQLite do nicho, pagamento único de R$ 990, cerca de 100 leads A–C que você guarda. O chat lê o pacote. Ele não minera leads novos.">
 <link rel="canonical" href="https://minemylead.com/pt/">
 <link rel="alternate" hreflang="en" href="https://minemylead.com/">
 <link rel="alternate" hreflang="pt-BR" href="https://minemylead.com/pt/">
@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://minemylead.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="MineMyLead">
-<meta property="og:description" content="Um programa local e um pipeline mensal de leads. Cerca de 100 leads qualificados por mês, com prova, e rascunhos que você envia.">
+<meta property="og:description" content="App grátis, cerca de 10 leads de amostra. Pacote SQLite único de R$ 990, cerca de 100 leads A–C que você guarda. O chat consulta o pacote. Ele não minera.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%23ffe14d'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,7 +147,7 @@ td.yes{background:color-mix(in srgb,var(--hl) 14%,transparent);font-weight:500}
 .price{display:grid;grid-template-columns:1.1fr .9fr;gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}
 .price .l{padding:44px}
 .price .r{padding:44px;background:var(--deep);color:var(--deep-ink)}
-.amt{display:flex;align-items:baseline;gap:12px;margin:18px 0 6px}
+.amt{display:flex;align-items:baseline;gap:12px;margin:18px 0 6px;flex-wrap:wrap}
 .amt b{font:800 76px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em}
 .amt span{color:var(--ink2)}
 .price .l p{color:var(--ink2)}
@@ -249,6 +249,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 .lf input:focus,.lf textarea:focus,.lf select:focus{outline:3px solid var(--hl);border-color:var(--hl)}
 .lf .btn{justify-content:center;cursor:pointer;font-size:17px}
 .lst{margin:0!important;font-size:14px!important;min-height:1.4em;color:var(--deep-mute)}
+.paynote{font-size:14px;color:var(--deep-mute);max-width:42em}
 @media(max-width:860px){.final .wrap{grid-template-columns:1fr}}
 
 .navr{display:flex;align-items:center;gap:12px}
@@ -263,7 +264,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
     <div class="links"><a href="#how">Como funciona</a><a href="#download">Baixar</a><a href="#included">O que você recebe</a><a href="#pricing">Preços</a><a href="#faq">FAQ</a></div>
-    <div class="navr"><a class="lang" href="/" hreflang="en" lang="en" onclick="try{localStorage.setItem('mml_lang','en')}catch(e){}">EN</a><a class="btn" href="#start" data-offer="sub">Assinar</a></div>
+    <div class="navr"><a class="lang" href="/" hreflang="en" lang="en" onclick="try{localStorage.setItem('mml_lang','en')}catch(e){}">EN</a><a class="btn" href="#buy" data-offer="pack">Comprar pacote</a></div>
   </div>
 </nav>
 
@@ -271,19 +272,19 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 <div class="hero">
   <div class="wrap">
     <div>
-      <span class="pill"><i></i>Programa local &middot; pipeline mensal &middot; fontes públicas</span>
-      <h1>Quem <mark>já precisa</mark> de você, todo mês.</h1>
-      <p class="lede">O MineMyLead é um programa local na sua máquina e uma <b>assinatura de R$ 149 por mês</b>. Todo mês, cerca de 100 leads qualificados para o seu nicho: as palavras deles, a fonte, uma nota e o contato. Nós redigimos a abordagem. <b>Você envia.</b></p>
+      <span class="pill"><i></i>App grátis &middot; pacote único &middot; fontes públicas</span>
+      <h1>Quem <mark>já precisa</mark> de você. O pacote fica seu.</h1>
+      <p class="lede">Baixe o app e consulte cerca de <b>10 leads de amostra</b> de graça. O produto pago é um <b>arquivo SQLite que você guarda para sempre</b>: cerca de 100 leads A&ndash;C de um nicho, com rascunhos. O chat lê esse pacote. <b>Ele não minera leads novos.</b></p>
       <div class="cta">
-        <a class="btn lg hl" href="#start" data-offer="sub">Assinar &middot; R$ 149/mês</a>
-        <a class="btn lg alt" href="#download">Baixar o programa</a>
+        <a class="btn lg hl" href="#buy" data-offer="pack">Comprar o pacote &middot; R$ 990</a>
+        <a class="btn lg alt" href="#download">Baixar o app grátis</a>
       </div>
-      <div class="assure"><span>Só fontes públicas</span><span>Leads ruins substituídos</span><span>Só rascunhos, você envia</span></div>
+      <div class="assure"><span>Pagamento único</span><span>O SQLite fica com você</span><span>O chat consulta, você envia</span></div>
     </div>
     <figure style="margin:0">
       <div class="win" role="img" aria-label="Exemplo de um visualizador de leads listando leads qualificados, cada um com uma citação, uma fonte e uma nota de aderência">
-        <div class="bar"><i></i><i></i><i></i><span>este mês / ~100 leads</span></div>
-        <div class="tools"><span class="chip on">Este mês</span><span class="chip">Nota 80+</span><span class="chip">Não contatados</span><span class="chip">Com link da fonte</span></div>
+        <div class="bar"><i></i><i></i><i></i><span>pacote do nicho / ~100 leads A&ndash;C</span></div>
+        <div class="tools"><span class="chip on">Este pacote</span><span class="chip">Nota 80+</span><span class="chip">Não contatados</span><span class="chip">Com link da fonte</span></div>
         <div class="row"><div><div class="who">m&bull;&bull;&bull;&bull;&bull;a &middot; Líder de operações <em>Tópico de fórum</em></div><p class="q">&ldquo;Gastamos horas toda semana fazendo isso na mão. Existe algo que resolva isso sozinho?&rdquo;</p></div><div class="sc"><b>91</b><s><i style="width:91%"></i></s></div></div>
         <div class="row"><div><div class="who">d&bull;&bull;&bull;&bull;&bull;k &middot; Fundador <em>Post de comunidade</em></div><p class="q">&ldquo;Quero trocar nosso processo em planilha antes de contratar. Alguma indicação?&rdquo;</p></div><div class="sc"><b>86</b><s><i style="width:86%"></i></s></div></div>
         <div class="row"><div><div class="who">s&bull;&bull;&bull;&bull;&bull;n &middot; Head de Suporte <em>Site de avaliações</em></div><p class="q">&ldquo;Nossa ferramenta atual vive falhando e ninguém responde nossos chamados.&rdquo;</p></div><div class="sc"><b>83</b><s><i style="width:83%"></i></s></div></div>
@@ -297,9 +298,9 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 
 <div class="stats">
   <div class="wrap">
-    <div class="stat"><b>~100</b><span>leads qualificados por mês, um nicho</span></div>
-    <div class="stat"><b>R$ 149</b><span>por mês, o programa e o pipeline</span></div>
-    <div class="stat"><b>~48h</b><span>para a amostra de 10 leads, se quiser testar antes</span></div>
+    <div class="stat"><b>~10</b><span>leads de amostra, grátis com o app</span></div>
+    <div class="stat"><b>R$ 990</b><span>uma vez, um pacote de nicho seu</span></div>
+    <div class="stat"><b>~100</b><span>leads A&ndash;C no arquivo SQLite</span></div>
     <div class="stat"><b>100%</b><span>vêm com link para as próprias palavras</span></div>
   </div>
 </div>
@@ -318,7 +319,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
           <tr><td>Como um lead é escolhido</td><td class="no">Cargo e tamanho da empresa, no chute</td><td class="yes">A própria pessoa descreveu o seu problema</td></tr>
           <tr><td>Prova</td><td class="no">Nenhuma</td><td class="yes">As palavras exatas e um link para a fonte</td></tr>
           <tr><td>Sua primeira mensagem</td><td class="no">Começa fria, do zero</td><td class="yes">Um rascunho a partir do que a pessoa disse. Você envia</td></tr>
-          <tr><td>Feito para</td><td class="no">Todo mundo, reciclado</td><td class="yes">O seu nicho, atualizado todo mês</td></tr>
+          <tr><td>Feito para</td><td class="no">Todo mundo, reciclado</td><td class="yes">O seu nicho, num pacote SQLite que você guarda</td></tr>
           <tr><td>Se um lead estiver errado</td><td class="no">O prejuízo é seu</td><td class="yes">Nós substituímos</td></tr>
         </tbody>
       </table>
@@ -330,12 +331,12 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div class="head">
       <p class="kick">Como funciona</p>
-      <h2>Instale o programa. Receba um pipeline.</h2>
+      <h2>Baixe o app. Compre um pacote. Consulte.</h2>
     </div>
     <div class="steps">
-      <div class="step"><span class="when">CONFIGURAÇÃO</span><h3>Você descreve a dor</h3><p>Baixe o programa e rode na sua máquina. Uma conversa rápida transforma o que o seu comprador diz em regras de pontuação.</p></div>
-      <div class="step"><span class="when">TODO MÊS</span><h3>Cerca de 100 leads qualificados</h3><p>Buscamos em fontes públicas e pontuamos cada pessoa em relação ao seu comprador. Prova, nota e contato entram no programa.</p></div>
-      <div class="step"><span class="when">NA HORA DE VENDER</span><h3>Rascunhos, e você envia</h3><p>Rascunhos de abordagem a partir do que a pessoa disse. Você envia cada mensagem. Sem DM, e-mail ou InMail automáticos.</p></div>
+      <div class="step"><span class="when">GRÁTIS</span><h3>Consulte as amostras</h3><p>Baixe o app para Linux ou Windows. Ele inclui cerca de 10 leads de amostra. O chat responde sobre esses leads. Ele não busca leads novos.</p></div>
+      <div class="step"><span class="when">PAGAMENTO ÚNICO</span><h3>Compre o pacote do nicho</h3><p>Cerca de 100 leads A&ndash;C de um nicho, num arquivo SQLite que você guarda, com rascunhos de abordagem. Outro nicho ou uma atualização é outro pacote.</p></div>
+      <div class="step"><span class="when">NA HORA DE VENDER</span><h3>Você envia</h3><p>Pergunte ao chat sobre os leads que você já tem. Você envia cada mensagem. Sem DM, e-mail ou InMail automáticos, e sem minerar pelo app.</p></div>
     </div>
   </div>
 </section>
@@ -344,14 +345,14 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div class="head">
       <p class="kick">Baixar</p>
-      <h2>O programa roda na sua máquina.</h2>
-      <p class="sub">Um binário, versão 0.1.0, para Linux e Windows. O download é público. O pacote de leads de cada mês é para assinantes.</p>
+      <h2>O app roda na sua máquina.</h2>
+      <p class="sub">Versão 0.1.0 para Linux e Windows. O download é grátis e inclui cerca de 10 leads de amostra para consultar. O pacote completo do nicho é uma compra à parte, pagamento único: um arquivo SQLite que você guarda.</p>
     </div>
     <div class="dls">
       <a class="btn lg" href="/downloads/latest/minemylead-linux-x86_64" download="minemylead-linux-x86_64">Linux x86_64</a>
       <a class="btn lg alt" href="/downloads/latest/minemylead-windows-x86_64.exe" download="minemylead-windows-x86_64.exe">Windows x86_64</a>
     </div>
-    <p class="dlnote">Rode o binário com <code>serve</code> e abra <a href="http://127.0.0.1:8787/chat">http://127.0.0.1:8787/chat</a>. No Linux, marque o arquivo como executável antes (<code>chmod +x</code>).</p>
+    <p class="dlnote">O download inclui cerca de 10 leads de amostra. Rode o binário com <code>serve</code> e abra <a href="http://127.0.0.1:8787/chat">http://127.0.0.1:8787/chat</a>. O chat consulta os leads que já estão na máquina. Ele não minera leads novos. No Linux, marque o arquivo como executável antes (<code>chmod +x</code>).</p>
     <p class="dlmeta">Somas de verificação: <a href="/downloads/latest/SHA256SUMS">SHA256SUMS</a>. Arquivo da versão: <a href="/downloads/latest/latest.json">latest.json</a>. A mesma build também está fixada em <a href="/downloads/v0.1.0/minemylead-linux-x86_64">Linux</a> e <a href="/downloads/v0.1.0/minemylead-windows-x86_64.exe">Windows</a>, em <code>/downloads/v0.1.0/</code>.</p>
   </div>
 </section>
@@ -367,7 +368,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3A4 4 0 0 0 13 5.3l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.7l1-1"/></svg><h3>O link da fonte</h3><p>Abra o post público original.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>Uma nota e o motivo</h3><p>Ranqueado de 0 a 100, com o motivo.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><h3>O contato</h3><p>Perfis e canais públicos da pessoa.</p></div>
-      <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg><h3>Rascunhos de abordagem</h3><p>Um rascunho da primeira mensagem, a partir das palavras da pessoa. Você envia. Sem DM, e-mail ou InMail automáticos.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg><h3>Rascunhos, e um leitor</h3><p>O chat redige a partir dos leads do seu pacote SQLite e responde perguntas sobre eles. Você envia cada mensagem. O app não minera leads novos.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 4v5h-5M20 12a8 8 0 0 1-14 5l-2-2M4 20v-5h5"/></svg><h3>Substituições incluídas</h3><p>Lead fora do briefing é trocado.</p></div>
     </div>
   </div>
@@ -414,6 +415,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <div><b class="mono">03 Pontuar</b><span>De 0 a 100 em relação ao seu comprador</span></div>
       <div><b class="mono">04 Verificar</b><span>Link da fonte checado, amostras auditadas</span></div>
     </div>
+    <p class="note">Montamos o pacote antes de você abrir. O app de desktop não faz essa busca. O chat só lê o arquivo SQLite que você já tem, inclusive a amostra grátis.</p>
     <div class="eng">
       <div><b>98.000+</b><span>perfis públicos pontuados até agora</span></div>
       <div><b>385.000+</b><span>sinais de compra lidos</span></div>
@@ -426,31 +428,31 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div class="head">
       <p class="kick">Preços</p>
-      <h2>O programa, e um pipeline todo mês.</h2>
+      <h2>Um preço. Um pacote. Seu para sempre.</h2>
     </div>
     <div class="price">
       <div class="l">
-        <p class="kick" style="margin-bottom:0">Assinatura</p>
-        <div class="amt"><b>R$ 149</b><span>por mês</span></div>
-        <p>O programa de desktop, cerca de 100 leads qualificados todo mês para um nicho e rascunhos para ajudar a vender. Você envia cada mensagem. Você fica com os leads.</p>
-        <a class="btn lg" href="#start" data-offer="sub">Assinar</a>
-        <p class="fine">Mês a mês, um nicho, sem fidelidade anual. Primeiro uma conversa de escopo, para as regras servirem ao seu comprador. Leads ruins são substituídos, não reembolsados.</p>
+        <p class="kick" style="margin-bottom:0">Pacote do nicho</p>
+        <div class="amt"><b>R$ 990</b><span>pagamento único</span></div>
+        <p>Cerca de 100 leads A&ndash;C de um nicho, num arquivo SQLite que você guarda, com rascunhos para consultar no app. Cerca de R$ 9,90 por lead. O chat lê esse pacote. Ele não minera leads novos. Sem mensalidade.</p>
+        <a class="btn lg" href="#buy" data-offer="pack">Comprar o pacote</a>
+        <p class="fine">Um nicho, um pagamento. A amostra de R$ 250 é abatida integralmente se você comprar este pacote em até 14 dias. Leads ruins são substituídos, não reembolsados. Outro nicho ou uma atualização é outro pacote, pelo mesmo preço.</p>
       </div>
       <div class="r">
-        <h3>O que entra no mês</h3>
+        <h3>O que entra no pacote</h3>
         <ul>
-          <li>O programa para Linux e Windows</li>
-          <li>Cerca de 100 leads qualificados para um nicho</li>
+          <li>Abre no app grátis de Linux e Windows</li>
+          <li>Cerca de 100 leads A&ndash;C num arquivo SQLite que você guarda</li>
           <li>Citação, link da fonte, nota e contato de cada um</li>
-          <li>Rascunhos de abordagem que você mesmo envia</li>
+          <li>Rascunhos, e um chat que consulta o pacote que você tem</li>
           <li>Leads ruins ou mortos substituídos</li>
         </ul>
-        <p class="after">Mais de um nicho, ou um volume mensal maior, é uma cotação sob medida. Escreva e dizemos se as fontes públicas aguentam.</p>
+        <p class="after">Um segundo nicho, ou um pacote mais novo do mesmo nicho, é outra compra única. Escreva se quiser um volume para cotarmos.</p>
       </div>
     </div>
     <div class="taste">
-      <div><h3>Ainda em dúvida? Comece com uma amostra.</h3><p>10 leads qualificados para um nicho, em cerca de 48 horas. Os R$ 49 são abatidos integralmente do primeiro mês se você assinar em até 14 dias.</p></div>
-      <div class="tp"><b>R$ 49</b><a class="btn lg" href="#start" data-offer="taste">Quero a amostra</a></div>
+      <div><h3>Amostras grátis primeiro. Amostra opcional de R$ 250.</h3><p>O app já inclui cerca de 10 leads de amostra para consultar, sem cobrança. Se quiser 10 leads do seu nicho antes do pacote completo, os R$ 250 são abatidos integralmente do pacote de R$ 990 em até 14 dias.</p></div>
+      <div class="tp"><b>R$ 250</b><a class="btn lg" href="#buy" data-offer="taste">Comprar a amostra</a></div>
     </div>
   </div>
 </section>
@@ -466,28 +468,33 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <details><summary>De onde vêm os dados?</summary><p>De nove fontes públicas, listadas em Método acima. Nada privado, sem listas de e-mail raspadas.</p></details>
       <details><summary>Funciona para o meu nicho?</summary><p>Funciona onde os seus compradores falam em público. Se não falarem, avisamos na primeira conversa.</p></details>
             <details><summary>Como vocês garantem que os leads são reais?</summary><p>Cada lead tem link para a prova, e auditamos amostras à mão. Lead que falha é substituído.</p></details>
-            <details><summary>Vocês enviam as mensagens por mim?</summary><p>Não. Escrevemos rascunhos de abordagem a partir da prova pública. Você envia cada mensagem. Não há DM, e-mail ou InMail automáticos.</p></details>
-            <details><summary>Posso baixar o programa sem assinar?</summary><p>Sim. Os binários de Linux e Windows são públicos. Os pacotes mensais de leads são para assinantes.</p></details>
-            <details><summary>Como eu pago?</summary><p>Envie primeiro o seu nicho. Respondemos com um link de pagamento seguro assim que confirmarmos que conseguimos achar os seus compradores em fontes públicas.</p></details>
-            <details><summary>E se um mês não estiver bom?</summary><p>Leads fora do briefing são substituídos. Não reembolsamos um mês já entregue; corrigimos o pacote.</p></details>
-            <details><summary>E se eu precisar de mais de um nicho?</summary><p>A oferta publicada é um nicho na assinatura de R$ 149 por mês, ou a amostra de R$ 49 se você quiser começar menor. Um volume maior ou mais de um nicho é uma cotação sob medida. Escreva para nós.</p></details>
+            <details><summary>Vocês enviam as mensagens por mim?</summary><p>Não. O chat escreve rascunhos a partir dos leads que já estão no seu pacote. Você envia cada mensagem. Não há DM, e-mail ou InMail automáticos.</p></details>
+            <details><summary>O chat acha leads novos?</summary><p>Não. O chat é um leitor. Ele consulta os leads de amostra ou o pacote SQLite que você já tem. Ele não busca na web e não minera leads pelo app.</p></details>
+            <details><summary>Posso usar o app sem comprar um pacote?</summary><p>Sim. Os apps de Linux e Windows são grátis, com cerca de 10 leads de amostra para consultar. O pacote completo do nicho é uma compra à parte, pagamento único.</p></details>
+            <details><summary>Isso é uma assinatura?</summary><p>Não. O pacote do nicho custa R$ 990, uma vez. Você guarda o arquivo SQLite. Não há cobrança mensal. Compre outro nicho ou uma atualização quando quiser mais.</p></details>
+            <details><summary>Como eu pago?</summary><p>Envie o formulário com o seu nicho. O pagamento é único, para o pacote ou a amostra que você escolheu. Respondemos com um link de pagamento seguro. Nada nesta página inicia uma cobrança mensal.</p></details>
+            <details><summary>E se o pacote não estiver bom?</summary><p>Leads fora do briefing são substituídos. Não reembolsamos um pacote ou uma amostra já entregues; corrigimos o arquivo.</p></details>
+            <details><summary>E se eu precisar de mais de um nicho?</summary><p>Cada nicho é um pacote de R$ 990, e uma atualização de um nicho que você já comprou também. A amostra de R$ 250 traz 10 leads de um nicho, abatidos do primeiro pacote em até 14 dias. Um volume maior é uma cotação sob medida. Escreva para nós.</p></details>
             <details><summary>Alguém pode pedir para ser removido?</summary><p>Sim. É só pedir que removemos.</p></details>
     </div>
   </div>
 </section>
 
-<div class="final" id="start">
+<div class="final" id="buy">
+  <span id="start"></span>
   <div class="wrap">
     <div>
-      <h2>Pare de adivinhar quem precisa de você.</h2>
-      <p>Envie o seu nicho. A assinatura é o programa mais cerca de 100 leads qualificados por mês. Avisamos antes se as fontes públicas não derem conta.</p>
+      <h2>Compre o pacote, ou consulte as amostras grátis.</h2>
+      <p>Envie o seu nicho. R$ 990, uma vez, pelo pacote SQLite: cerca de 100 leads A&ndash;C que você guarda. Ou baixe o app e consulte cerca de 10 leads de amostra antes de pagar. O chat não minera leads pela tela.</p>
+      <p class="mail" style="margin-top:18px"><a href="#download">Baixar o app grátis</a></p>
     </div>
     <div class="side">
       <form id="lead" class="lf">
         <label>Seu e-mail<input name="email" type="email" required autocomplete="email"></label>
-        <label>O que você vende, e para quem?<textarea name="brief" rows="3" required maxlength="500"></textarea></label>
-        <label>Começar com<select name="offer" id="offer"><option value="Assinatura, cerca de 100 leads por mês, R$ 149">Assinatura &middot; ~100 leads/mês &middot; R$ 149</option><option value="Amostra, 10 leads, R$ 49">Amostra &middot; 10 leads &middot; R$ 49</option></select></label>
-        <button class="btn lg hl" type="submit">Enviar</button>
+        <label>O que você vende, e para quem?<textarea name="brief" rows="3" required maxlength="500" placeholder="Um nicho por pacote."></textarea></label>
+        <label>Comprar<select name="offer" id="offer"><option data-sku="pack" value="Pacote do nicho, cerca de 100 leads A–C, SQLite, R$ 990 pagamento único">Pacote do nicho &middot; ~100 leads A&ndash;C &middot; R$ 990 único</option><option data-sku="taste" value="Amostra, 10 leads do meu nicho, R$ 250, abatidos do pacote em até 14 dias">Amostra &middot; 10 leads do meu nicho &middot; R$ 250</option><option data-sku="refresh" value="Outro nicho ou atualização, cerca de 100 leads A–C, SQLite, R$ 990 pagamento único">Outro nicho ou uma atualização &middot; R$ 990 único</option></select></label>
+        <button class="btn lg hl" type="submit">Enviar pedido</button>
+        <p class="paynote" id="paynote">Envie este formulário com o seu nicho. Respondemos com um link de pagamento único e seguro para o pacote que você escolheu. Você não está começando uma assinatura.</p>
         <p class="lst" id="lst" aria-live="polite"></p>
       </form>
       <p class="mail">Ou escreva para <a href="mailto:contact@minemylead.com">contact@minemylead.com</a></p>
@@ -498,7 +505,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 
 <footer>
   <div class="wrap">
-    <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">Um programa local e um pipeline mensal de leads qualificados, com prova em cada um.</p></div>
+    <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">Um app de desktop grátis e pacotes SQLite de leads, pagamento único, com prova em cada um. O chat consulta o pacote que você tem.</p></div>
     <div class="cols">
       <div><h4>Produto</h4><a href="#how">Como funciona</a><a href="#download">Baixar</a><a href="#included">O que você recebe</a><a href="#method">Método</a><a href="#pricing">Preços</a></div>
       <div><h4>Empresa</h4><a href="#faq">FAQ</a><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div>
@@ -506,23 +513,83 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     <p class="legal">&copy; 2026 MineMyLead. Feito com dados públicos. Peça a remoção em contact@minemylead.com. <a href="privacidade.html" style="display:inline;margin-left:12px">Privacidade</a> <a href="termos.html" style="display:inline;margin-left:12px">Termos</a></p>
   </div>
 </footer>
+<script src="/checkout-config.js"></script>
 <script>
 (function(){
-  var ENDPOINT="";
-  var f=document.getElementById("lead"),st=document.getElementById("lst"),of=document.getElementById("offer");
-  Array.prototype.forEach.call(document.querySelectorAll("[data-offer]"),function(a){a.addEventListener("click",function(){of.selectedIndex=a.getAttribute("data-offer")==="taste"?1:0})});
+  var cfg=window.MML_CHECKOUT||{};
+  var locale=document.documentElement.lang==="pt-BR"?"pt":"en";
+  var links=(cfg.links&&cfg.links[locale])||{};
+  var ENDPOINT=(cfg.endpoint||"").trim();
+  var contact=cfg.contact||"contact@minemylead.com";
+  var f=document.getElementById("lead"),st=document.getElementById("lst"),of=document.getElementById("offer"),note=document.getElementById("paynote");
+  var skuOf={pack:0,taste:1,refresh:2};
+  var copy=locale==="pt"?{
+    stripeNote:"O pagamento no cartão abre na Stripe, uma vez só. Não é assinatura. O nicho neste formulário diz qual arquivo SQLite entregar.",
+    sending:"Enviando...",
+    receivedPay:"Recebido. O checkout único abriu em outra aba.",
+    received:"Recebido. Responderemos com o link de pagamento único.",
+    fail:"Algo deu errado. Escreva para "+contact+".",
+    both:"Checkout único aberto em outra aba. Envie o e-mail também, para sabermos o nicho. Se a aba não abrir, o e-mail basta: respondemos com o link.",
+    emailOnly:"Abrindo o seu app de e-mail com o pedido. Envie. Respondemos com um link de pagamento único. Nada é cobrado todo mês.",
+    intent:"Pedido de pacote único (não é assinatura)\nOferta: "
+  }:{
+    stripeNote:"Card checkout opens on Stripe, one time. It is not a subscription. The niche on this form tells us which SQLite file to deliver.",
+    sending:"Sending...",
+    receivedPay:"Received. One-time checkout opened in a new tab.",
+    received:"Received. We will reply with a one-time payment link.",
+    fail:"Something went wrong. Write to "+contact+".",
+    both:"One-time checkout opened in a new tab. Send the email too, so we know the niche. If the tab did not open, the email is enough: we reply with the payment link.",
+    emailOnly:"Opening your email app with the order. Send it. We reply with a one-time payment link. Nothing is billed monthly.",
+    intent:"One-time pack order (not a subscription)\nOffer: "
+  };
+  function stripeUrl(raw){
+    var s=(raw||"").trim();
+    if(!s||/PASTE_|REPLACE_ME|YOUR_LINK|example\.com/i.test(s))return "";
+    try{
+      var u=new URL(s);
+      if(u.protocol!=="https:")return "";
+      if(u.hostname!=="buy.stripe.com"&&u.hostname!=="checkout.stripe.com")return "";
+      return u;
+    }catch(err){return "";}
+  }
+  function linkFor(sku){return stripeUrl(sku==="taste"?links.taste:links.pack);}
+  function selectedSku(){
+    var opt=of.options[of.selectedIndex];
+    return (opt&&opt.getAttribute("data-sku"))||"pack";
+  }
+  if((linkFor("pack")||linkFor("taste"))&&note)note.textContent=copy.stripeNote;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-offer]"),function(a){
+    a.addEventListener("click",function(){
+      var sku=a.getAttribute("data-offer");
+      if(Object.prototype.hasOwnProperty.call(skuOf,sku))of.selectedIndex=skuOf[sku];
+    });
+  });
+  function openPay(pay,email,sku){
+    if(!pay)return false;
+    var url=new URL(pay.href);
+    url.searchParams.set("prefilled_email",email);
+    url.searchParams.set("client_reference_id",sku);
+    var w=window.open(url.toString(),"_blank");
+    if(w)w.opener=null;
+    return true;
+  }
   f.addEventListener("submit",function(e){
     e.preventDefault();
-    var d={email:f.email.value,brief:f.brief.value,offer:f.offer.value};
-    if(!ENDPOINT){
-      location.href="mailto:contact@minemylead.com?subject="+encodeURIComponent(d.offer)+"&body="+encodeURIComponent("E-mail: "+d.email+"\n\n"+d.brief);
-      st.textContent="Abrindo o seu app de e-mail. Se nada abrir, escreva para contact@minemylead.com.";
+    var sku=selectedSku();
+    var d={email:f.email.value.trim(),brief:f.brief.value.trim(),offer:of.value,sku:sku};
+    var pay=linkFor(sku);
+    var body=copy.intent+d.offer+"\nSKU: "+d.sku+"\nEmail: "+d.email+"\n\n"+d.brief;
+    var mailto="mailto:"+contact+"?subject="+encodeURIComponent(d.offer)+"&body="+encodeURIComponent(body);
+    if(ENDPOINT){
+      st.textContent=copy.sending;
+      fetch(ENDPOINT,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},body:JSON.stringify(d)})
+        .then(function(r){if(!r.ok)throw new Error("bad");st.textContent=openPay(pay,d.email,sku)?copy.receivedPay:copy.received;f.reset();})
+        .catch(function(){st.textContent=copy.fail;});
       return;
     }
-    st.textContent="Enviando...";
-    fetch(ENDPOINT,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},body:JSON.stringify(d)})
-      .then(function(r){st.textContent=r.ok?"Recebido. Responderemos por e-mail.":"Algo deu errado. Escreva para contact@minemylead.com.";if(r.ok)f.reset()})
-      .catch(function(){st.textContent="Algo deu errado. Escreva para contact@minemylead.com."});
+    openPay(pay,d.email,sku);
+    location.href=mailto;
+    st.textContent=pay?copy.both:copy.emailOnly;
   });
 })();
 </script>
