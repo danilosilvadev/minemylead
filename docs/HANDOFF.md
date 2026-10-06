@@ -98,6 +98,23 @@ Leave `endpoint` as `""` unless there is a public form URL with no secret in it.
 
 Do not commit Stripe secret keys (`sk_live_`, `sk_test_`), webhook secrets (`whsec_`), restricted keys (`rk_`), or a `.env` with secrets. A Payment Link URL is public. Product setup, the taste-credit coupon, and the pre-live checklist are in [docs/CHECKOUT.md](CHECKOUT.md). Do not replace the binaries under `downloads/` as part of the checkout task.
 
+## Post-payment onboarding
+
+`/onboarding/` (English) and `/pt/onboarding/` (Portuguese). Not linked from the main nav. Both pages set `<meta name="robots" content="noindex">` and are absent from `sitemap.xml`.
+
+Set each Stripe Payment Link’s after-payment redirect to:
+
+- English pack: `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack`
+- English taste: `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste`
+- Portuguese pack: `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack`
+- Portuguese taste: `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste`
+
+The form POSTs `application/json` to `window.MML_ONBOARDING.endpoint` in [`onboarding-config.js`](../onboarding-config.js). That URL is the Supabase Edge Function `onboarding-intake` on project `minemylead` (ref `gcjmslajisekscbtjwte`, org `akalli`, free plan, `verify_jwt` off, no key in the browser). Rows land in `public.onboarding_clients` (RLS on, no policies, no browser access). Read them in the Supabase Table Editor. Email is Resend, after `RESEND_API_KEY`, `MAIL_FROM`, and `OWNER_EMAIL` are set as [Edge Function secrets](https://supabase.com/dashboard/project/gcjmslajisekscbtjwte/functions/secrets). `.github/workflows/supabase-keepalive.yml` GETs the function on Mondays and Thursdays so the free project does not pause.
+
+The payload keys are `full_name`, `email`, `company`, `website`, `website_url_confirm`, `offer`, `price`, `best_customers`, `buyer_role`, `company_size`, `industry`, `region`, `pain`, `channels`, `channels_other`, `exclusions`, `a_vs_c`, `fields_needed`, `notes`, `session_id`, `plan`, `lang`, `submitted_at`. `website_url_confirm` is a hidden honeypot and must be empty. Checkbox values are comma-separated. A 4xx shows the function’s `error` on the form. A network failure or 5xx offers mailto. Full schema and the “do not POST tests at the live function” note are in [docs/CHECKOUT.md](CHECKOUT.md). Source for the deployed function is under `supabase/`. Do not put the service role key or `RESEND_API_KEY` in this repo.
+
+The four Payment Link strings in `checkout-config.js` are separate. Leave them alone when you only change onboarding.
+
 ## Republish the desktop binaries
 
 Build from the private app repo [danilosilvadev/MineMyLead-app](https://github.com/danilosilvadev/MineMyLead-app) `main`. This landing repo does not contain the app source, and it has no workflow that builds binaries.

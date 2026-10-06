@@ -22,6 +22,8 @@ Do not commit any of these:
 
 A Payment Link URL (`https://buy.stripe.com/...`) is public by design. That is the only Stripe value this repo should hold.
 
+The onboarding intake URL in `onboarding-config.js` is public on purpose. The file is static JavaScript on GitHub Pages. Do not add a Stripe secret, a Supabase service role key, or `RESEND_API_KEY` beside it. Those belong in Supabase Edge Function secrets.
+
 ## 1. Create one-time prices
 
 In the [Stripe Dashboard](https://dashboard.stripe.com/products):
@@ -45,7 +47,7 @@ Set:
 - **Type:** one-time payment. Not a subscription.
 - **Collect customer email:** on.
 - **Custom field:** text field named `Niche` (required). The site also emails the niche, but the Payment Link should ask again so the order still makes sense if the email client does not open.
-- **After payment:** a confirmation message that the SQLite pack (or the 10-lead taste) is delivered by email. The site does not generate the file.
+- **After payment:** redirect to the onboarding page for that locale and plan (section 8). The site does not generate the file.
 - **Promotion codes:** on for the pack links only, so you can honor the taste credit (step 4).
 
 Copy each link. It looks like `https://buy.stripe.com/xxxxxxxx`. Test-mode links contain `test_` in the path; use test mode until a real payment looks right, then create live links and replace the URLs.
@@ -93,17 +95,20 @@ Do not build an automatic credit in this repository during Phase 0.
 
 This site does not build or host niche packs.
 
-After a paid order:
+After a paid order the buyer lands on the onboarding form (section 8). That form is the brief: who they sell to, where those buyers talk, and what a good lead looks like. The answers post to the Supabase Edge Function in `onboarding-config.js` and land in `public.onboarding_clients`.
 
-1. Read the niche from the email and from the Stripe custom field.
-2. Deliver the SQLite file (full pack, or the 10-lead taste) by email.
-3. The buyer drops it into the desktop app they already downloaded. Chat consults that file. The app does not mine new leads.
+If the function returns a 4xx, the page shows that error on the form. If the request fails or the function returns a 5xx, the page offers an email to `contact@minemylead.com` with the same answers. The Stripe `Niche` custom field is a backup when they never open the form. Read new rows in the Supabase Table Editor for project `minemylead`.
+
+Then:
+
+1. Deliver the SQLite file (full pack, or the 10-lead taste) by email.
+2. The buyer drops it into the desktop app they already downloaded. Chat consults that file. The app does not mine new leads.
 
 Free sample leads ship inside the public binaries under `/downloads/latest/`. Do not replace those binaries from this checkout task.
 
 ## 6. Publish
 
-GitHub Pages serves the default branch (`main`) at `https://minemylead.com`. Merging the branch that contains `checkout-config.js` is what turns the Payment Links on. A pull request does not update the live site by itself.
+GitHub Pages serves the default branch (`main`) at `https://minemylead.com`. Merging the branch that contains `checkout-config.js` is what turns the Payment Links on. Merging also publishes `/onboarding/` and `/pt/onboarding/`. A pull request does not update the live site by itself.
 
 ## 7. Quick check before you call it live
 
@@ -114,3 +119,154 @@ GitHub Pages serves the default branch (`main`) at `https://minemylead.com`. Mer
 - [ ] Taste buttons open the matching taste link.
 - [ ] With the strings left empty, the form still opens an email to `contact@minemylead.com` and does not navigate to a fake URL.
 - [ ] Download buttons still point at `/downloads/latest/minemylead-linux-x86_64` and `/downloads/latest/minemylead-windows-x86_64.exe`.
+- [ ] Each Payment Link redirects to the matching onboarding URL in section 8, with `{CHECKOUT_SESSION_ID}` and `plan`.
+- [ ] `onboarding-config.js` `endpoint` is the public Supabase function URL, and the file has no `sk_`, `whsec_`, service role key, or `RESEND_API_KEY`.
+- [ ] A local POST of the form is `application/json` and uses the keys in section 8. Do not send that test at the live function.
+
+## 8. After payment, send buyers to onboarding
+
+The pages are `/onboarding/` (English) and `/pt/onboarding/` (Portuguese). They are not in the site nav. Both send `<meta name="robots" content="noindex">` and they are not in `sitemap.xml`.
+
+In each Payment Link, set **After payment** to redirect to:
+
+| Link | Redirect URL |
+| --- | --- |
+| English pack | `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack` |
+| English taste | `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste` |
+| Portuguese pack | `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack` |
+| Portuguese taste | `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste` |
+
+`{CHECKOUT_SESSION_ID}` is Stripe's placeholder. Stripe replaces it. Leave the braces as written.
+
+When `session_id` is in the query string, the page says payment was confirmed. When it is missing, the form still works and the page does not claim the card payment was checked. `plan` is optional. `pack` and `taste` change the thank-you copy: a taste describes the 10-lead delivery and the 14-day credit, and does not promise the 100-lead pack.
+
+### Intake endpoint
+
+`onboarding-config.js` at the site root:
+
+```js
+window.MML_ONBOARDING = {
+  contact: "contact@minemylead.com",
+  endpoint: "https://gcjmslajisekscbtjwte.supabase.co/functions/v1/onboarding-intake"
+};
+```
+
+`endpoint` is the Supabase Edge Function `onboarding-intake` on project `minemylead` (ref `gcjmslajisekscbtjwte`, org `akalli`, free plan). It is deployed with `verify_jwt` off, so the page sends no key. The function allows CORS from `https://minemylead.com`, `https://www.minemylead.com`, and `http://localhost:*` / `http://127.0.0.1:*`.
+
+Leave `endpoint` as `""` only to disconnect the form. An empty value does not POST. The page shows an error and a `mailto:contact@minemylead.com` link that includes the answers.
+
+Point a local copy of `endpoint` at a local server, or mock `fetch`, when you try the form. Do not POST sample people at the live function.
+
+### Where the row goes
+
+Source in this repo (already deployed; do not treat a casual edit as a redeploy):
+
+- `supabase/config.toml`
+- `supabase/migrations/20261006205130_create_onboarding_clients.sql`
+- `supabase/functions/onboarding-intake/index.ts`
+- `supabase/README.md`
+
+Table `public.onboarding_clients`. RLS is on and there are no policies. `anon` and `authenticated` have no privileges, so the browser cannot read or write the table. The function writes with the service role. Open rows in the Supabase Table Editor for project `minemylead`.
+
+Email goes out through Resend when these Edge Function secrets are set: `RESEND_API_KEY`, `MAIL_FROM`, `OWNER_EMAIL`. Set them at [Edge Function secrets](https://supabase.com/dashboard/project/gcjmslajisekscbtjwte/functions/secrets). Until `RESEND_API_KEY` is set, the row is still saved and `email_status` is `skipped_no_key`.
+
+`.github/workflows/supabase-keepalive.yml` runs on Mondays and Thursdays, and on `workflow_dispatch`. It `GET`s the function (`curl -fsS` of the endpoint above). That returns `{ok:true}` and touches the database so the free project does not auto-pause.
+
+### What the browser sends
+
+```js
+fetch(endpoint, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload)
+});
+```
+
+The page reads the JSON response.
+
+| Response | What the page does |
+| --- | --- |
+| `{ok:true,id}` | Thank-you state |
+| 4xx `{ok:false,error}` | Shows `error` on the form. A 400 is the usual case (a required field or a bad email). |
+| Network error or 5xx | Mailto fallback to `contact@minemylead.com` |
+
+### Payload
+
+Every key is sent on every submit. Optional blanks are `""`. Checkbox groups are one string, values separated by a comma and a space, in page order. The same English tokens are sent from both locales. `website` is sent with `https://` added when the visitor left the scheme off (`http://` and `https://` already on the value are kept). `email` is checked with the input's `type="email"` validity. `submitted_at` is ISO-8601 UTC from `new Date().toISOString()`. `lang` is `en` or `pt`.
+
+| Key | On the form | Notes |
+| --- | --- | --- |
+| `full_name` | required | |
+| `email` | required | `type="email"` |
+| `company` | required | |
+| `website` | required | `https://` added when the scheme is missing |
+| `website_url_confirm` | honeypot | Hidden field. Must be `""`. A filled value is dropped by the function and stored as nothing. |
+| `offer` | required | one sentence |
+| `price` | optional | |
+| `best_customers` | required | |
+| `buyer_role` | required | |
+| `company_size` | required | |
+| `industry` | required | |
+| `region` | required | |
+| `pain` | required | |
+| `channels` | required | at least one token, see below |
+| `channels_other` | optional | |
+| `exclusions` | required | |
+| `a_vs_c` | optional | |
+| `fields_needed` | required | at least one token, see below |
+| `notes` | optional | |
+| `session_id` | hidden | query string, or `""` |
+| `plan` | hidden | query string, usually `pack` or `taste`, or `""` |
+| `lang` | hidden | `en` or `pt` |
+| `submitted_at` | hidden | ISO-8601 UTC |
+
+`channels` tokens:
+
+`X`, `Reddit`, `LinkedIn`, `YouTube`, `GitHub`, `Hacker News`, `Google Maps`, `niche forums`, `Not sure - you pick`
+
+The last label on the page reads “Not sure, you pick”. The stored token uses a hyphen so the comma-separated list stays unambiguous.
+
+Example: `LinkedIn, GitHub, Not sure - you pick`
+
+`fields_needed` tokens:
+
+| Token | What it means |
+| --- | --- |
+| `name` | name |
+| `profile link` | profile link |
+| `company` | company |
+| `public post showing the pain` | the public post showing the pain |
+| `public email` | public email |
+| `public phone` | public phone |
+
+Example: `name, profile link, public post showing the pain, public email`
+
+Example JSON body:
+
+```json
+{
+  "full_name": "Ada Marsh",
+  "email": "ada@marsh.example",
+  "company": "Marsh Roofing",
+  "website": "https://marsh.example",
+  "website_url_confirm": "",
+  "offer": "Booked estimates for independent roofers.",
+  "price": "$2,000 a project",
+  "best_customers": "Northline Roofing",
+  "buyer_role": "Owner",
+  "company_size": "11–50 people",
+  "industry": "Home services",
+  "region": "United States",
+  "pain": "We are losing jobs to the bigger crews.",
+  "channels": "LinkedIn, Google Maps",
+  "channels_other": "",
+  "exclusions": "Agencies and students",
+  "a_vs_c": "",
+  "fields_needed": "name, profile link, public post showing the pain, public email",
+  "notes": "",
+  "session_id": "cs_test_a1b2",
+  "plan": "pack",
+  "lang": "en",
+  "submitted_at": "2026-10-06T20:11:00.000Z"
+}
+```

@@ -1,0 +1,5 @@
+# Minimal Supabase CLI config for the MineMyLead project (ref gcjmslajisekscbtjwte)
+project_id = "minemylead"
+
+[functions.onboarding-intake]
+verify_jwt = false

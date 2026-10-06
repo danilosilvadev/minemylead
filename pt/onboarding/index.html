@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Onboarding | MineMyLead</title>
+<meta name="description" content="Conte quem devemos encontrar depois do pagamento. Cerca de cinco minutos.">
+<link rel="canonical" href="https://minemylead.com/pt/onboarding/">
+<link rel="alternate" hreflang="en" href="https://minemylead.com/onboarding/">
+<link rel="alternate" hreflang="pt-BR" href="https://minemylead.com/pt/onboarding/">
+<link rel="alternate" hreflang="x-default" href="https://minemylead.com/onboarding/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%23ffe14d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/onboarding/onboarding.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="logo" href="/pt/"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
+    <div class="links"><a href="/pt/#how">Como funciona</a><a href="/pt/#download">Baixar</a><a href="/pt/#included">O que você recebe</a><a href="/pt/#pricing">Preços</a><a href="/pt/#faq">FAQ</a></div>
+    <div class="navr"><a class="lang" id="lang-switch" href="/onboarding/" hreflang="en" lang="en" onclick="try{localStorage.setItem('mml_lang','en')}catch(e){}">EN</a></div>
+  </div>
+</nav>
+
+<main id="top">
+  <div class="wrap narrow">
+    <noscript><p class="banner warn">Este formulário precisa de JavaScript. Escreva para <a href="mailto:contact@minemylead.com">contact@minemylead.com</a> com o seu nicho e enviamos as perguntas.</p></noscript>
+
+    <div id="intro">
+      <p class="banner ok" id="banner" hidden>Pagamento confirmado. Obrigado.</p>
+      <p class="kick">Seu briefing</p>
+      <p class="planline" id="plan-line" hidden></p>
+      <h1>Conte quem devemos encontrar.</h1>
+      <p class="lede">Cerca de cinco minutos. Usamos isto para escrever o nicho e, em seguida, minerar os leads.</p>
+    </div>
+
+    <div id="flow" class="sheet">
+      <div class="progress" role="group" aria-label="Progresso">
+        <button type="button" data-goto="0" aria-current="step">1. Você</button>
+        <button type="button" data-goto="1">2. Compradores</button>
+        <button type="button" data-goto="2">3. O lead</button>
+      </div>
+      <p class="meta" id="progress-meta">Cerca de 5 minutos · passo 1 de 3</p>
+
+      <form id="onboard" novalidate aria-label="Briefing">
+        <input type="hidden" name="session_id" id="session_id">
+        <input type="hidden" name="plan" id="plan">
+        <input class="hp" type="text" name="website_url_confirm" id="website_url_confirm" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <section class="panel" data-step-panel="0">
+          <h2 tabindex="-1">Você e o que você vende</h2>
+          <div class="stack">
+            <p class="hint">Obrigatório, salvo onde o campo diz opcional.</p>
+            <div class="grid2">
+              <div class="field">
+                <label for="full_name">Nome completo</label>
+                <input id="full_name" name="full_name" type="text" autocomplete="name" required maxlength="160" aria-describedby="err-full_name">
+                <p class="err" id="err-full_name" hidden></p>
+              </div>
+              <div class="field">
+                <label for="email">E-mail de trabalho</label>
+                <input id="email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" required maxlength="200" aria-describedby="err-email">
+                <p class="err" id="err-email" hidden></p>
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label for="company">Empresa</label>
+                <input id="company" name="company" type="text" autocomplete="organization" required maxlength="160" aria-describedby="err-company">
+                <p class="err" id="err-company" hidden></p>
+              </div>
+              <div class="field">
+                <label for="website">Site</label>
+                <input id="website" name="website" type="text" autocomplete="url" inputmode="url" autocapitalize="none" spellcheck="false" required maxlength="300" placeholder="empresa.com" aria-describedby="hint-website err-website">
+                <p class="hint" id="hint-website">Se faltar, colocamos https:// na frente.</p>
+                <p class="err" id="err-website" hidden></p>
+              </div>
+            </div>
+            <div class="field">
+              <label for="offer">O que você vende, em uma frase</label>
+              <input id="offer" name="offer" type="text" required maxlength="400" placeholder="Orçamentos fechados para telhadistas autônomos." aria-describedby="err-offer">
+              <p class="err" id="err-offer" hidden></p>
+            </div>
+            <div class="field">
+              <label for="price">Preço <span class="opt">(opcional)</span></label>
+              <input id="price" name="price" type="text" maxlength="80" placeholder="R$ 2.000 por projeto">
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" data-step-panel="1" hidden>
+          <h2 tabindex="-1">Quem compra</h2>
+          <div class="stack">
+            <div class="field">
+              <label for="best_customers">Seus 3 melhores clientes atuais</label>
+              <textarea id="best_customers" name="best_customers" rows="4" required maxlength="4000" placeholder="Um nome ou link por linha." aria-describedby="hint-customers err-best_customers"></textarea>
+              <p class="hint" id="hint-customers">Nomes ou links.</p>
+              <p class="err" id="err-best_customers" hidden></p>
+            </div>
+            <fieldset class="buyer">
+              <legend>Quem é o comprador</legend>
+              <div class="grid2">
+                <div class="field">
+                  <label for="buyer_role">Cargo</label>
+                  <input id="buyer_role" name="buyer_role" type="text" required maxlength="160" placeholder="Dono" aria-describedby="err-buyer_role">
+                  <p class="err" id="err-buyer_role" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="company_size">Tamanho da empresa</label>
+                  <input id="company_size" name="company_size" type="text" required maxlength="80" placeholder="11–50 pessoas" aria-describedby="err-company_size">
+                  <p class="err" id="err-company_size" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="industry">Setor</label>
+                  <input id="industry" name="industry" type="text" required maxlength="160" placeholder="Serviços para casa" aria-describedby="err-industry">
+                  <p class="err" id="err-industry" hidden></p>
+                </div>
+                <div class="field">
+                  <label for="region">País ou região</label>
+                  <input id="region" name="region" type="text" required maxlength="160" placeholder="Brasil ou Estados Unidos" aria-describedby="err-region">
+                  <p class="err" id="err-region" hidden></p>
+                </div>
+              </div>
+            </fieldset>
+            <div class="field">
+              <label for="pain">A dor que faz a pessoa comprar, nas palavras dela</label>
+              <textarea id="pain" name="pain" rows="4" required maxlength="4000" placeholder="Estamos perdendo obra para as equipes maiores." aria-describedby="err-pain"></textarea>
+              <p class="err" id="err-pain" hidden></p>
+            </div>
+            <fieldset class="group" id="group-channels" aria-required="true" aria-describedby="hint-channels err-channels">
+              <legend>Onde essa pessoa fala em público</legend>
+              <div class="checks">
+                <label><input type="checkbox" name="channels" id="ch-x" value="X"> X</label>
+                <label><input type="checkbox" name="channels" id="ch-reddit" value="Reddit"> Reddit</label>
+                <label><input type="checkbox" name="channels" id="ch-linkedin" value="LinkedIn"> LinkedIn</label>
+                <label><input type="checkbox" name="channels" id="ch-youtube" value="YouTube"> YouTube</label>
+                <label><input type="checkbox" name="channels" id="ch-github" value="GitHub"> GitHub</label>
+                <label><input type="checkbox" name="channels" id="ch-hn" value="Hacker News"> Hacker News</label>
+                <label><input type="checkbox" name="channels" id="ch-maps" value="Google Maps"> Google Maps</label>
+                <label><input type="checkbox" name="channels" id="ch-forums" value="niche forums"> fóruns do nicho</label>
+                <label><input type="checkbox" name="channels" id="ch-unsure" value="Not sure - you pick"> Não sei, você escolhe</label>
+              </div>
+              <p class="hint" id="hint-channels">Marque cada lugar em que você já viu essa pessoa.</p>
+              <p class="err" id="err-channels" hidden></p>
+            </fieldset>
+            <div class="field">
+              <label for="channels_other">Outro lugar <span class="opt">(opcional)</span></label>
+              <input id="channels_other" name="channels_other" type="text" maxlength="300" placeholder="Um Slack, uma newsletter, um grupo no Facebook">
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" data-step-panel="2" hidden>
+          <h2 tabindex="-1">Como é um bom lead</h2>
+          <div class="stack">
+            <div class="field">
+              <label for="exclusions">Quem não serve</label>
+              <textarea id="exclusions" name="exclusions" rows="4" required maxlength="4000" placeholder="Agências, estudantes, quem está fora da região." aria-describedby="err-exclusions"></textarea>
+              <p class="err" id="err-exclusions" hidden></p>
+            </div>
+            <div class="field">
+              <label for="a_vs_c">O que faz um lead A, e não um lead C <span class="opt">(opcional)</span></label>
+              <textarea id="a_vs_c" name="a_vs_c" rows="3" maxlength="4000" aria-describedby="hint-a_vs_c"></textarea>
+              <p class="hint" id="hint-a_vs_c">Exemplo: um lead A tem um negócio de 10 a 50 pessoas, publicou a dor este mês e dá para falar com ele. Um lead C só está no setor certo.</p>
+            </div>
+            <fieldset class="group" id="group-fields_needed" aria-required="true" aria-describedby="err-fields_needed">
+              <legend>Campos em cada lead</legend>
+              <div class="checks">
+                <label><input type="checkbox" name="fields_needed" id="fd-name" value="name"> Nome</label>
+                <label><input type="checkbox" name="fields_needed" id="fd-profile" value="profile link"> Link do perfil</label>
+                <label><input type="checkbox" name="fields_needed" id="fd-company" value="company"> Empresa</label>
+                <label><input type="checkbox" name="fields_needed" id="fd-post" value="public post showing the pain"> O post público que mostra a dor</label>
+                <label><input type="checkbox" name="fields_needed" id="fd-email" value="public email"> E-mail público</label>
+                <label><input type="checkbox" name="fields_needed" id="fd-phone" value="public phone"> Telefone público</label>
+              </div>
+              <p class="err" id="err-fields_needed" hidden></p>
+            </fieldset>
+            <div class="field">
+              <label for="notes">Mais alguma coisa <span class="opt">(opcional)</span></label>
+              <textarea id="notes" name="notes" rows="3" maxlength="4000" placeholder="Prazo, um concorrente para evitar, um arquivo que devemos ver."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button type="button" class="btn alt" id="back" hidden>Voltar</button>
+          <button type="button" class="btn" id="next">Continuar</button>
+          <button type="submit" class="btn hl" id="send" hidden>Enviar o briefing</button>
+        </div>
+        <p class="status" id="form-status" role="status" aria-live="polite"></p>
+        <p id="form-fallback" hidden><a class="btn alt" id="mail-fallback" href="mailto:contact@minemylead.com">Enviar as respostas por e-mail</a></p>
+        <p class="hint storage">As respostas ficam neste navegador até você enviar.</p>
+      </form>
+    </div>
+
+    <div id="success" class="sheet" hidden>
+      <p class="kick">O que acontece agora</p>
+      <h1 id="success-title" tabindex="-1">Você está dentro. Veja sua caixa de entrada.</h1>
+      <p class="lede">Vamos escrever para o e-mail de trabalho que você enviou.</p>
+      <ol class="next" id="next-pack">
+        <li>Em até 48 horas enviamos uma página com o nicho para você aprovar.</li>
+        <li>Mineramos uma amostra grátis de 10 leads. Você marca o que serve e o que não serve.</li>
+        <li>Ajustamos as regras e entregamos o pacote de 100 leads: um <code>.db</code> seu para sempre, mais um CSV. Abre no <a href="/pt/#download">app grátis do MineMyLead</a>.</li>
+        <li>Os rascunhos de abordagem vêm junto. Você envia.</li>
+      </ol>
+      <ol class="next" id="next-taste" hidden>
+        <li>Em até 48 horas enviamos uma página com o nicho para você aprovar.</li>
+        <li>Entregamos a amostra de 10 leads. Você marca o que serve e o que não serve.</li>
+        <li>O valor da amostra entra por completo no primeiro pacote, se você comprar em até 14 dias. O pacote é um <code>.db</code> seu para sempre, mais um CSV, e abre no <a href="/pt/#download">app grátis do MineMyLead</a>.</li>
+        <li>Os rascunhos de abordagem vêm junto. Você envia.</li>
+      </ol>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><a class="logo" href="/pt/"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">App local grátis e pacotes SQLite que são seus, pagamento único. Sem mensalidade. O arquivo fica na sua máquina. O chat só escreve rascunhos.</p></div>
+    <div class="cols">
+      <div><h4>Produto</h4><a href="/pt/#how">Como funciona</a><a href="/pt/#download">Baixar</a><a href="/pt/#included">O que você recebe</a><a href="/pt/#method">Método</a><a href="/pt/#pricing">Preços</a></div>
+      <div><h4>Empresa</h4><a href="/pt/#faq">FAQ</a><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div>
+    </div>
+    <p class="legal">&copy; 2026 MineMyLead. Feito com dados públicos. Peça a remoção em contact@minemylead.com. <a href="/pt/privacidade.html">Privacidade</a> <a href="/pt/termos.html">Termos</a></p>
+  </div>
+</footer>
+<script src="/onboarding-config.js"></script>
+<script src="/onboarding/onboarding.js"></script>
+</body>
+</html>
