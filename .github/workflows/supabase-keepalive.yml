@@ -1,0 +1,14 @@
+name: Supabase keep-alive
+
+on:
+  schedule:
+    # Monday and Thursday, 12:00 UTC. A GET wakes the free project so it does not pause.
+    - cron: "0 12 * * 1,4"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping onboarding intake
+        run: curl -fsS https://gcjmslajisekscbtjwte.supabase.co/functions/v1/onboarding-intake

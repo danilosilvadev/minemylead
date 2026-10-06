@@ -1,14 +1,13 @@
 /**
  * Post-payment intake.
  *
- * Posts a flat application/x-www-form-urlencoded body. Airtable rejects
- * text/plain, and Content-Type: application/json cannot ride along with
- * mode "no-cors" (the browser would preflight). URLSearchParams is a
- * simple request, so the body is delivered. The response is opaque; a
- * resolved fetch is success.
+ * POSTs application/json to the Supabase Edge Function and reads the
+ * JSON body. {ok:true} is success. A 4xx {ok:false,error} is shown
+ * inline. Network failures and 5xx use the mailto fallback.
  *
  * Checkbox groups are one string each, joined with ", ".
  * website gets https:// when the visitor left the scheme off.
+ * website_url_confirm is a honeypot: leave it empty.
  */
 (function () {
   var form = document.getElementById("onboard");
@@ -38,6 +37,7 @@
       sending: "Sending…",
       empty: "We could not send this yet. The intake link is not connected. Email your answers and we will take it from there.",
       fail: "We could not reach the intake link. Email your answers and we will take it from there.",
+      badRequest: "We could not accept this brief. Check the fields and try again.",
       subject: "MineMyLead onboarding",
       planPack: "Niche pack",
       planTaste: "Taste · 10 leads",
@@ -53,6 +53,7 @@
       sending: "Enviando…",
       empty: "Ainda não deu para enviar. O link de entrada não está ligado. Envie as respostas por e-mail que seguimos daí.",
       fail: "Não alcançamos o link de entrada. Envie as respostas por e-mail que seguimos daí.",
+      badRequest: "Não deu para aceitar este briefing. Confira os campos e tente de novo.",
       subject: "Onboarding MineMyLead",
       planPack: "Pacote do nicho",
       planTaste: "Amostra · 10 leads",
@@ -311,6 +312,7 @@
       email: val("email"),
       company: val("company"),
       website: normalizeWebsite(val("website")),
+      website_url_confirm: val("website_url_confirm"),
       offer: val("offer"),
       price: val("price"),
       best_customers: val("best_customers"),
@@ -368,8 +370,8 @@
     try { return !!(sessionId && sessionStorage.getItem(DONE_KEY) === sessionId); } catch (err) { return false; }
   }
 
-  function webhookUrl() {
-    try { return String((window.MML_ONBOARDING && window.MML_ONBOARDING.webhookUrl) || "").trim(); } catch (err) { return ""; }
+  function intakeUrl() {
+    try { return String((window.MML_ONBOARDING && window.MML_ONBOARDING.endpoint) || "").trim(); } catch (err) { return ""; }
   }
 
   function setBusy(on) {
@@ -388,8 +390,8 @@
       return;
     }
     var payload = buildPayload();
-    var webhook = webhookUrl();
-    if (!webhook) {
+    var endpoint = intakeUrl();
+    if (!endpoint) {
       showFallback(copy.empty, payload);
       return;
     }
@@ -399,12 +401,31 @@
     setBusy(true);
     setStatus(copy.sending, "busy");
     hideFallback();
-    fetch(webhook, { method: "POST", mode: "no-cors", body: new URLSearchParams(payload) })
-      .then(function () { showSuccess(true); })
-      .catch(function () {
-        setBusy(false);
-        showFallback(copy.fail, payload);
+    fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().catch(function () { return null; }).then(function (data) {
+        return { status: res.status, data: data };
       });
+    }).then(function (result) {
+      var data = result.data;
+      if (result.status >= 200 && result.status < 300 && data && data.ok === true) {
+        showSuccess(true);
+        return;
+      }
+      setBusy(false);
+      if (result.status >= 400 && result.status < 500) {
+        hideFallback();
+        setStatus(data && data.error ? String(data.error) : copy.badRequest, "bad");
+        return;
+      }
+      showFallback(copy.fail, payload);
+    }).catch(function () {
+      setBusy(false);
+      showFallback(copy.fail, payload);
+    });
   }
 
   applyQuery();

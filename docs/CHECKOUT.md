@@ -22,7 +22,7 @@ Do not commit any of these:
 
 A Payment Link URL (`https://buy.stripe.com/...`) is public by design. That is the only Stripe value this repo should hold.
 
-The Airtable onboarding trigger in `onboarding-config.js` is also public on purpose. The file is static JavaScript on GitHub Pages, so the trigger URL is visible to anyone who loads the page. Do not add a Stripe secret beside it.
+The onboarding intake URL in `onboarding-config.js` is public on purpose. The file is static JavaScript on GitHub Pages. Do not add a Stripe secret, a Supabase service role key, or `RESEND_API_KEY` beside it. Those belong in Supabase Edge Function secrets.
 
 ## 1. Create one-time prices
 
@@ -95,9 +95,9 @@ Do not build an automatic credit in this repository during Phase 0.
 
 This site does not build or host niche packs.
 
-After a paid order the buyer lands on the onboarding form (section 8). That form is the brief: who they sell to, where those buyers talk, and what a good lead looks like. The answers post to the Airtable webhook in `onboarding-config.js`.
+After a paid order the buyer lands on the onboarding form (section 8). That form is the brief: who they sell to, where those buyers talk, and what a good lead looks like. The answers post to the Supabase Edge Function in `onboarding-config.js` and land in `public.onboarding_clients`.
 
-If the form cannot reach the webhook, the page offers an email to `contact@minemylead.com` with the same answers. The Stripe `Niche` custom field is a backup when they never open the form.
+If the function returns a 4xx, the page shows that error on the form. If the request fails or the function returns a 5xx, the page offers an email to `contact@minemylead.com` with the same answers. The Stripe `Niche` custom field is a backup when they never open the form. Read new rows in the Supabase Table Editor for project `minemylead`.
 
 Then:
 
@@ -120,8 +120,8 @@ GitHub Pages serves the default branch (`main`) at `https://minemylead.com`. Mer
 - [ ] With the strings left empty, the form still opens an email to `contact@minemylead.com` and does not navigate to a fake URL.
 - [ ] Download buttons still point at `/downloads/latest/minemylead-linux-x86_64` and `/downloads/latest/minemylead-windows-x86_64.exe`.
 - [ ] Each Payment Link redirects to the matching onboarding URL in section 8, with `{CHECKOUT_SESSION_ID}` and `plan`.
-- [ ] `onboarding-config.js` holds the public Airtable trigger in `webhookUrl`, and no `sk_` or `whsec_`.
-- [ ] A local POST of the form is `application/x-www-form-urlencoded` and uses the keys in section 8. Do not send that test at the live trigger.
+- [ ] `onboarding-config.js` `endpoint` is the public Supabase function URL, and the file has no `sk_`, `whsec_`, service role key, or `RESEND_API_KEY`.
+- [ ] A local POST of the form is `application/json` and uses the keys in section 8. Do not send that test at the live function.
 
 ## 8. After payment, send buyers to onboarding
 
@@ -140,38 +140,55 @@ In each Payment Link, set **After payment** to redirect to:
 
 When `session_id` is in the query string, the page says payment was confirmed. When it is missing, the form still works and the page does not claim the card payment was checked. `plan` is optional. `pack` and `taste` change the thank-you copy: a taste describes the 10-lead delivery and the 14-day credit, and does not promise the 100-lead pack.
 
-### webhookUrl
+### Intake endpoint
 
-Edit `onboarding-config.js` at the site root:
+`onboarding-config.js` at the site root:
 
 ```js
 window.MML_ONBOARDING = {
   contact: "contact@minemylead.com",
-  webhookUrl: "https://hooks.airtable.com/workflows/v1/genericWebhook/..."
+  endpoint: "https://gcjmslajisekscbtjwte.supabase.co/functions/v1/onboarding-intake"
 };
 ```
 
-`webhookUrl` is the Airtable automation trigger. The current value is the generic webhook URL already in that file. The file is public static JavaScript, so the trigger URL is public by nature. Do not append a secret, and do not put Stripe keys in the file.
+`endpoint` is the Supabase Edge Function `onboarding-intake` on project `minemylead` (ref `gcjmslajisekscbtjwte`, org `akalli`, free plan). It is deployed with `verify_jwt` off, so the page sends no key. The function allows CORS from `https://minemylead.com`, `https://www.minemylead.com`, and `http://localhost:*` / `http://127.0.0.1:*`.
 
-Leave `webhookUrl` as `""` only to disconnect the form. An empty value does not POST. The page shows an error and a `mailto:contact@minemylead.com` link that includes the answers.
+Leave `endpoint` as `""` only to disconnect the form. An empty value does not POST. The page shows an error and a `mailto:contact@minemylead.com` link that includes the answers.
 
-Point a local copy of `webhookUrl` at a local server when you try the form. Do not POST sample people at the live Airtable trigger.
+Point a local copy of `endpoint` at a local server, or mock `fetch`, when you try the form. Do not POST sample people at the live function.
+
+### Where the row goes
+
+Source in this repo (already deployed; do not treat a casual edit as a redeploy):
+
+- `supabase/config.toml`
+- `supabase/migrations/20261006205130_create_onboarding_clients.sql`
+- `supabase/functions/onboarding-intake/index.ts`
+- `supabase/README.md`
+
+Table `public.onboarding_clients`. RLS is on and there are no policies. `anon` and `authenticated` have no privileges, so the browser cannot read or write the table. The function writes with the service role. Open rows in the Supabase Table Editor for project `minemylead`.
+
+Email goes out through Resend when these Edge Function secrets are set: `RESEND_API_KEY`, `MAIL_FROM`, `OWNER_EMAIL`. Set them at [Edge Function secrets](https://supabase.com/dashboard/project/gcjmslajisekscbtjwte/functions/secrets). Until `RESEND_API_KEY` is set, the row is still saved and `email_status` is `skipped_no_key`.
+
+`.github/workflows/supabase-keepalive.yml` runs on Mondays and Thursdays, and on `workflow_dispatch`. It `GET`s the function (`curl -fsS` of the endpoint above). That returns `{ok:true}` and touches the database so the free project does not auto-pause.
 
 ### What the browser sends
 
-The page does not send JSON. Airtable rejects `text/plain` (HTTP 400) and asks for `application/json` or `application/x-www-form-urlencoded`. A JSON content type is not a simple request, so `mode: "no-cors"` would drop it on a preflight, and the automation does not return CORS headers.
-
-The page sends:
-
 ```js
-fetch(webhookUrl, {
+fetch(endpoint, {
   method: "POST",
-  mode: "no-cors",
-  body: new URLSearchParams(payload)
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload)
 });
 ```
 
-The browser sets `Content-Type: application/x-www-form-urlencoded`. A resolved fetch is treated as success, because the response is opaque. A rejected fetch, or an empty `webhookUrl`, shows the mailto fallback.
+The page reads the JSON response.
+
+| Response | What the page does |
+| --- | --- |
+| `{ok:true,id}` | Thank-you state |
+| 4xx `{ok:false,error}` | Shows `error` on the form. A 400 is the usual case (a required field or a bad email). |
+| Network error or 5xx | Mailto fallback to `contact@minemylead.com` |
 
 ### Payload
 
@@ -183,6 +200,7 @@ Every key is sent on every submit. Optional blanks are `""`. Checkbox groups are
 | `email` | required | `type="email"` |
 | `company` | required | |
 | `website` | required | `https://` added when the scheme is missing |
+| `website_url_confirm` | honeypot | Hidden field. Must be `""`. A filled value is dropped by the function and stored as nothing. |
 | `offer` | required | one sentence |
 | `price` | optional | |
 | `best_customers` | required | |
@@ -223,29 +241,32 @@ Example: `LinkedIn, GitHub, Not sure - you pick`
 
 Example: `name, profile link, public post showing the pain, public email`
 
-Decoded example (the wire body is form-encoded, not this block):
+Example JSON body:
 
-```
-full_name=Ada Marsh
-email=ada@marsh.example
-company=Marsh Roofing
-website=https://marsh.example
-offer=Booked estimates for independent roofers.
-price=$2,000 a project
-best_customers=Northline Roofing
-buyer_role=Owner
-company_size=11–50 people
-industry=Home services
-region=United States
-pain=We are losing jobs to the bigger crews.
-channels=LinkedIn, Google Maps
-channels_other=
-exclusions=Agencies and students
-a_vs_c=
-fields_needed=name, profile link, public post showing the pain, public email
-notes=
-session_id=cs_test_a1b2
-plan=pack
-lang=en
-submitted_at=2026-10-06T20:11:00.000Z
+```json
+{
+  "full_name": "Ada Marsh",
+  "email": "ada@marsh.example",
+  "company": "Marsh Roofing",
+  "website": "https://marsh.example",
+  "website_url_confirm": "",
+  "offer": "Booked estimates for independent roofers.",
+  "price": "$2,000 a project",
+  "best_customers": "Northline Roofing",
+  "buyer_role": "Owner",
+  "company_size": "11–50 people",
+  "industry": "Home services",
+  "region": "United States",
+  "pain": "We are losing jobs to the bigger crews.",
+  "channels": "LinkedIn, Google Maps",
+  "channels_other": "",
+  "exclusions": "Agencies and students",
+  "a_vs_c": "",
+  "fields_needed": "name, profile link, public post showing the pain, public email",
+  "notes": "",
+  "session_id": "cs_test_a1b2",
+  "plan": "pack",
+  "lang": "en",
+  "submitted_at": "2026-10-06T20:11:00.000Z"
+}
 ```
