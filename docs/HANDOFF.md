@@ -38,16 +38,16 @@ The same v0.1.0 build is committed in two directories. `cmp` of the four files i
 
 Each directory contains:
 
-- `minemylead-linux-x86_64` (7,289,288 bytes)
-- `minemylead-windows-x86_64.exe` (6,132,224 bytes)
+- `minemylead-linux-x86_64` (7,439,792 bytes)
+- `minemylead-windows-x86_64.exe` (6,264,832 bytes)
 - `SHA256SUMS`
 - `latest.json`
 
 `sha256sum` of the binaries matches both `SHA256SUMS` files and the `sha256` fields in both `latest.json` files:
 
 ```
-c6d9cce57ec75451f7a89d7695f915642be989d462ad8e6d1c9bf2fa1911bf75  minemylead-linux-x86_64
-131846203ae9b6f16d9482cea16ac00cf1cd1a9f78ff61bc00f1ec91e91233b0  minemylead-windows-x86_64.exe
+2eb93d071f67f88cdfc4da3930c88942bd731a64095a108aa6ceca531e2edeac  minemylead-linux-x86_64
+542f9b7e3e5579f44d5ba990b8befd5049ef5c37d067bd99a200180f7e8eca43  minemylead-windows-x86_64.exe
 ```
 
 `latest.json` records `version` / `tag` `v0.1.0`, `repo` `danilosilvadev/MineMyLead-app`, `channel` `local`. Linux is `x86_64-unknown-linux-gnu`, linkage `dynamic-glibc`. Windows is `x86_64-pc-windows-msvc`, linkage `static-crt`.
@@ -61,7 +61,7 @@ The English and Portuguese download buttons link to this site, not to the GitHub
 
 The pages also link the pinned copies under `/downloads/v0.1.0/`.
 
-These files are rebuilt from [danilosilvadev/MineMyLead-app](https://github.com/danilosilvadev/MineMyLead-app) `main` and committed in this public repo. The latest republish is from app pull request #13, commit `f1b6ec7f85de27352815e6b0f697563b01cf9c52` ("Drop a purchased .db lead pack onto the consult chat": drag-and-drop pack loading). The previous landing republish was pull request [#9](https://github.com/danilosilvadev/minemylead/pull/9), merged 2026-10-02, after app pull request #11 (`4e410a183c1bd9e16afd1d283370eff6aa74eac7`). The binary commit on this repo for that earlier publish is `e4e05e27ae88e16d65034dd2d1f56db7323964f0` (merge on `main`: `f3eb29b4390920da1f83aa3592a0fc1b79683b16`). This account could not read the private app repo while writing this file (API 404), so that earlier app SHA is what landing PR #9 wrote, not a blob re-fetched from MineMyLead-app.
+These files are rebuilt from [danilosilvadev/MineMyLead-app](https://github.com/danilosilvadev/MineMyLead-app) `main` and committed in this public repo. The latest republish is from app pull request #14, commit `42024096443e398ff55b04e329bd91bd3c18f964` ("Keep the neurograph sparse and resolve person lookups": sparse neurograph + person lookup). The previous republish was from app pull request #13, commit `f1b6ec7f85de27352815e6b0f697563b01cf9c52` ("Drop a purchased .db lead pack onto the consult chat": drag-and-drop pack loading). The previous landing republish was pull request [#9](https://github.com/danilosilvadev/minemylead/pull/9), merged 2026-10-02, after app pull request #11 (`4e410a183c1bd9e16afd1d283370eff6aa74eac7`). The binary commit on this repo for that earlier publish is `e4e05e27ae88e16d65034dd2d1f56db7323964f0` (merge on `main`: `f3eb29b4390920da1f83aa3592a0fc1b79683b16`). This account could not read the private app repo while writing this file (API 404), so that earlier app SHA is what landing PR #9 wrote, not a blob re-fetched from MineMyLead-app.
 
 ## Consult demo
 
