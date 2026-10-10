@@ -100,7 +100,8 @@ footer h4{font:500 12px "JetBrains Mono",monospace;text-transform:uppercase;lett
 footer a{display:block;text-decoration:none;margin-bottom:8px;color:var(--deep-mute)}
 footer a:hover{color:var(--deep-ink)}
 footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size:13px}
-footer .legal a{display:inline;margin:0 0 0 12px}
+footer .legal a{display:inline;margin:0}
+footer .legal a.more{margin-left:12px}
 
 @media(max-width:640px){
   .wrap{padding:0 16px}
