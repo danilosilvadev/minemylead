@@ -9,6 +9,8 @@
   var of = document.getElementById("offer");
   var note = document.getElementById("paynote");
   if (!f || !of) return;
+  var successUrl = (cfg.success && cfg.success[locale]) || "";
+  if (successUrl) f.setAttribute("data-success-url", successUrl);
   var skuOf = { pack: 0, taste: 1, refresh: 2 };
   var copy = locale === "pt" ? {
     stripeNote: "O pagamento no cartão abre na Stripe, uma vez só. Sem mensalidade. O arquivo SQLite é seu e fica na sua máquina. O nicho neste formulário diz qual pacote entregar.",
