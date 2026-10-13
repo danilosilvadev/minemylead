@@ -33,13 +33,20 @@
       var show = reduce || String(j) === idx;
       panels[j].setAttribute("aria-hidden", show ? "false" : "true");
     }
-    var live = root.querySelector("[data-feat-live]");
-    if (live && !reduce) {
-      var current = null;
-      for (var t = 0; t < tabs.length; t++) {
-        if (tabs[t].getAttribute("aria-selected") === "true") current = tabs[t];
+    var currentTab = null;
+    for (var t = 0; t < tabs.length; t++) {
+      if (tabs[t].getAttribute("aria-selected") === "true") currentTab = tabs[t];
+    }
+    if (currentTab && currentTab.parentElement) {
+      var list = currentTab.parentElement;
+      if (list.scrollWidth > list.clientWidth + 8) {
+        var left = currentTab.offsetLeft - (list.clientWidth - currentTab.clientWidth) / 2;
+        list.scrollLeft = Math.max(0, left);
       }
-      var desc = current && current.querySelector("p");
+    }
+    var live = root.querySelector("[data-feat-live]");
+    if (live && !reduce && currentTab) {
+      var desc = currentTab.querySelector("p");
       if (desc && live.textContent !== desc.textContent) live.textContent = desc.textContent;
     }
   }
@@ -100,12 +107,8 @@
   });
 
   function fitApps() {
-    Array.prototype.forEach.call(document.querySelectorAll("[data-fit]"), function (frame) {
-      var app = frame.querySelector(".app");
-      if (!app) return;
-      var s = frame.clientWidth / 1280;
-      if (!s) return;
-      app.style.transform = "scale(" + s + ")";
+    Array.prototype.forEach.call(document.querySelectorAll(".app"), function (app) {
+      app.style.transform = "none";
     });
   }
 
