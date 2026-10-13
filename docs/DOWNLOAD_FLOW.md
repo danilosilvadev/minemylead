@@ -32,7 +32,7 @@ This repository is public. The path is unguessable on the website. Anyone who ca
 
 Each page has one card for Windows, macOS, Linux, Android, and iPhone. The files are the GitHub release assets:
 
-`https://github.com/danilosilvadev/MineMyLead-app/releases/latest/download/` plus `MineMyLead-windows-x64-setup.exe`, `MineMyLead-macos.dmg`, `MineMyLead-linux-x64.AppImage`, `MineMyLead-android.apk`, or `MineMyLead-ios-unsigned.ipa`.
+`https://github.com/danilosilvadev/minemylead-downloads/releases/latest/download/` plus `MineMyLead-windows-x64-setup.exe`, `MineMyLead-macos.dmg`, `MineMyLead-linux-x64.AppImage`, `MineMyLead-android.apk`, or `MineMyLead-ios-unsigned.ipa`.
 
 Support on that page is the email already on the landing: `support@minemylead.com` and `contact@minemylead.com`. The landing does not publish a support WhatsApp number, so the access page does not invent one.
 
