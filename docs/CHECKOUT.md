@@ -9,7 +9,7 @@ There is no monthly subscription product on the site.
 | `pack` | $199 once | R$ 990 once | SQLite niche pack, about 100 A–C leads, plus drafts. Forever. Another niche or a refresh is another pack at the same price. |
 | `taste` | $49 once | R$ 250 once | 10 leads scoped to their niche. Credit the full amount toward the first pack if they buy within 14 days. |
 
-The desktop app stays a free download and includes about 10 sample leads to consult. That sample is not the $49 / R$ 250 taste.
+The app is not a public download. The link arrives right after payment, on the page in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md). That page is not the $49 / R$ 250 taste.
 
 ## What you must not commit
 
@@ -47,7 +47,7 @@ Set:
 - **Type:** one-time payment. Not a subscription.
 - **Collect customer email:** on.
 - **Custom field:** text field named `Niche` (required). The site also emails the niche, but the Payment Link should ask again so the order still makes sense if the email client does not open.
-- **After payment:** redirect to the onboarding page for that locale and plan (section 8). The site does not generate the file.
+- **After payment:** redirect to the private download page for that locale. The exact URLs are in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md). The site does not generate the file.
 - **Promotion codes:** on for the pack links only, so you can honor the taste credit (step 4).
 
 Copy each link. It looks like `https://buy.stripe.com/xxxxxxxx`. Test-mode links contain `test_` in the path; use test mode until a real payment looks right, then create live links and replace the URLs.
@@ -95,16 +95,16 @@ Do not build an automatic credit in this repository during Phase 0.
 
 This site does not build or host niche packs.
 
-After a paid order the buyer lands on the onboarding form (section 8). That form is the brief: who they sell to, where those buyers talk, and what a good lead looks like. The answers post to the Supabase Edge Function in `onboarding-config.js` and land in `public.onboarding_clients`.
+After a paid order the buyer lands on the private download page in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md). The onboarding form (section 8) is still the brief if they open it: who they sell to, where those buyers talk, and what a good lead looks like. The answers post to the Supabase Edge Function in `onboarding-config.js` and land in `public.onboarding_clients`.
 
 If the function returns a 4xx, the page shows that error on the form. If the request fails or the function returns a 5xx, the page offers an email to `contact@minemylead.com` with the same answers. The Stripe `Niche` custom field is a backup when they never open the form. Read new rows in the Supabase Table Editor for project `minemylead`.
 
 Then:
 
-1. Deliver the SQLite file (full pack, or the 10-lead taste) by email.
-2. The buyer drops it into the desktop app they already downloaded. Chat consults that file. The app does not mine new leads.
+1. Deliver the niche file as `pack.zip`.
+2. The buyer installs from the private page in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md), then imports `pack.zip`. Chat consults that file. The app does not mine new leads.
 
-Free sample leads ship inside the public binaries under `/downloads/latest/`. Do not replace those binaries from this checkout task.
+Do not put app download buttons back on the public landing.
 
 ## 6. Publish
 
@@ -114,31 +114,22 @@ GitHub Pages serves the default branch (`main`) at `https://minemylead.com`. Mer
 
 - [ ] All four prices are **One time**.
 - [ ] English links charge USD. Portuguese links charge BRL.
-- [ ] `checkout-config.js` contains Payment Link URLs only, no `sk_` or `whsec_`.
+- [ ] `checkout-config.js` contains Payment Link URLs and the access-page success URLs only, no `sk_` or `whsec_`.
 - [ ] Buy pack on `/` opens the $199 link. Buy pack on `/pt/` opens the R$ 990 link.
 - [ ] Taste buttons open the matching taste link.
 - [ ] With the strings left empty, the form still opens an email to `contact@minemylead.com` and does not navigate to a fake URL.
-- [ ] Download buttons still point at `/downloads/latest/minemylead-linux-x86_64` and `/downloads/latest/minemylead-windows-x86_64.exe`.
-- [ ] Each Payment Link redirects to the matching onboarding URL in section 8, with `{CHECKOUT_SESSION_ID}` and `plan`.
+- [ ] The public landing has no download button, download link, or download section. The app links live only on the access page in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md).
+- [ ] Each Payment Link redirects to the matching access URL in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md).
 - [ ] `onboarding-config.js` `endpoint` is the public Supabase function URL, and the file has no `sk_`, `whsec_`, service role key, or `RESEND_API_KEY`.
 - [ ] A local POST of the form is `application/json` and uses the keys in section 8. Do not send that test at the live function.
 
-## 8. After payment, send buyers to onboarding
+## 8. After payment, send buyers to the download page
 
-The pages are `/onboarding/` (English) and `/pt/onboarding/` (Portuguese). They are not in the site nav. Both send `<meta name="robots" content="noindex">` and they are not in `sitemap.xml`.
+Paste the success / redirect URL from [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md). English charges use the English access page. Portuguese charges use the Portuguese access page. Do not send a paid buyer to `/onboarding/` as the payment success URL.
 
-In each Payment Link, set **After payment** to redirect to:
+`/onboarding/` (English) and `/pt/onboarding/` (Portuguese) are still the niche brief. They are not in the site nav. Both send `<meta name="robots" content="noindex">` and they are not in `sitemap.xml`.
 
-| Link | Redirect URL |
-| --- | --- |
-| English pack | `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack` |
-| English taste | `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste` |
-| Portuguese pack | `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack` |
-| Portuguese taste | `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste` |
-
-`{CHECKOUT_SESSION_ID}` is Stripe's placeholder. Stripe replaces it. Leave the braces as written.
-
-When `session_id` is in the query string, the page says payment was confirmed. When it is missing, the form still works and the page does not claim the card payment was checked. `plan` is optional. `pack` and `taste` change the thank-you copy: a taste describes the 10-lead delivery and the 14-day credit, and does not promise the 100-lead pack.
+When `session_id` is in the query string, the onboarding page says payment was confirmed. When it is missing, the form still works and the page does not claim the card payment was checked. `plan` is optional. `pack` and `taste` change the thank-you copy: a taste describes the 10-lead delivery and the 14-day credit, and does not promise the 100-lead pack.
 
 ### Intake endpoint
 

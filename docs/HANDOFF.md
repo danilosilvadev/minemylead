@@ -14,7 +14,7 @@ There is no GitHub Actions workflow in this repository. Desktop binaries are bui
 
 Locked by merged pull request [#3](https://github.com/danilosilvadev/minemylead/pull/3) (“Sell one-time niche packs instead of a $99/mo subscription”), merged 2026-10-02. The offer is a **one-time niche pack**, not a monthly subscription.
 
-- The desktop app is a free download. It includes about 10 sample leads to consult.
+- The public landing no longer links a free download. The download link arrives right after payment, on the private page in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md). Notes further down that describe download buttons are the previous publish.
 - The paid pack is a SQLite file (a `.db`) the buyer owns: about 100 A–C leads for one niche, plus drafts. Chat reads that file. It does not mine new leads. Another niche, or a refresh, is another pack at the same price.
 - The optional taste is 10 leads scoped to the buyer’s niche. The taste price is credited in full toward the first pack within 14 days. The free sample inside the app is not the taste. See [docs/CHECKOUT.md](CHECKOUT.md).
 
@@ -102,12 +102,7 @@ Do not commit Stripe secret keys (`sk_live_`, `sk_test_`), webhook secrets (`whs
 
 `/onboarding/` (English) and `/pt/onboarding/` (Portuguese). Not linked from the main nav. Both pages set `<meta name="robots" content="noindex">` and are absent from `sitemap.xml`.
 
-Set each Stripe Payment Link’s after-payment redirect to:
-
-- English pack: `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack`
-- English taste: `https://minemylead.com/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste`
-- Portuguese pack: `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=pack`
-- Portuguese taste: `https://minemylead.com/pt/onboarding/?session_id={CHECKOUT_SESSION_ID}&plan=taste`
+Set each payment link’s after-payment redirect to the private download page in [docs/DOWNLOAD_FLOW.md](DOWNLOAD_FLOW.md), matching the language. Do not use `/onboarding/` as that success URL.
 
 The form POSTs `application/json` to `window.MML_ONBOARDING.endpoint` in [`onboarding-config.js`](../onboarding-config.js). That URL is the Supabase Edge Function `onboarding-intake` on project `minemylead` (ref `gcjmslajisekscbtjwte`, org `akalli`, free plan, `verify_jwt` off, no key in the browser). Rows land in `public.onboarding_clients` (RLS on, no policies, no browser access). Read them in the Supabase Table Editor. Email is Resend, after `RESEND_API_KEY`, `MAIL_FROM`, and `OWNER_EMAIL` are set as [Edge Function secrets](https://supabase.com/dashboard/project/gcjmslajisekscbtjwte/functions/secrets). `.github/workflows/supabase-keepalive.yml` GETs the function on Mondays and Thursdays so the free project does not pause.
 
