@@ -33,6 +33,10 @@ function auth(token = ADMIN): HeadersInit {
   return { authorization: `Bearer ${token}`, "content-type": "application/json" };
 }
 
+async function bodyText(response: Response): Promise<string> {
+  return new TextDecoder().decode(await response.arrayBuffer());
+}
+
 async function mint(body: Record<string, unknown> = {}): Promise<{ url: string; token: string }> {
   const response = await SELF.fetch(`${BASE}/admin/links`, {
     method: "POST",
@@ -66,16 +70,16 @@ describe("master link", () => {
     expect(second.status).toBe(200);
     expect(first.headers.get("content-disposition")).toContain("attachment;");
     expect(first.headers.get("content-disposition")).toContain("MineMyLead-android.apk");
-    expect(await first.text()).toBe("1.2.3:MineMyLead-android.apk");
-    expect(await second.text()).toBe("1.2.3:MineMyLead-android.apk");
+    expect(await bodyText(first)).toBe("1.2.3:MineMyLead-android.apk");
+    expect(await bodyText(second)).toBe("1.2.3:MineMyLead-android.apk");
 
     const other = await SELF.fetch(`${BASE}/m/${MASTER}/file/1.0.0/MineMyLead-macos.dmg`);
     expect(other.status).toBe(200);
-    expect(await other.text()).toBe("1.0.0:MineMyLead-macos.dmg");
+    expect(await bodyText(other)).toBe("1.0.0:MineMyLead-macos.dmg");
 
     const notes = await SELF.fetch(`${BASE}/m/${MASTER}/file/1.2.3/notes.txt`);
     expect(notes.status).toBe(200);
-    expect(await notes.text()).toBe("release notes");
+    expect(await bodyText(notes)).toBe("release notes");
   });
 });
 
@@ -98,15 +102,15 @@ describe("client link", () => {
     const downloaded = await SELF.fetch(`${BASE}/d/${token}/file/MineMyLead-macos.dmg`);
     expect(downloaded.status).toBe(200);
     expect(downloaded.headers.get("content-disposition")).toContain("filename=\"MineMyLead-macos.dmg\"");
-    expect(await downloaded.text()).toBe("1.2.3:MineMyLead-macos.dmg");
+    expect(await bodyText(downloaded)).toBe("1.2.3:MineMyLead-macos.dmg");
 
     const again = await SELF.fetch(`${BASE}/d/${token}/file/MineMyLead-macos.dmg`);
     expect(again.status).toBe(403);
-    expect(await again.text()).toBe(USED);
+    expect(await bodyText(again)).toBe(USED);
 
     const other = await SELF.fetch(`${BASE}/d/${token}/file/MineMyLead-linux-x64.AppImage`);
     expect(other.status).toBe(403);
-    expect(await other.text()).toBe(USED);
+    expect(await bodyText(other)).toBe(USED);
 
     const after = await SELF.fetch(url);
     expect(after.status).toBe(200);
@@ -122,13 +126,13 @@ describe("client link", () => {
     try {
       const missing = await SELF.fetch(`${BASE}/d/${token}/file/MineMyLead-macos.dmg`);
       expect(missing.status).toBe(404);
-      expect(await missing.text()).not.toBe(USED);
+      expect(await bodyText(missing)).not.toBe(USED);
     } finally {
       await env.DOWNLOADS.put("latest", "1.2.3");
     }
     const ok = await SELF.fetch(`${BASE}/d/${token}/file/MineMyLead-windows-x64-setup.exe`);
     expect(ok.status).toBe(200);
-    expect(await ok.text()).toBe("1.2.3:MineMyLead-windows-x64-setup.exe");
+    expect(await bodyText(ok)).toBe("1.2.3:MineMyLead-windows-x64-setup.exe");
   });
 
   it("renders Portuguese from ?lang=pt and from Accept-Language", async () => {
@@ -157,7 +161,7 @@ describe("concurrent double-click", () => {
     const [first, second] = await Promise.all([SELF.fetch(href), SELF.fetch(href)]);
     const statuses = [first.status, second.status].sort();
     expect(statuses).toEqual([200, 403]);
-    const bodies = await Promise.all([first.text(), second.text()]);
+    const bodies = await Promise.all([bodyText(first), bodyText(second)]);
     const ok = bodies.find((body) => body.startsWith("1.2.3:"));
     const blocked = bodies.find((body) => body === USED);
     expect(ok).toBe("1.2.3:MineMyLead-linux-x64.AppImage");
@@ -170,7 +174,7 @@ describe("concurrent double-click", () => {
 
     const third = await SELF.fetch(`${BASE}/d/${token}/file/MineMyLead-android.apk`);
     expect(third.status).toBe(403);
-    expect(await third.text()).toBe(USED);
+    expect(await bodyText(third)).toBe(USED);
   });
 });
 
@@ -249,7 +253,7 @@ describe("revocation", () => {
 
     const download = await SELF.fetch(`${BASE}/d/${token}/file/MineMyLead-android.apk`);
     expect(download.status).toBe(403);
-    expect(await download.text()).toBe("This link was revoked, contact support@minemylead.com");
+    expect(await bodyText(download)).toBe("This link was revoked, contact support@minemylead.com");
 
     const listed = await SELF.fetch(`${BASE}/admin/links`, { headers: auth() });
     const body = (await listed.json()) as { links: { token: string; status: string }[] };
