@@ -4,11 +4,11 @@
   var st = document.getElementById("lst");
   var d = f.dataset;
   // Emails each signup to the owner through FormSubmit (free, no account).
-  function notify(email, niche) {
+  function notify(email, niche, os) {
     return fetch("https://formsubmit.co/ajax/" + (d.notify || "markpetrelli@gmail.com"), {
       method: "POST",
       headers: { "content-type": "application/json", accept: "application/json" },
-      body: JSON.stringify({ _subject: "MineMyLead: nova inscrição na lista de espera (" + email + ")", _template: "table", _captcha: "false", email: email, niche: niche, lang: d.lang })
+      body: JSON.stringify({ _subject: "MineMyLead: nova inscrição na lista de espera (" + email + ")", _template: "table", _captcha: "false", email: email, niche: niche, os: os, lang: d.lang })
     }).catch(function () {});
   }
   f.addEventListener("submit", function (e) {
@@ -20,10 +20,10 @@
     fetch(f.action, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email: email, niche: f.niche.value.trim(), lang: d.lang, website: f.website.value })
+      body: JSON.stringify({ email: email, niche: f.niche.value.trim(), lang: d.lang, os: f.os ? f.os.value : "", website: f.website.value })
     }).then(function (r) {
       if (!r.ok) throw new Error(String(r.status));
-      return notify(email, f.niche.value.trim());
+      return notify(email, f.niche.value.trim(), f.os ? f.os.value : "");
     }).then(function () {
       st.textContent = d.ok; f.reset();
     }).catch(function () { st.textContent = d.fail; })

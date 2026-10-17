@@ -12,7 +12,7 @@ describe("waitlist", () => {
         headers: { "content-type": "application/json", origin: "https://minemylead.com" },
         body: JSON.stringify(body),
       });
-    const r = await post({ email: "Ana@Example.com", lang: "pt", niche: "yoga" });
+    const r = await post({ email: "Ana@Example.com", lang: "pt", niche: "yoga", os: "windows" });
     expect(r.status).toBe(200);
     expect(r.headers.get("access-control-allow-origin")).toBe("https://minemylead.com");
     expect((await post({ email: "ana@example.com", lang: "pt" })).status).toBe(200);
@@ -25,7 +25,7 @@ describe("waitlist", () => {
     expect(data.count).toBe(1);
     expect(data.signups[0]).toMatchObject({ email: "ana@example.com", niche: "yoga" });
     const csv = await SELF.fetch(`${BASE}/admin/waitlist?format=csv`, { headers: { authorization: `Bearer ${ADMIN}` } });
-    expect(await csv.text()).toContain('"ana@example.com","pt","yoga"');
+    expect(await csv.text()).toContain('"ana@example.com","pt","yoga","windows"');
   });
 
   it("answers the CORS preflight", async () => {
