@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>(function(){try{if(matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("reduce")}catch(e){}})();</script>
 <meta name="color-scheme" content="light">
 <title>MineMyLead</title>
-<meta name="description" content="Gente que já precisa de você. Pagamento único: o pacote é seu, sem mensalidade. App offline para desktop e celular, claro e escuro. Sem conta.">
+<meta name="description" content="Pagamento único: o pacote SQLite é seu, sem mensalidade. O arquivo fica na sua máquina. App local grátis com cerca de 10 leads de amostra. O chat só escreve rascunhos. Você envia.">
 <link rel="canonical" href="https://minemylead.com/pt/">
-<link rel="alternate" hreflang="en" href="https://minemylead.com/">
+<link rel="alternate" hreflang="en" href="https://minemylead.com/en/">
 <link rel="alternate" hreflang="pt-BR" href="https://minemylead.com/pt/">
 <link rel="alternate" hreflang="x-default" href="https://minemylead.com/">
 <meta property="og:type" content="website">
@@ -17,113 +16,391 @@
 <meta property="og:image" content="https://minemylead.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="MineMyLead">
-<meta property="og:description" content="Compra única: o pacote é seu, sem mensalidade. Cerca de 100 leads A–C. App offline para desktop e Android, claro e escuro. Você envia.">
-<meta name="theme-color" content="#EFEDE8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231C1915'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%237B6CF6'/%3E%3C/svg%3E">
+<meta property="og:description" content="Compra única: o pacote é seu, sem mensalidade. Cerca de 100 leads A–C num SQLite na sua máquina. App local grátis. O chat só escreve rascunhos.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%23ffe14d'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/landing.css">
+<link rel="stylesheet" href="/demo/consult.css">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f6f8fb; --surface:#ffffff; --surface2:#eef2f7; --ink:#0f1b2d; --ink2:#42536b; --line:#dbe2ec;
+  --hl:#ffe14d; --hl-ink:#0f1b2d; --brand:#0f1b2d; --brand-ink:#ffffff; --good:#12805c; --good-bg:#dcf3ea;
+  --deep:#0f1b2d; --deep-ink:#f2f6fb; --deep-mute:#9fb0c7; --shadow:0 1px 2px rgba(15,27,45,.06),0 12px 32px rgba(15,27,45,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 "Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.08;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--hl);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+mark{background:linear-gradient(transparent 58%,var(--hl) 58%,var(--hl) 92%,transparent 92%);color:inherit;padding:0 .08em}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
+.logo{font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo .mk{width:28px;height:28px;border-radius:8px;background:var(--brand);display:grid;place-items:center}
+.logo .mk i{display:block;width:16px;height:6px;border-radius:2px;background:var(--hl)}
+.logo b{font-weight:800}
+.links{display:flex;gap:18px;font-size:15px;font-weight:500;color:var(--ink2)}
+.links a{text-decoration:none}.links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:var(--brand-ink);font:600 15px "Instrument Sans",sans-serif;padding:12px 20px;border-radius:10px;text-decoration:none;border:1px solid transparent;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.lg{padding:15px 26px;font-size:16px;border-radius:12px}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.hl{background:var(--hl);color:var(--hl-ink)}
+@media(max-width:980px){.links{display:none}}
+
+/* hero */
+.hero{padding:72px 0 56px}
+.hero .wrap{display:grid;grid-template-columns:1.02fr 1fr;gap:56px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;font:500 13px "JetBrains Mono",monospace;background:var(--surface);border:1px solid var(--line);padding:7px 14px;border-radius:999px;color:var(--ink2)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--good)}
+h1{font-size:clamp(40px,5.4vw,68px);font-weight:800;margin:22px 0 22px}
+.lede{font-size:19px;color:var(--ink2);max-width:34em}
+.lede b{color:var(--ink);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:32px 0 20px}
+.assure{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink2)}
+.assure span::before{content:"";display:inline-block;width:14px;height:14px;margin-right:8px;vertical-align:-2px;background:var(--good);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3.2L13 4.8' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3.2L13 4.8' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.hero .wrap>*,.final .wrap>*{min-width:0}
+@media(max-width:980px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:44px}}
+
+/* product window */
+.win{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.win .bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--line)}
+.win .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.win .bar span{margin-left:10px;font:500 12px "JetBrains Mono",monospace;color:var(--ink2)}
+.win .tools{display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}
+.chip{font:500 12px "Instrument Sans",sans-serif;padding:5px 11px;border-radius:999px;background:var(--surface2);color:var(--ink2);border:1px solid var(--line)}
+.chip.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.row{display:grid;grid-template-columns:1fr 64px;gap:14px;padding:15px 16px;border-bottom:1px solid var(--line);align-items:center}
+.row:last-of-type{border-bottom:0}
+.who{font:500 12px "JetBrains Mono",monospace;color:var(--ink2);margin-bottom:5px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.who em{font-style:normal;background:var(--good-bg);color:var(--good);padding:2px 8px;border-radius:6px;font-size:11px}
+.q{font-size:15px;line-height:1.45;color:var(--ink)}
+.sc{text-align:right}
+.sc b{display:block;font:800 22px "Bricolage Grotesque",sans-serif;font-variant-numeric:tabular-nums}
+.sc s{display:block;height:5px;border-radius:3px;background:var(--surface2);margin-top:4px;overflow:hidden;text-decoration:none}
+.sc s i{display:block;height:100%;background:var(--hl);border-right:1px solid var(--ink)}
+.foot{padding:11px 16px;background:var(--surface2);font:500 12px "JetBrains Mono",monospace;color:var(--ink2);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.cap{margin-top:12px;font-size:13px;color:var(--ink2);text-align:center}
+
+/* stats */
+.stats{border-block:1px solid var(--line);background:var(--surface)}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:30px 24px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{display:block;font:800 40px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.stat span{display:block;margin-top:10px;font-size:14px;color:var(--ink2)}
+@media(max-width:820px){.stats .wrap{grid-template-columns:1fr 1fr}.stat{border-left:0;border-top:1px solid var(--line);padding-left:0}.stat:nth-child(-n+2){border-top:0}}
+
+/* sections */
+section{padding:96px 0}
+.kick{font:500 13px "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.kick::before{content:"";width:22px;height:6px;border-radius:2px;background:var(--hl)}
+h2{font-size:clamp(30px,4vw,48px);font-weight:800;max-width:17em}
+.sub{margin-top:18px;font-size:18px;color:var(--ink2);max-width:40em}
+.head{margin-bottom:48px}
+
+/* compare */
+.tblw{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th,td{padding:18px 22px;text-align:left;border-bottom:1px solid var(--line);font-size:16px;vertical-align:top}
+tr:last-child td{border-bottom:0}
+thead th{font:700 15px "Bricolage Grotesque",sans-serif;background:var(--surface2)}
+thead th.us{background:var(--brand);color:var(--brand-ink)}
+td:first-child{font-weight:600;width:24%}
+td.no{color:var(--ink2)}
+td.yes{background:color-mix(in srgb,var(--hl) 14%,transparent);font-weight:500}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:30px;position:relative}
+.step .when{font:500 12px "JetBrains Mono",monospace;background:var(--hl);color:var(--hl-ink);display:inline-block;padding:4px 10px;border-radius:6px;margin-bottom:18px}
+.step h3{font-size:24px;margin-bottom:10px}
+.step p{color:var(--ink2);font-size:16px}
+@media(max-width:900px){.steps{grid-template-columns:1fr}}
+
+/* features */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.f{padding:28px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.f svg{width:40px;height:40px;padding:9px;border-radius:11px;background:var(--surface2);color:var(--ink);margin-bottom:18px}
+.f h3{font-size:20px;margin-bottom:8px}
+.f p{font-size:15.5px;color:var(--ink2)}
+@media(max-width:940px){.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+
+/* audience */
+.aud{background:var(--surface);border-block:1px solid var(--line)}
+.who3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.who3 div{padding:32px;border-left:1px solid var(--line)}
+.who3 div:first-child{border-left:0}
+.who3 h3{font-size:22px;margin-bottom:10px}
+.who3 p{color:var(--ink2);font-size:16px}
+.who3 small{display:block;margin-top:14px;font:500 12px "JetBrains Mono",monospace;color:var(--ink2)}
+@media(max-width:860px){.who3{grid-template-columns:1fr}.who3 div{border-left:0;border-top:1px solid var(--line)}.who3 div:first-child{border-top:0}}
+
+/* pricing */
+.price{display:grid;grid-template-columns:1.1fr .9fr;gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}
+.price .l{padding:44px}
+.price .r{padding:44px;background:var(--deep);color:var(--deep-ink)}
+.amt{display:flex;align-items:baseline;gap:12px;margin:18px 0 6px;flex-wrap:wrap}
+.amt b{font:800 76px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em}
+.amt span{color:var(--ink2)}
+.price .l p{color:var(--ink2)}
+.price .l .btn{margin-top:26px}
+.price .fine{font-size:14px;margin-top:14px}
+.price ul{list-style:none;display:grid;gap:14px}
+.price li{display:flex;gap:12px;font-size:16px}
+.price li::before{content:"";flex:none;width:20px;height:20px;margin-top:3px;border-radius:50%;background:var(--hl) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.6 2.6L12 5.6' fill='none' stroke='%230f1b2d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.price .r h3{font-size:22px;margin-bottom:20px}
+.after{margin-top:26px;padding-top:22px;border-top:1px solid #243650;font-size:14.5px;color:var(--deep-mute)}
+@media(max-width:900px){.price{grid-template-columns:1fr}.price .l,.price .r{padding:30px}.amt b{font-size:60px}}
+
+/* faq */
+.faq{max-width:820px;display:grid;gap:12px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 24px}
+summary{cursor:pointer;list-style:none;padding:20px 0;font:700 18px "Bricolage Grotesque",sans-serif;display:flex;justify-content:space-between;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 26px "Instrument Sans",sans-serif;color:var(--ink2);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 0 22px;color:var(--ink2);font-size:16px;max-width:44em}
+
+/* final */
+.final{background:var(--deep);color:var(--deep-ink);padding:96px 0;text-align:left}
+.final .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.final h2{color:var(--deep-ink);max-width:12em}
+.final p{color:var(--deep-mute);margin-top:18px;font-size:18px;max-width:34em}
+.final .cta{margin:0;justify-content:flex-start}
+.final .side{display:grid;gap:14px;justify-items:start}
+.final .btn.hl{font-size:17px}
+.final .mail{color:var(--deep-mute);font-size:15px}
+.final .mail a{color:var(--deep-ink)}
+@media(max-width:860px){.final .wrap{grid-template-columns:1fr}}
+
+footer{background:var(--deep);color:var(--deep-mute);border-top:1px solid #1a2a42;padding:44px 0;font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:flex-start}
+footer .logo{color:var(--deep-ink)}
+footer .logo .mk{background:var(--hl)}footer .logo .mk i{background:#0f1b2d}
+footer .cols{display:flex;gap:56px;flex-wrap:wrap}
+footer h4{font:500 12px "JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--deep-ink);margin-bottom:12px}
+footer a{display:block;text-decoration:none;margin-bottom:8px;color:var(--deep-mute)}footer a:hover{color:var(--deep-ink)}
+footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size:13px}
+
+
+/* method */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.mbox{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:28px}
+.mbox h3{font-size:22px;margin-bottom:20px}
+.src{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.src div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.src .wide{grid-column:1/-1}
+.src b{display:block;font:700 15px "Bricolage Grotesque",sans-serif}
+.src span{display:block;font-size:13px;color:var(--ink2)}
+.note{margin-top:16px;font-size:13.5px;color:var(--ink2)}
+.wt{display:grid;gap:12px}
+.wt div{display:grid;grid-template-columns:150px 1fr 32px;gap:12px;align-items:center;font-size:14px}
+.wt span{color:var(--ink2)}
+.wt s{display:block;height:10px;border-radius:5px;background:var(--surface2);overflow:hidden;text-decoration:none}
+.wt s i{display:block;height:100%;background:var(--hl);border-right:2px solid var(--ink)}
+.wt b{font:500 14px "JetBrains Mono",monospace;text-align:right;font-variant-numeric:tabular-nums}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:20px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg)}
+.pipe div{padding:20px 22px;border-left:1px solid var(--line)}
+.pipe div:first-child{border-left:0}
+.pipe b{display:block;font-size:14px;margin-bottom:6px}
+.pipe span{font-size:14px;color:var(--ink2)}
+@media(max-width:900px){.mgrid{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}.pipe div:nth-child(3){border-left:0}.pipe div:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:480px){.wt div{grid-template-columns:110px 1fr 28px}.src{grid-template-columns:1fr}}
+
+
+/* engine */
+.eng{display:grid;grid-template-columns:repeat(3,1fr);margin-top:20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.eng div{padding:22px 24px;border-left:1px solid var(--line)}
+.eng div:first-child{border-left:0}
+.eng b{display:block;font:800 30px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.eng span{display:block;margin-top:8px;font-size:14px;color:var(--ink2)}
+@media(max-width:900px){.eng{grid-template-columns:1fr}.eng div{border-left:0;border-top:1px solid var(--line)}.eng div:first-child{border-top:0}}
+
+
+
+
+
+
+/* download */
+.dls{display:flex;flex-wrap:wrap;gap:12px}
+.dlnote{margin-top:18px;font-size:16px;color:var(--ink2);max-width:44em}
+.dlnote code,.dlmeta code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.92em;background:var(--surface);border:1px solid var(--line);padding:1px 6px;border-radius:6px}
+.dlmeta{margin-top:12px;font-size:14px;color:var(--ink2);max-width:46em}
+.dlmeta a{color:var(--ink);font-weight:600}
+
+/* taste + form */
+.taste{margin-top:20px;display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center;justify-content:space-between;padding:26px 32px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.taste h3{font-size:22px;margin-bottom:6px}
+.taste p{color:var(--ink2);font-size:15.5px;max-width:38em}
+.tp{display:flex;align-items:center;gap:20px}
+.tp b{font:800 44px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.final .wrap{grid-template-columns:1fr 1fr}
+.lf{display:grid;gap:14px;width:100%}
+.lf label{display:grid;gap:7px;font:600 14px "Instrument Sans",sans-serif;color:var(--deep-ink)}
+.lf input,.lf textarea,.lf select{font:400 16px "Instrument Sans",sans-serif;padding:12px 14px;border:1px solid #2b3f5c;border-radius:10px;background:#16263d;color:var(--deep-ink);width:100%}
+.lf input:focus,.lf textarea:focus,.lf select:focus{outline:3px solid var(--hl);border-color:var(--hl)}
+.lf .btn{justify-content:center;cursor:pointer;font-size:17px}
+.lst{margin:0!important;font-size:14px!important;min-height:1.4em;color:var(--deep-mute)}
+.paynote{font-size:14px;color:var(--deep-mute);max-width:42em}
+@media(max-width:860px){.final .wrap{grid-template-columns:1fr}}
+
+.navr{display:flex;align-items:center;gap:12px}
+.lang{font:600 13px "Instrument Sans",system-ui,sans-serif;color:var(--ink2);text-decoration:none;padding:7px 11px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.lang:hover{color:var(--ink);border-color:var(--ink2)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="wrap">
     <a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
-    <div class="links"><a href="#product">O app</a><a href="#how">Como funciona</a><a href="#included">O que você recebe</a><a href="#pricing">Preços</a><a href="#faq">FAQ</a></div>
-    <div class="navr"><a class="lang" href="/" hreflang="en" lang="en" onclick="try{localStorage.setItem('mml_lang','en')}catch(e){}">EN</a><a class="btn" href="#buy" data-offer="pack">Comprar pacote</a></div>
+    <div class="links"><a href="#how">Como funciona</a><a href="#download">Baixar</a><a href="#included">O que você recebe</a><a href="#pricing">Preços</a><a href="#faq">FAQ</a></div>
+    <div class="navr"><a class="lang" href="/en/" hreflang="en" lang="en" onclick="try{localStorage.setItem('mml_lang','en')}catch(e){}">EN</a><a class="btn" href="#buy" data-offer="pack">Comprar pacote</a></div>
   </div>
 </nav>
 
 <main id="top">
 <div class="hero">
   <div class="wrap">
-    <div class="hero-lead">
-      <span class="pill"><i></i>App offline &middot; desktop e celular &middot; claro e escuro</span>
-      <h1>Gente que <mark>já precisa</mark> de você.</h1>
-    </div>
-    <figure class="reel">
-      <div class="win" role="img" aria-label="Demonstração do app. As linhas da caixa aparecem, um lead quente abre, o rascunho aparece e o WhatsApp é clicado.">
-        <div class="bar"><i></i><i></i><i></i><span>Inbox &middot; Quentes &middot; Todos</span></div>
-        <div class="reel-stage" aria-hidden="true">
-          <div class="reel-rows"><img src="/assets/screens/lead-rows.png" width="640" height="252" alt=""></div>
-          <div class="reel-col">
-            <div class="reel-detail"><img src="/assets/screens/detail.png" width="410" height="784" alt=""></div>
-            <div class="reel-actions"><img src="/assets/screens/actions.png" width="398" height="228" alt=""><span class="reel-tap" aria-hidden="true"></span></div>
-          </div>
-        </div>
-      </div>
-      <figcaption class="cap">Leads de exemplo. A linha abre a citação, o rascunho e o WhatsApp.</figcaption>
-    </figure>
-    <div class="hero-copy">
-      <p class="lede">Feito para você, a partir de comentários públicos. A citação literal, por que pontuou, a primeira mensagem em rascunho e o link da fonte. Um app privado e offline para <b>desktop e Android</b>, claro e escuro. Os leads ficam em <b>Inbox, Quentes e Todos</b>, com Inteligência e Vídeos. Cada lead tem <b>Abrir conversa, WhatsApp e Copiar</b>. O link de download chega logo depois do pagamento. <b>R$ 990, uma vez.</b> Sem conta e sem mensalidade.</p>
+    <div>
+      <span class="pill"><i></i>Pagamento único &middot; o pacote é seu &middot; privado, na sua máquina</span>
+      <h1>Quem <mark>já precisa</mark> de você. O pacote é seu.</h1>
+      <p class="lede">Leads do seu nicho, com a citação, o motivo da nota e um rascunho. O pacote do nicho é <b>pagamento único, sem mensalidade</b>. O arquivo SQLite é <b>seu</b>: cerca de 100 leads A&ndash;C, na sua máquina. O chat lê o arquivo aí e escreve <b>só rascunhos</b>. Você envia.</p>
       <div class="cta">
         <a class="btn lg hl" href="#buy" data-offer="pack">Comprar o pacote &middot; R$ 990</a>
+        <a class="btn lg alt" href="#how">Como funciona</a>
       </div>
-      <div class="assure"><span>Pagamento único. Sem mensalidade.</span><span>O pacote é seu.</span><span>Offline. Na sua máquina.</span><span>Você envia no WhatsApp.</span></div>
+      <div class="assure"><span>Pagamento único. Sem mensalidade.</span><span>O pacote é seu.</span><span>Privado. Fica na sua máquina.</span><span>Só rascunhos. Você envia.</span></div>
     </div>
-    <figure class="hero-still">
-      <div class="win">
-        <div class="bar"><i></i><i></i><i></i><span>pacote do nicho / tema claro</span></div>
-        <img src="/assets/screens/inbox-desktop.png" width="1280" height="800" alt="Caixa de entrada do MineMyLead no tema claro, com leads de exemplo e o lead aberto.">
+    <figure style="margin:0">
+      <div class="win" role="img" aria-label="Exemplo de um visualizador de leads listando leads qualificados, cada um com uma citação, uma fonte e uma nota de aderência">
+        <div class="bar"><i></i><i></i><i></i><span>pacote do nicho / ~100 leads A&ndash;C</span></div>
+        <div class="tools"><span class="chip on">Este pacote</span><span class="chip">Nota 80+</span><span class="chip">Não contatados</span><span class="chip">Com link da fonte</span></div>
+        <div class="row"><div><div class="who">m&bull;&bull;&bull;&bull;&bull;a &middot; Líder de operações <em>Tópico de fórum</em></div><p class="q">&ldquo;Gastamos horas toda semana fazendo isso na mão. Existe algo que resolva isso sozinho?&rdquo;</p></div><div class="sc"><b>91</b><s><i style="width:91%"></i></s></div></div>
+        <div class="row"><div><div class="who">d&bull;&bull;&bull;&bull;&bull;k &middot; Fundador <em>Post de comunidade</em></div><p class="q">&ldquo;Quero trocar nosso processo em planilha antes de contratar. Alguma indicação?&rdquo;</p></div><div class="sc"><b>86</b><s><i style="width:86%"></i></s></div></div>
+        <div class="row"><div><div class="who">s&bull;&bull;&bull;&bull;&bull;n &middot; Head de Suporte <em>Site de avaliações</em></div><p class="q">&ldquo;Nossa ferramenta atual vive falhando e ninguém responde nossos chamados.&rdquo;</p></div><div class="sc"><b>83</b><s><i style="width:83%"></i></s></div></div>
+        <div class="row"><div><div class="who">t&bull;&bull;&bull;&bull;&bull;e &middot; CTO <em>Post público</em></div><p class="q">&ldquo;Avaliando opções neste trimestre. O orçamento está aprovado, só falta escolher.&rdquo;</p></div><div class="sc"><b>78</b><s><i style="width:78%"></i></s></div></div>
+        <div class="foot"><span>Citação &middot; link da fonte &middot; nota &middot; contato</span><span>ordenado por aderência</span></div>
       </div>
-      <p class="cap">A caixa de entrada no desktop. Leads de exemplo. Um lead real traz a citação, o motivo da nota, a primeira mensagem em rascunho e o link da fonte.</p>
+      <p class="cap">Exemplo ilustrativo. Leads reais trazem a citação, o nome e o link reais.</p>
     </figure>
   </div>
 </div>
 
-<section id="product">
+<section id="consult" class="consult-sec" data-consult aria-labelledby="consult-title">
   <div class="wrap">
     <div class="head">
-      <p class="kick">No app</p>
-      <h2>Leads, Inteligência e Vídeos.</h2>
-      <p class="sub">A mesma caixa de entrada, clara e escura, reta na página. Inbox, Quentes e Todos. Busca com ⌘K. Exporte para Planilhas, HubSpot, Bigin ou um backup JSON. Sem conta no MineMyLead, e nada é enviado por você.</p>
+      <p class="kick">Experimente o consult</p>
+      <h2 id="consult-title">Toque um prompt. O pacote <mark>responde.</mark></h2>
+      <p class="sub">Uma prévia do chat local do app. Cada resposta é roteirizada a partir de uma amostra de 10 leads. Nada é digitado, enviado ou minerado. Só rascunhos. Você envia.</p>
     </div>
-    <div class="shots">
-      <figure class="shot">
-        <img src="/assets/screens/inbox-desktop.png" width="1280" height="800" alt="A caixa de entrada, com leads de exemplo e o lead aberto.">
-        <figcaption><b>Inbox</b>Cada lead, com um status. Inbox, Quentes e Todos.</figcaption>
-      </figure>
-      <figure class="shot portrait">
-        <img src="/assets/screens/detail.png" width="410" height="784" alt="Um lead de exemplo marcado como Quente, com tier, nota e a mensagem em rascunho.">
-        <figcaption><b>Quentes</b>Os quentes, separados do resto da caixa. Abrir conversa, WhatsApp e Copiar.</figcaption>
-      </figure>
-      <figure class="shot">
-        <img src="/assets/screens/why.png" width="398" height="410" alt="O comentário, a nota e o motivo de um lead de exemplo.">
-        <figcaption><b>Inteligência</b>O briefing do nicho. No lead, o motivo da nota.</figcaption>
-      </figure>
-      <figure class="shot">
-        <div class="vidpair">
-          <img src="/assets/screens/videos.png" width="640" height="104" alt="O vídeo do pacote no topo da caixa de entrada.">
-          <img src="/assets/screens/related-video.png" width="380" height="170" alt="Um vídeo relacionado no lead aberto.">
+    <div class="consult">
+      <aside class="consult-side" data-sidebar aria-label="Conversas">
+        <div class="side-top">
+          <button class="ghost" data-new-chat type="button">Nova conversa</button>
         </div>
-        <figcaption><b>Vídeos</b>Um vídeo curto do pacote, e um no lead.</figcaption>
-      </figure>
-      <figure class="shot">
-        <div class="pair">
-          <img src="/assets/screens/mobile-inbox.png" width="390" height="844" alt="A caixa de entrada no celular.">
-          <img src="/assets/screens/mobile-detail.png" width="390" height="844" alt="Um lead no celular, com WhatsApp e copiar.">
+        <nav class="conv-list" data-conv-list aria-label="Conversas"></nav>
+        <div class="side-bottom">
+          <button class="ghost" data-open-graph type="button">Neurografo</button>
+          <button class="ghost" data-open-settings type="button">Ajustes</button>
         </div>
-        <figcaption><b>Celular</b>A mesma caixa no Android. WhatsApp e Copiar no lead aberto.</figcaption>
-      </figure>
-      <div class="shot export">
-        <p class="kick">Exportar</p>
-        <h3>Para fora do app.</h3>
-        <ul>
-          <li>Planilhas</li>
-          <li>HubSpot</li>
-          <li>Bigin</li>
-          <li>Backup JSON</li>
-        </ul>
-        <p>Sem conta no MineMyLead. Sem assinatura.</p>
+      </aside>
+      <div class="consult-main">
+        <header class="app">
+          <button class="menu-btn" data-menu type="button" aria-label="Conversas" aria-expanded="false">☰</button>
+          <div class="model-wrap">
+            <button class="model-btn" data-model type="button" aria-haspopup="listbox" aria-expanded="false">Codex</button>
+            <div class="model-menu" data-model-menu role="listbox" hidden>
+              <button class="menu-item" type="button" role="option" data-host="codex" aria-checked="true">Codex</button>
+              <button class="menu-item" type="button" role="option" data-host="claude_code" aria-checked="false">Claude Code</button>
+              <button class="menu-item" type="button" role="option" data-host="gemini" aria-checked="false">Gemini (Antigravity)</button>
+              <button class="menu-item" type="button" role="option" data-host="grok" aria-checked="false">Grok</button>
+              <button class="menu-item" type="button" role="option" data-host="cursor_composer" aria-checked="false">Cursor Composer</button>
+              <button class="menu-item" data-menu-settings type="button">Ajustes</button>
+            </div>
+          </div>
+          <div class="model-note" data-model-note>Codex CLI não está no PATH — as habilidades do pacote ainda respondem</div>
+        </header>
+        <div class="thread" data-thread role="region" aria-label="Conversa do Consult" tabindex="0">
+          <div class="column empty" data-empty>
+            <div class="mark" aria-hidden="true">M</div>
+            <p class="empty-title">Como posso ajudar com os seus leads?</p>
+            <p class="banner">Amostra grátis · 10 leads. Planos da semana e a exportação filtrada pedem um .db pago em Ajustes.</p>
+            <p class="product-note">Consulta sobre o pacote SQLite nesta máquina, só rascunhos — você envia. A amostra grátis tem cerca de 10 leads. Um pacote pago é um caminho .db em Ajustes. Três sugestões ficam acima da caixa e seguem as habilidades deste pacote.</p>
+          </div>
+          <div class="column messages" data-messages hidden></div>
+        </div>
+        <div class="graph" data-graph hidden>
+          <div class="graph-bar">
+            <button class="quiet" data-why type="button">Por que eles</button>
+            <button class="quiet" data-close-graph type="button">Voltar ao chat</button>
+          </div>
+          <div class="graph-stage" data-graph-stage></div>
+          <aside class="graph-side" data-graph-side aria-label="Grupos"></aside>
+        </div>
+        <div class="composer-wrap">
+          <div class="consult-cta banner" data-cta hidden>
+            <p><strong>Baixe a amostra grátis</strong>A mesma consulta de 10 leads, no app de Linux e Windows.</p>
+            <a class="primary" href="#buy" data-offer="pack">Comprar o pacote</a>
+          </div>
+          <div class="suggestions" data-suggestions role="group" aria-label="Sugestões" aria-describedby="consult-lock">
+            <button type="button" data-demo="scoreboard">Mostra o placar do pipeline desta amostra.</button>
+            <button type="button" data-demo="neurograph">Mostra o neurografo desta amostra.</button>
+            <button type="button" data-demo="drafts">Redige a abordagem para a Ada. Não envie.</button>
+          </div>
+          <form class="composer" data-composer action="#">
+            <textarea rows="1" readonly placeholder="Pergunte sobre as pessoas do seu pacote" aria-label="Mensagem" aria-describedby="consult-lock"></textarea>
+            <button class="send" type="submit" disabled aria-label="Enviar">↑</button>
+          </form>
+          <p class="fine" id="consult-lock">Os rascunhos ficam no chat. Você envia. <span data-pack-fine>/workspace/fixtures/sample/sample.db</span></p>
+        </div>
       </div>
+      <div class="settings" data-settings hidden>
+        <div class="sheet" role="dialog" aria-labelledby="settings-title">
+          <h2 id="settings-title">Ajustes</h2>
+          <p class="product-note">Escolha um host de linguagem local e o pacote SQLite. Deixe o caminho vazio para ficar na amostra grátis. Nenhuma chave de API fica aqui. Esta prévia não lê um arquivo.</p>
+          <h3>Host de linguagem</h3>
+          <p class="product-note">Codex, Claude Code, Gemini (Antigravity), Grok e Cursor Composer passam por CLIs já autenticados nesta máquina. As habilidades determinísticas (placar, rascunhos, evidência, neurografo) respondem sem host.</p>
+          <div data-host-list>
+            <button class="host-choice" type="button" data-host="codex" aria-checked="true"><strong>Codex</strong><small>CLI e IDE do Codex, da OpenAI</small></button>
+            <button class="host-choice" type="button" data-host="claude_code" aria-checked="false"><strong>Claude Code</strong><small>Claude Code, da Anthropic</small></button>
+            <button class="host-choice" type="button" data-host="gemini" aria-checked="false"><strong>Gemini (Antigravity)</strong><small>Gemini pelo CLI Antigravity</small></button>
+            <button class="host-choice" type="button" data-host="grok" aria-checked="false"><strong>Grok</strong><small>Grok, da xAI</small></button>
+            <button class="host-choice" type="button" data-host="cursor_composer" aria-checked="false"><strong>Cursor Composer</strong><small>Cursor Composer</small></button>
+          </div>
+          <p class="product-note" data-stub>O CLI do Codex não foi encontrado no PATH. As habilidades do pacote ainda respondem.</p>
+          <h3>Pacote SQLite</h3>
+          <label class="path">Caminho do pacote pago (vazio = amostra grátis)
+            <input data-pack-path type="text" spellcheck="false" value="/workspace/fixtures/sample/sample.db" placeholder="C:\packs\leads.db ou /home/voce/leads.db">
+          </label>
+          <p class="product-note" data-pack-source>Usando um caminho de amostra.</p>
+          <p class="save-note" data-save-note></p>
+          <div class="row">
+            <button class="danger" data-quit type="button">Sair do MineMyLead</button>
+            <button class="quiet" data-close-settings type="button">Fechar</button>
+            <button class="primary" data-save-settings type="button">Salvar</button>
+          </div>
+        </div>
+      </div>
+      <p class="consult-status" data-status aria-live="polite"></p>
     </div>
+    <p class="cap">Nomes e citações ilustrativos. O app consulta o arquivo do pacote na sua máquina.</p>
   </div>
 </section>
 
 <div class="stats">
   <div class="wrap">
-    <div class="stat"><b>~10</b><span>leads de amostra, grátis com o app</span></div>
+    <div class="stat"><b>~10</b><span>leads de amostra incluídos no app</span></div>
     <div class="stat"><b>R$ 990</b><span>uma vez. Sem mensalidade. O pacote é seu.</span></div>
     <div class="stat"><b>~100</b><span>leads A&ndash;C no arquivo SQLite</span></div>
     <div class="stat"><b>100%</b><span>vêm com link para as próprias palavras</span></div>
@@ -156,12 +433,26 @@
   <div class="wrap">
     <div class="head">
       <p class="kick">Como funciona</p>
-      <h2>Pague uma vez. O link de download chega em seguida.</h2>
+      <h2>Compre um pacote. Baixe o app. Consulte.</h2>
     </div>
     <div class="steps">
+      <div class="step"><span class="when">DEPOIS DO PAGAMENTO</span><h3>Baixe o app</h3><p>O link de download chega logo depois do pagamento e vale uma vez. O app inclui cerca de 10 leads de amostra. O chat responde sobre os leads que você tem. Ele não busca leads novos.</p></div>
       <div class="step"><span class="when">PAGAMENTO ÚNICO</span><h3>Compre o pacote do nicho</h3><p>Um pagamento, sem mensalidade. Cerca de 100 leads A&ndash;C de um nicho. O arquivo SQLite é seu e fica na sua máquina. A abordagem sai só em rascunho. Outro nicho ou uma atualização é outro pacote.</p></div>
-      <div class="step"><span class="when">DEPOIS DO PAGAMENTO</span><h3>O link de download chega</h3><p>O link de download chega logo depois do pagamento. Ele não aparece nesta página. Instale o app e importe o pack.zip do seu nicho.</p></div>
-      <div class="step"><span class="when">NA HORA DE VENDER</span><h3>Você envia</h3><p>Abra o lead e use Abrir conversa, WhatsApp ou Copiar. Você envia cada mensagem. Sem DM, e-mail ou InMail automáticos, e sem minerar pelo app.</p></div>
+      <div class="step"><span class="when">NA HORA DE VENDER</span><h3>Você envia</h3><p>Pergunte ao chat sobre os leads que você já tem. Você envia cada mensagem. Sem DM, e-mail ou InMail automáticos, e sem minerar pelo app.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <div class="head">
+      <p class="kick">Baixar</p>
+      <h2>O app roda na sua máquina.</h2>
+      <p class="sub">O app é local: o pacote fica na sua máquina. O link de download chega logo depois do pagamento e vale uma vez. Ele não aparece nesta página. Sem mensalidade.</p>
+    </div>
+    <div class="dls">
+      <a class="btn lg" href="#buy" data-offer="pack">Comprar o pacote &middot; R$ 990</a>
+      <a class="btn lg alt" href="#buy" data-offer="taste">Comprar a amostra &middot; R$ 250</a>
     </div>
   </div>
 </section>
@@ -177,7 +468,7 @@
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3A4 4 0 0 0 13 5.3l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.7l1-1"/></svg><h3>O link da fonte</h3><p>Abra o post público original.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><h3>Uma nota e o motivo</h3><p>Ranqueado de 0 a 100, com o motivo.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><h3>O contato</h3><p>Perfis e canais públicos da pessoa.</p></div>
-      <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg><h3>Abrir conversa, WhatsApp, Copiar</h3><p>Cada lead tem esses três botões. Exporte o pacote para Planilhas, HubSpot, Bigin ou um backup JSON. Você envia cada mensagem.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg><h3>Rascunhos, e um leitor</h3><p>O chat redige a partir dos leads do seu pacote SQLite e responde perguntas sobre eles. Você envia cada mensagem. O app não minera leads novos.</p></div>
       <div class="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 4v5h-5M20 12a8 8 0 0 1-14 5l-2-2M4 20v-5h5"/></svg><h3>Substituições incluídas</h3><p>Lead fora do briefing é trocado.</p></div>
     </div>
   </div>
@@ -224,7 +515,7 @@
       <div><b class="mono">03 Pontuar</b><span>De 0 a 100 em relação ao seu comprador</span></div>
       <div><b class="mono">04 Verificar</b><span>Link da fonte checado, amostras auditadas</span></div>
     </div>
-    <p class="note">Montamos o pacote antes de você abrir. O app de desktop não faz essa busca. O chat só lê o arquivo SQLite que você já tem. O link de download chega logo depois do pagamento.</p>
+    <p class="note">Montamos o pacote antes de você abrir. O app de desktop não faz essa busca. O chat só lê o arquivo SQLite que você já tem, inclusive a amostra grátis.</p>
     <div class="eng">
       <div><b>98.000+</b><span>perfis públicos pontuados até agora</span></div>
       <div><b>385.000+</b><span>sinais de compra lidos</span></div>
@@ -254,16 +545,15 @@
           <li>Pagamento único. Sem mensalidade.</li>
           <li>O arquivo SQLite é seu e fica na sua máquina.</li>
           <li>Cerca de 100 leads A&ndash;C, com citação, fonte, nota e contato</li>
-          <li>Abre no app, no desktop e no celular, claro e escuro. O link de download chega logo depois do pagamento.</li>
-          <li>Abrir conversa, WhatsApp e Copiar em cada lead</li>
-          <li>Exporta para Planilhas, HubSpot, Bigin ou um backup JSON</li>
+          <li>Abre no app local e grátis de Linux e Windows</li>
+          <li>Só rascunhos. O chat consulta o pacote. Você envia.</li>
           <li>Leads ruins ou mortos substituídos</li>
         </ul>
         <p class="after">Um segundo nicho, ou um pacote mais novo do mesmo nicho, é outra compra única. Continua sem mensalidade. Escreva se quiser um volume para cotarmos.</p>
       </div>
     </div>
     <div class="taste">
-      <div><h3>Amostra opcional de R$ 250.</h3><p>A amostra opcional de R$ 250 também é pagamento único: 10 leads do seu nicho, abatidos integralmente do pacote de R$ 990 em até 14 dias. Não é assinatura. O link de download chega logo depois do pagamento.</p></div>
+      <div><h3>Amostras grátis primeiro. Amostra opcional de R$ 250.</h3><p>O app já inclui cerca de 10 leads de amostra para consultar, sem cobrança, na sua máquina. A amostra opcional de R$ 250 também é pagamento único: 10 leads do seu nicho, abatidos integralmente do pacote de R$ 990 em até 14 dias. Não é assinatura.</p></div>
       <div class="tp"><b>R$ 250</b><a class="btn lg" href="#buy" data-offer="taste">Comprar a amostra</a></div>
     </div>
   </div>
@@ -282,14 +572,14 @@
       <details><summary>Vocês vão achar milhares de leads?</summary><p>Não. Na maioria dos nichos, algumas centenas de pessoas descrevem o problema com clareza. Dizemos o número real antes.</p></details>
       <details><summary>De onde vêm os dados?</summary><p>De nove fontes públicas, listadas em Método acima. Nada privado, sem listas de e-mail raspadas.</p></details>
       <details><summary>Funciona para o meu nicho?</summary><p>Funciona onde os seus compradores falam em público. Se não falarem, avisamos na primeira conversa.</p></details>
-      <details><summary>Como vocês garantem que os leads são reais?</summary><p>Cada lead tem link para a prova, e auditamos amostras à mão. Lead que falha é substituído.</p></details>
-      <details><summary>Vocês enviam as mensagens por mim?</summary><p>Não. Você envia cada mensagem a partir do lead, com Abrir conversa, WhatsApp ou Copiar. Não há DM, e-mail ou InMail automáticos.</p></details>
-      <details><summary>O chat acha leads novos?</summary><p>Não. O chat é um leitor. Ele consulta os leads de amostra ou o pacote SQLite que você já tem. Ele não busca na web e não minera leads pelo app.</p></details>
-      <details><summary>Onde baixo o app?</summary><p>O link de download chega logo depois do pagamento. Esta página não lista os arquivos.</p></details>
-      <details><summary>Como eu pago?</summary><p>Envie o formulário com o seu nicho. O pagamento é único, para o pacote ou a amostra que você escolheu. O arquivo é seu nos dois casos. Respondemos com um link de pagamento seguro. Nada nesta página inicia uma cobrança mensal.</p></details>
-      <details><summary>E se o pacote não estiver bom?</summary><p>Leads fora do briefing são substituídos. Não reembolsamos um pacote ou uma amostra já entregues; corrigimos o arquivo.</p></details>
-      <details><summary>E se eu precisar de mais de um nicho?</summary><p>Cada nicho é um pacote de R$ 990, e uma atualização de um nicho que você já comprou também. A amostra de R$ 250 traz 10 leads de um nicho, abatidos do primeiro pacote em até 14 dias. Um volume maior é uma cotação sob medida. Escreva para nós.</p></details>
-      <details><summary>Alguém pode pedir para ser removido?</summary><p>Sim. É só pedir que removemos.</p></details>
+            <details><summary>Como vocês garantem que os leads são reais?</summary><p>Cada lead tem link para a prova, e auditamos amostras à mão. Lead que falha é substituído.</p></details>
+            <details><summary>Vocês enviam as mensagens por mim?</summary><p>Não. O chat escreve rascunhos a partir dos leads que já estão no seu pacote. Você envia cada mensagem. Não há DM, e-mail ou InMail automáticos.</p></details>
+            <details><summary>O chat acha leads novos?</summary><p>Não. O chat é um leitor. Ele consulta os leads de amostra ou o pacote SQLite que você já tem. Ele não busca na web e não minera leads pelo app.</p></details>
+            <details><summary>Posso usar o app sem comprar um pacote?</summary><p>O link de download chega logo depois do pagamento do pacote ou da amostra de R$ 250. O app inclui cerca de 10 leads de amostra.</p></details>
+            <details><summary>Como eu pago?</summary><p>Envie o formulário com o seu nicho. O pagamento é único, para o pacote ou a amostra que você escolheu. O arquivo é seu nos dois casos. Respondemos com um link de pagamento seguro. Nada nesta página inicia uma cobrança mensal.</p></details>
+            <details><summary>E se o pacote não estiver bom?</summary><p>Leads fora do briefing são substituídos. Não reembolsamos um pacote ou uma amostra já entregues; corrigimos o arquivo.</p></details>
+            <details><summary>E se eu precisar de mais de um nicho?</summary><p>Cada nicho é um pacote de R$ 990, e uma atualização de um nicho que você já comprou também. A amostra de R$ 250 traz 10 leads de um nicho, abatidos do primeiro pacote em até 14 dias. Um volume maior é uma cotação sob medida. Escreva para nós.</p></details>
+            <details><summary>Alguém pode pedir para ser removido?</summary><p>Sim. É só pedir que removemos.</p></details>
     </div>
   </div>
 </section>
@@ -298,8 +588,9 @@
   <span id="start"></span>
   <div class="wrap">
     <div>
-      <h2>Compre o pacote que é seu.</h2>
-      <p>Envie o seu nicho. R$ 990, uma vez — sem assinatura e sem mensalidade. O pacote SQLite é seu: cerca de 100 leads A&ndash;C que ficam na sua máquina. O chat consulta localmente e só escreve rascunhos. Você envia. O link de download chega logo depois do pagamento.</p>
+      <h2>Compre o pacote que é seu, ou consulte as amostras grátis.</h2>
+      <p>Envie o seu nicho. R$ 990, uma vez — sem assinatura e sem mensalidade. O pacote SQLite é seu: cerca de 100 leads A&ndash;C que ficam na sua máquina. O chat consulta localmente e só escreve rascunhos. Você envia. Ou baixe o app e consulte cerca de 10 leads de amostra antes de pagar.</p>
+      <p class="mail" style="margin-top:18px">O link de download chega logo depois do pagamento.</p>
     </div>
     <div class="side">
       <form id="lead" class="lf">
@@ -318,15 +609,15 @@
 
 <footer>
   <div class="wrap">
-    <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">Pacotes SQLite que são seus, pagamento único. O link de download chega logo depois do pagamento. Sem mensalidade. O arquivo fica na sua máquina. Desktop e celular, claro e escuro. Você envia.</p></div>
+    <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">App local grátis e pacotes SQLite que são seus, pagamento único. Sem mensalidade. O arquivo fica na sua máquina. O chat só escreve rascunhos.</p></div>
     <div class="cols">
-      <div><h4>Produto</h4><a href="#product">O app</a><a href="#how">Como funciona</a><a href="#included">O que você recebe</a><a href="#method">Método</a><a href="#pricing">Preços</a></div>
-      <div><h4>Empresa</h4><a href="#faq">FAQ</a><a href="mailto:support@minemylead.com">support@minemylead.com</a><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div>
+      <div><h4>Produto</h4><a href="#how">Como funciona</a><a href="#download">Baixar</a><a href="#included">O que você recebe</a><a href="#method">Método</a><a href="#pricing">Preços</a></div>
+      <div><h4>Empresa</h4><a href="#faq">FAQ</a><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div>
     </div>
-    <p class="legal">&copy; 2026 MineMyLead. Feito com dados públicos. Peça a remoção em contact@minemylead.com. <a href="privacidade.html">Privacidade</a> <a href="termos.html">Termos</a></p>
+    <p class="legal">&copy; 2026 MineMyLead. Feito com dados públicos. Peça a remoção em contact@minemylead.com. <a href="privacidade.html" style="display:inline;margin-left:12px">Privacidade</a> <a href="termos.html" style="display:inline;margin-left:12px">Termos</a></p>
   </div>
 </footer>
-<script src="/assets/landing.js"></script>
+<script src="/demo/consult.js"></script>
 <script src="/checkout-config.js"></script>
 <script src="/assets/checkout.js"></script>
 </body>
