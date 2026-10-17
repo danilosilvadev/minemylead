@@ -35,26 +35,27 @@ export async function waitlistRoute(request: Request, env: Env): Promise<Respons
   if (!EMAIL.test(email) || email.length > 254) return cors(request, json({ error: "invalid email" }, 400));
   const lang = data.lang === "pt" ? "pt" : "en";
   const niche = String(data.niche ?? "").trim().slice(0, 500) || null;
+  const city = String(data.city ?? "").trim().slice(0, 120) || null;
   const os = ["windows", "mac", "linux"].includes(String(data.os)) ? String(data.os) : null;
   const existed = await env.DB.prepare("SELECT 1 FROM waitlist WHERE email = ?1").bind(email).first();
   await env.DB.prepare(
-    "INSERT INTO waitlist (email, lang, niche, created_at, os) VALUES (?1, ?2, ?3, ?4, ?5) " +
-      "ON CONFLICT(email) DO UPDATE SET niche = COALESCE(excluded.niche, waitlist.niche), os = COALESCE(excluded.os, waitlist.os)",
+    "INSERT INTO waitlist (email, lang, niche, created_at, os, city) VALUES (?1, ?2, ?3, ?4, ?5, ?6) " +
+      "ON CONFLICT(email) DO UPDATE SET niche = COALESCE(excluded.niche, waitlist.niche), os = COALESCE(excluded.os, waitlist.os), city = COALESCE(excluded.city, waitlist.city)",
   )
-    .bind(email, lang, niche, new Date().toISOString(), os)
+    .bind(email, lang, niche, new Date().toISOString(), os, city)
     .run();
-  if (!existed) await notify(env, { email, lang, niche, os });
+  if (!existed) await notify(env, { email, lang, niche, os, city });
   return cors(request, json({ ok: true }));
 }
 
 export async function waitlistList(request: Request, env: Env): Promise<Response> {
   if (!(await isAdmin(request, env))) return unauthorized();
   const { results } = await env.DB.prepare(
-    "SELECT email, lang, niche, os, created_at FROM waitlist ORDER BY created_at DESC",
-  ).all<{ email: string; lang: string; niche: string | null; os: string | null; created_at: string }>();
+    "SELECT email, lang, niche, os, city, created_at FROM waitlist ORDER BY created_at DESC",
+  ).all<{ email: string; lang: string; niche: string | null; os: string | null; city: string | null; created_at: string }>();
   if (new URL(request.url).searchParams.get("format") === "csv") {
     const q = (v: string | null) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-    const rows = ["email,lang,niche,os,created_at", ...results.map((r) => [r.email, r.lang, r.niche, r.os, r.created_at].map(q).join(","))];
+    const rows = ["email,lang,niche,os,city,created_at", ...results.map((r) => [r.email, r.lang, r.niche, r.os, r.city, r.created_at].map(q).join(","))];
     return new Response(rows.join("\n") + "\n", { headers: { "content-type": "text/csv; charset=utf-8" } });
   }
   return json({ count: results.length, signups: results });
@@ -63,7 +64,7 @@ export async function waitlistList(request: Request, env: Env): Promise<Response
 const NOTIFY_TO = "markpetrelli@gmail.com";
 
 /** Emails each new signup to Dan through FormSubmit (free, no account; first use needs one activation click). */
-export async function notify(env: Env, s: { email: string; lang: string; niche: string | null; os: string | null }): Promise<boolean> {
+export async function notify(env: Env, s: { email: string; lang: string; niche: string | null; os: string | null; city: string | null }): Promise<boolean> {
   const to = env.WAITLIST_NOTIFY || NOTIFY_TO;
   if (to === "off") return false;
   try {
@@ -82,6 +83,7 @@ export async function notify(env: Env, s: { email: string; lang: string; niche: 
         email: s.email,
         niche: s.niche || "",
         os: s.os || "",
+        city: s.city || "",
         lang: s.lang,
       }),
       signal: AbortSignal.timeout(8000),
