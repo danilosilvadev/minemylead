@@ -11,7 +11,7 @@
   if (!f || !of) return;
   var successUrl = (cfg.success && cfg.success[locale]) || "";
   if (successUrl) f.setAttribute("data-success-url", successUrl);
-  var skuOf = { pack: 0, taste: 1, refresh: 2 };
+  var skuOf = { pack: 0, free: 1, refresh: 2 };
   var copy = locale === "pt" ? {
     stripeNote: "O pagamento no cartão abre na Stripe, uma vez só. Sem mensalidade. O arquivo SQLite é seu e fica na sua máquina. O nicho neste formulário diz qual pacote entregar.",
     sending: "Enviando...",
@@ -44,13 +44,15 @@
     }
   }
   function linkFor(sku) {
-    return stripeUrl(sku === "taste" ? links.taste : links.pack);
+    if (sku === "free") return "";
+    return stripeUrl(links.pack);
   }
   function selectedSku() {
     var opt = of.options[of.selectedIndex];
+    if (opt && opt.getAttribute("data-sku") === "taste") return "pack";
     return (opt && opt.getAttribute("data-sku")) || "pack";
   }
-  if ((linkFor("pack") || linkFor("taste")) && note) note.textContent = copy.stripeNote;
+  if (linkFor("pack") && note) note.textContent = copy.stripeNote;
   Array.prototype.forEach.call(document.querySelectorAll("[data-offer]"), function (a) {
     a.addEventListener("click", function () {
       var sku = a.getAttribute("data-offer");
