@@ -306,13 +306,14 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 .lang:hover{color:var(--ink);border-color:var(--ink2)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
+<style>.navwl{white-space:nowrap}.navwl .wl-short{display:none}@media(max-width:600px){.navwl .wl-full{display:none}.navwl .wl-short{display:inline}.navwl{font-size:13px;padding:9px 12px}.navr{gap:8px}}</style>
 </head>
 <body>
 <nav class="nav">
   <div class="wrap">
     <a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
     <div class="links"><a href="#how">How it works</a><a href="#included">What you get</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
-    <div class="navr"><a class="lang" href="/" hreflang="pt-BR" lang="pt-BR" onclick="try{localStorage.setItem('mml_lang','pt')}catch(e){}">PT</a><a class="btn" href="#waitlist-sec">Join the wait list</a></div>
+    <div class="navr"><a class="lang" href="/" hreflang="pt-BR" lang="pt-BR" onclick="try{localStorage.setItem('mml_lang','pt')}catch(e){}">PT</a><a class="btn navwl" href="#waitlist-sec"><span class="wl-full">Join the wait list</span><span class="wl-short">Wait list</span></a></div>
   </div>
 </nav>
 <main id="top">
@@ -331,7 +332,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     <figure style="margin:0">
       <div class="win" role="img" aria-label="Example lead viewer listing qualified leads, each with a quote, a source and a fit score">
         <div class="bar"><i></i><i></i><i></i><span>antiHunt / verified leads</span></div>
-        <div class="tools"><span class="chip on">All leads</span><span class="chip">Score 80+</span><span class="chip">Not contacted</span><span class="chip">With source link</span></div>
+        <div class="tools"><span class="chip on">Todos</span><span class="chip">Score 80+</span><span class="chip">Not contacted</span><span class="chip">With source link</span></div>
         <div class="row"><div><div class="who">m&bull;&bull;&bull;&bull;&bull;a &middot; Ops lead <em>Forum thread</em></div><p class="q">&ldquo;We spend hours every week doing this by hand. Is there something that does it for us?&rdquo;</p></div><div class="sc"><b>91</b><s><i style="width:91%"></i></s></div></div>
         <div class="row"><div><div class="who">d&bull;&bull;&bull;&bull;&bull;k &middot; Founder <em>Community post</em></div><p class="q">&ldquo;I want to replace our spreadsheet process before we hire. Any recommendations?&rdquo;</p></div><div class="sc"><b>86</b><s><i style="width:86%"></i></s></div></div>
         <div class="row"><div><div class="who">s&bull;&bull;&bull;&bull;&bull;n &middot; Head of Support <em>Review site</em></div><p class="q">&ldquo;Our current tool keeps failing and nobody answers our tickets.&rdquo;</p></div><div class="sc"><b>83</b><s><i style="width:83%"></i></s></div></div>
@@ -346,21 +347,9 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div class="head">
       <p class="kick">See the app</p>
-      <h2 id="preview-title">A hot lead. <mark>One tap</mark> to WhatsApp.</h2>
+      <h2 id="preview-title">Verified leads, <mark>ready to approve.</mark></h2>
     </div>
-    <figure class="reel">
-      <div class="win" role="img" aria-label="App demo. Inbox rows appear, a hot lead opens, the draft appears and WhatsApp is tapped.">
-        <div class="bar"><i></i><i></i><i></i><span>Inbox &middot; Quentes &middot; Todos</span></div>
-        <div class="reel-stage" aria-hidden="true">
-          <div class="reel-rows"><img src="/assets/screens/lead-rows.png" width="640" height="252" alt=""></div>
-          <div class="reel-col">
-            <div class="reel-detail"><img src="/assets/screens/detail.png" width="410" height="784" alt=""></div>
-            <div class="reel-actions"><img src="/assets/screens/actions.png" width="398" height="228" alt=""><span class="reel-tap" aria-hidden="true"></span></div>
-          </div>
-        </div>
-      </div>
-      <figcaption class="cap">Sample leads. The row opens the quote, the draft and WhatsApp.</figcaption>
-    </figure>
+    <figure class="shot" style="margin:0"><div class="win"><div class="bar"><i></i><i></i><i></i><span>antiHunt</span></div><picture><source srcset="/assets/screens/antihunt-leads.webp" type="image/webp"><img src="/assets/screens/antihunt-leads.png" width="1120" height="875" alt="antiHunt leads screen in light mode, with three sample leads verified by AI, each with the quote, the contact channel and a draft waiting for approval." loading="lazy" style="display:block;width:100%;height:auto"></picture></div><figcaption class="cap">The real antiHunt screen in light mode, with sample data (the app UI is in Portuguese). Each lead shows the quote, the AI check, one-click contact and a draft for you to approve.</figcaption></figure>
   </div>
 </section>
 <div class="stats">
@@ -404,7 +393,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <h2>Proof you open in one click.</h2>
     </div>
     <div class="grid">
-      <div class="f"><h3>The proof</h3><p>A screenshot of the original post or comment.</p></div><div class="f"><h3>The source link</h3><p>Open the original public post.</p></div><div class="f"><h3>DM badge</h3><p>On X, leads with open messages get a green badge.</p></div><div class="f"><h3>An honest message</h3><p>No prices or numbers that are not on your own site, in the lead's language.</p></div><div class="f"><h3>Approval queue</h3><p>Nothing is sent without going through you.</p></div><div class="f"><h3>Online link with 2FA</h3><p>Reach the app away from home with two-factor verification.</p></div>
+      <div class="f"><h3>The proof</h3><p>A screenshot of the original post or comment, with the source link.</p></div><div class="f"><h3>One-click contact</h3><p>Opens the lead's channel or profile.</p></div><div class="f"><h3>DM badge</h3><p>On X, leads with open messages get a green badge.</p></div><div class="f"><h3>An honest message</h3><p>No prices or numbers that are not on your own site, in the lead's language.</p></div><div class="f"><h3>Approval queue</h3><p>Nothing is sent without going through you.</p></div><div class="f"><h3>Online link with 2FA</h3><p>Reach the app away from home with two-factor verification.</p></div>
     </div>
   </div>
 </section>
