@@ -9,6 +9,12 @@ compatibility_date = "2026-08-01"
 #   wrangler secret put WEBHOOK_SECRET
 
 # Paste the database_id from `wrangler d1 create mml-downloads` before a remote deploy.
+# Signup emails are sent from the browser (assets/waitlist.js) through FormSubmit,
+# because FormSubmit rate-limits requests from Cloudflare Workers. Set an address to
+# also notify from the Worker.
+[vars]
+WAITLIST_NOTIFY = "off"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "mml-downloads"

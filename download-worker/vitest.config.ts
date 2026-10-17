@@ -13,6 +13,7 @@ export default defineConfig(async () => {
             MASTER_TOKEN: "master-token-0123456789abcdef0123456789abcdef",
             ADMIN_TOKEN: "admin-token-0123456789abcdef0123456789abcdef",
             TEST_MIGRATIONS: migrations,
+            WAITLIST_NOTIFY: "off",
           },
         },
       }),

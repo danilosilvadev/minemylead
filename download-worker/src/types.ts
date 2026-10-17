@@ -4,6 +4,7 @@ export interface Env {
   MASTER_TOKEN?: string;
   ADMIN_TOKEN?: string;
   WEBHOOK_SECRET?: string;
+  WAITLIST_NOTIFY?: string;
 }
 
 export type Lang = "en" | "pt";
