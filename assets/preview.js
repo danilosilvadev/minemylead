@@ -1,4 +1,5 @@
-// Plays the app preview. The video is always shown; with reduced motion it waits for a click.
+// Plays the app preview. Always shown; if autoplay is blocked (reduced motion,
+// iOS Low Power Mode, data saver) a tap-to-play button appears.
 (function () {
   var fig = document.querySelector(".pv-fig");
   if (!fig) return;
@@ -6,15 +7,23 @@
   var reduce = false;
   try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
   v.muted = true; v.defaultMuted = true; v.playsInline = true;
-  function paused() { fig.classList.add("paused"); }
+  v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
+  function showBtn() { fig.classList.add("paused"); }
+  function hideBtn() { fig.classList.remove("paused"); }
   function play() {
-    var p = v.play();
-    fig.classList.remove("paused");
-    if (p && p.catch) p.catch(paused);
+    v.muted = true;
+    var p;
+    try { p = v.play(); } catch (e) { showBtn(); return; }
+    if (p && p.then) p.then(hideBtn, showBtn);
   }
-  if (reduce) { v.removeAttribute("autoplay"); v.pause(); paused(); }
-  else play();
+  if (reduce) { v.removeAttribute("autoplay"); v.autoplay = false; v.pause(); showBtn(); }
+  else {
+    play();
+    // Some browsers neither play nor reject (Low Power Mode): check after a moment.
+    setTimeout(function () { if (v.paused) showBtn(); }, 2500);
+  }
   btn.addEventListener("click", play);
-  v.addEventListener("pause", function () { if (!v.ended) paused(); });
-  v.addEventListener("playing", function () { fig.classList.remove("paused"); });
+  fig.addEventListener("click", function (e) { if (e.target === v && v.paused) play(); });
+  v.addEventListener("pause", function () { if (!v.ended) showBtn(); });
+  v.addEventListener("playing", hideBtn);
 })();
