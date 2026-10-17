@@ -12,8 +12,9 @@
  *
  * link keys:
  *   pack  — one-time niche SQLite pack (EN $199, PT R$ 990)
- *   taste — optional niche taste (EN $49, PT R$ 250), credited toward the
- *           first pack within 14 days. "Another niche or refresh" uses `pack`.
+ *   "Another niche or refresh" uses `pack`. The only paid plan is the pack.
+ *   The "3 free leads" option (sku `free`) never opens a payment link; it
+ *   emails the request to `contact`.
  *
  * success — absolute URL the payment provider should use after a successful
  * payment. The buy form does not navigate here. Paste these into the provider.
@@ -31,12 +32,10 @@ window.MML_CHECKOUT = {
   endpoint: "",
   links: {
     en: {
-      pack: "",
-      taste: ""
+      pack: ""
     },
     pt: {
-      pack: "",
-      taste: ""
+      pack: ""
     }
   }
 };
