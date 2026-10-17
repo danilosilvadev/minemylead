@@ -53,6 +53,34 @@
     return (opt && opt.getAttribute("data-sku")) || "pack";
   }
   if (linkFor("pack") && note) note.textContent = copy.stripeNote;
+  // Promo code: ?promo=CODE (kept per tab by ah.js) or typed here. Validated by the trial server; Stripe applies the matching promotion code.
+  var API = (window.AH_API || "").trim();
+  var code = function (k) { return (window.ahCode && window.ahCode(k)) || ""; };
+  var promo = f.querySelector("input[name=promo]");
+  if (!promo) {
+    var lab = document.createElement("label");
+    lab.textContent = locale === "pt" ? "Cupom (opcional)" : "Promo code (optional)";
+    promo = document.createElement("input"); promo.name = "promo"; promo.autocomplete = "off";
+    lab.appendChild(promo);
+    var btn = f.querySelector("button[type=submit],button:not([type])");
+    f.insertBefore(lab, btn || null);
+  }
+  promo.value = promo.value || code("promo");
+  var promoOk = "";
+  var fmt = function (n) { return locale === "pt" ? "R$ " + n.toLocaleString("pt-BR") : "$" + n.toLocaleString("en-US"); };
+  function checkPromo() {
+    var c = promo.value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "");
+    promoOk = "";
+    if (!c || !API || !note) return;
+    fetch(API + "/api/promo?sku=pack&currency=" + (locale === "pt" ? "BRL" : "USD") + "&code=" + encodeURIComponent(c))
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (x) {
+        if (x.ok) { promoOk = x.j.code; note.textContent = (locale === "pt" ? "Cupom aplicado: " : "Code applied: ") + fmt(x.j.final) + (locale === "pt" ? " (de " : " (was ") + fmt(x.j.price) + ")."; }
+        else note.textContent = locale === "pt" ? "Cupom inválido ou expirado." : "Invalid or expired code.";
+      }).catch(function () {});
+  }
+  promo.addEventListener("change", checkPromo);
+  checkPromo();
   Array.prototype.forEach.call(document.querySelectorAll("[data-offer]"), function (a) {
     a.addEventListener("click", function () {
       var sku = a.getAttribute("data-offer");
@@ -63,7 +91,9 @@
     if (!pay) return false;
     var url = new URL(pay.href);
     url.searchParams.set("prefilled_email", email);
-    url.searchParams.set("client_reference_id", sku);
+    var ref = code("ref");
+    url.searchParams.set("client_reference_id", sku + (ref ? "__ref_" + ref : "") + (promoOk ? "__promo_" + promoOk : ""));
+    if (promoOk) url.searchParams.set("prefilled_promo_code", promoOk.toUpperCase());
     var w = window.open(url.toString(), "_blank");
     if (w) w.opener = null;
     return true;

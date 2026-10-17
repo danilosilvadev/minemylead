@@ -22,7 +22,7 @@
     if (SITEKEY && !tsToken) return say("Complete a verificação acima.");
     $("go").disabled = true;
     try {
-      const r = await fetch(`${API}/api/trial`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...v, turnstile: tsToken, language: "pt" }) });
+      const r = await fetch(`${API}/api/trial`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...v, ref: (window.ahCode && window.ahCode("ref")) || "", turnstile: tsToken, language: "pt" }) });
       const b = await r.json().catch(() => ({}));
       if (!r.ok) return say(friendly[r.status] || b.error || `Algo deu errado (${r.status}). Tente mais tarde.`);
       ev("submit");

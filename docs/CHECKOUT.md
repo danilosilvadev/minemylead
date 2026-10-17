@@ -261,3 +261,15 @@ Example JSON body:
   "submitted_at": "2026-10-06T20:11:00.000Z"
 }
 ```
+
+## Salesperson links and promo codes
+
+- Salespeople and promo codes are created at `<trial server>/admin/sales?k=<admin token>`.
+- `?ref=<code>` and `?promo=<code>` work on any landing page. `ah.js` keeps the first one per tab in sessionStorage (no cookies).
+- The /trial signup sends `ref`, which is saved on the trial.
+- Checkout validates the promo with `GET <trial server>/api/promo?code=&sku=pack&currency=BRL|USD` and shows the discounted price.
+- The Stripe link opens with `prefilled_promo_code=<CODE>` and `client_reference_id=pack__ref_<code>__promo_<code>`.
+- What Stripe needs:
+  1. Turn on "Allow promotion codes" on the Payment Link.
+  2. Create a coupon and promotion code in Stripe with the same CODE (uppercase) and the same discount. Stripe charges the discount; our server only validates and displays it.
+  3. After a payment, record it with `POST <trial server>/api/admin/paid` (Bearer admin token): `{email, amount, currency, client_reference_id}`. Do this by hand, or from a small webhook relay for `checkout.session.completed`. That counts the code use and revenue and credits the salesperson: an explicit ref first, then the promo's salesperson, then the client's trial ref.
