@@ -35,12 +35,14 @@ export async function waitlistRoute(request: Request, env: Env): Promise<Respons
   if (!EMAIL.test(email) || email.length > 254) return cors(request, json({ error: "invalid email" }, 400));
   const lang = data.lang === "pt" ? "pt" : "en";
   const niche = String(data.niche ?? "").trim().slice(0, 500) || null;
+  const existed = await env.DB.prepare("SELECT 1 FROM waitlist WHERE email = ?1").bind(email).first();
   await env.DB.prepare(
     "INSERT INTO waitlist (email, lang, niche, created_at) VALUES (?1, ?2, ?3, ?4) " +
       "ON CONFLICT(email) DO UPDATE SET niche = COALESCE(excluded.niche, waitlist.niche)",
   )
     .bind(email, lang, niche, new Date().toISOString())
     .run();
+  if (!existed) await notify(env, { email, lang, niche });
   return cors(request, json({ ok: true }));
 }
 
@@ -55,4 +57,38 @@ export async function waitlistList(request: Request, env: Env): Promise<Response
     return new Response(rows.join("\n") + "\n", { headers: { "content-type": "text/csv; charset=utf-8" } });
   }
   return json({ count: results.length, signups: results });
+}
+
+const NOTIFY_TO = "markpetrelli@gmail.com";
+
+/** Emails each new signup to Dan through FormSubmit (free, no account; first use needs one activation click). */
+export async function notify(env: Env, s: { email: string; lang: string; niche: string | null }): Promise<boolean> {
+  const to = env.WAITLIST_NOTIFY || NOTIFY_TO;
+  if (to === "off") return false;
+  try {
+    const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        origin: "https://minemylead.com",
+        referer: "https://minemylead.com/",
+      },
+      body: JSON.stringify({
+        _subject: `MineMyLead: nova inscrição na lista de espera (${s.email})`,
+        _template: "table",
+        _captcha: "false",
+        email: s.email,
+        niche: s.niche || "",
+        lang: s.lang,
+      }),
+      signal: AbortSignal.timeout(8000),
+    });
+    const body = await r.text();
+    console.log("waitlist notify", r.status, body.slice(0, 200));
+    return r.ok;
+  } catch (err) {
+    console.error("waitlist notify failed", err instanceof Error ? err.message : "error");
+    return false;
+  }
 }
