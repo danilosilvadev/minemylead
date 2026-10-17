@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>MineMyLead</title>
+<title>MineMyLead: find people already asking for what you sell</title>
 <meta name="description" content="People who say in public that they need what you sell, with proof and a ready message. Join the list and get 3 free leads. One payment of R$ 990 (~US$ 180) when we open.">
 <link rel="canonical" href="https://minemylead.com/en/">
 <link rel="alternate" hreflang="en" href="https://minemylead.com/en/">
@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://minemylead.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta property="og:title" content="MineMyLead">
+<meta property="og:title" content="MineMyLead: find people already asking for what you sell">
 <meta property="og:description" content="People who say in public that they need what you sell, with proof and a ready message. Join the list and get 3 free leads. One payment of R$ 990 (~US$ 180) when we open.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%23ffe14d'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -311,7 +311,12 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 <style>
 .pv-fig{position:relative}.pv-fig .pv-still{display:none!important}.pv-fig video.pv{display:block!important}
 .pv-fig.pv-mob video.pv{width:100%!important;max-width:420px;height:auto!important;aspect-ratio:9/16!important;margin:0 auto;border-radius:22px}
-.pv-play{position:absolute;left:50%;top:calc(50% - 20px);transform:translate(-50%,-50%);display:none;align-items:center;gap:10px;border:0;border-radius:999px;padding:14px 26px;background:#0f1b2d;color:#fff;font:600 16px "Instrument Sans",sans-serif;cursor:pointer;box-shadow:0 10px 30px rgba(15,27,45,.25)}
+.pv-play{position:absolute;left:50%;top:calc(50% - 18px);transform:translate(-50%,-50%);display:none;align-items:center;justify-content:center;width:92px;height:92px;padding:0 0 0 6px;border:0;border-radius:50%;background:rgba(15,27,45,.82);color:#fff;cursor:pointer;box-shadow:0 12px 40px rgba(15,27,45,.35),0 0 0 10px rgba(255,255,255,.45);transition:transform .15s}.pv-play:hover{transform:translate(-50%,-50%) scale(1.06)}.pv-fig.paused video.pv{filter:saturate(.95)}
+.hwl{display:flex;gap:10px;margin-top:20px;max-width:560px;flex-wrap:wrap}.hwl input[type=email]{flex:1 1 220px;min-width:0;font:inherit;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}.hwl .btn{flex:0 0 auto}.hnote{margin:10px 0 0;font-size:14px;color:var(--ink2)}.hnote a{margin-left:6px;color:var(--ink2)}.hst{min-height:1.2em;margin:6px 0 0;font-size:14px}
+.s2{margin-top:12px;max-width:560px;border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}.s2h{margin:0 0 8px;font-weight:600}.s2 label{display:block;font-size:14px;margin-top:8px}.s2 input{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-top:4px;box-sizing:border-box}.s2b{display:flex;gap:10px;margin-top:12px}
+.win .msg{padding:12px 16px;border-top:1px solid var(--line);background:#f7f8fa}.win .msg .ml{font:500 11.5px "JetBrains Mono",monospace;color:var(--ink2)}.win .msg p{margin:6px 0 0;font-size:14px;line-height:1.5;color:var(--ink)}
+.prec{margin-top:28px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:#fff}.prec b{font-size:28px}.prec span{color:var(--ink2);margin-left:6px}.prec p{margin:8px 0 0;font-size:13px;color:var(--ink2)}.safe{margin:14px 0 0;font-size:14px;color:var(--ink2)}.safe a{color:var(--ink)}
+@media(max-width:600px){.hwl .btn{width:100%}.pv-play{width:76px;height:76px}}
 .pv-fig.paused .pv-play{display:inline-flex}
 .offer{margin:18px 0 0;font-size:16px;color:var(--ink)}.osline{margin-top:10px;font:500 13px "JetBrains Mono",monospace;color:var(--ink2)}
 .steps3{padding:28px 0 32px}.steps3 ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.steps3 li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:16px;color:var(--ink)}@media(max-width:760px){.steps3 ol{grid-template-columns:1fr}}
@@ -336,10 +341,19 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <h1>People who <mark>already need</mark> you. A pack you own.</h1>
       <p class="lede">Every day, people say in public that they need what you sell. MineMyLead finds them and hands you the pack: who they are, what they said, the proof and a message for you to approve.</p>
       <p class="offer"><b>Join the list and get 3 free leads from your niche. No card.</b></p>
-      <div class="cta">
-        <a class="btn lg hl" href="#waitlist-sec">Get my 3 free leads</a>
-        <a class="btn lg alt" href="#how">How it works</a>
-      </div>
+      <form id="hero-wl" class="hwl" action="https://mml-downloads.markpetrelli.workers.dev/waitlist" method="post" data-lang="en" data-ok="Done! You are on the list." data-bad="Check the email address." data-fail="Something went wrong. Write to contact@minemylead.com." data-sending="Sending..." novalidate>
+        <input name="email" type="email" required autocomplete="email" placeholder="you@email.com" aria-label="Your email">
+        <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+        <button class="btn lg hl" type="submit">Join the list, get 3 free leads</button>
+      </form>
+      <p class="hnote">Wait list. We email you when your turn comes. <a href="#how">How it works ↓</a></p>
+      <p class="lst hst" aria-live="polite"></p>
+      <form id="wl-step2" class="s2" hidden data-ok="Thanks! Noted." data-fail="Something went wrong. Write to contact@minemylead.com.">
+        <p class="s2h">Want sharper leads? (optional)</p>
+        <label>What do you sell, and who do you sell to?<input name="niche" type="text" maxlength="500" placeholder="E.g. pest control in Austin"></label>
+        <label>City/region (if you are a local business)<input name="city" type="text" maxlength="120" autocomplete="address-level2"></label>
+        <div class="s2b"><button class="btn hl" type="submit">Save</button><button class="btn alt s2skip" type="button">Not now</button></div>
+      </form>
       <p class="osline">The free trial needs no install.</p>
       <ul class="bens"><li>Buy once, own it forever. No subscription.</li><li>Runs on any computer, no cloud.</li><li>Private: we don't store your personal data or your leads.</li></ul>
     </div>
@@ -347,6 +361,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
       <div class="win" role="img" aria-label="Examples: local businesses">
         <div class="bar"><i></i><i></i><i></i><span>Examples: local businesses</span></div>
         <div class="row"><div><div class="who">r•••••l · Homeowner <em>Pest control · Austin</em></div><p class="q">“Can anyone recommend pest control in Austin? Found roaches in the apartment and I have a toddler.”</p></div><div class="sc"><b>94</b><s><i style="width:94%"></i></s></div></div><div class="row"><div><div class="who">m•••••k · Teacher <em>Dentist · Denver</em></div><p class="q">“Need a dentist in Denver with evening hours. My tooth has hurt for three days.”</p></div><div class="sc"><b>90</b><s><i style="width:90%"></i></s></div></div><div class="row"><div><div class="who">j•••••e · Bridesmaid <em>Clothing store · Miami</em></div><p class="q">“Where can I buy a bridesmaid dress in Miami? The wedding is next month.”</p></div><div class="sc"><b>86</b><s><i style="width:86%"></i></s></div></div><div class="row"><div><div class="who">p•••••r · Sales rep <em>Course · online</em></div><p class="q">“I want to learn to sell on Instagram. Any good course?”</p></div><div class="sc"><b>81</b><s><i style="width:81%"></i></s></div></div>
+        <div class="msg"><span class="ml">Suggested message (you approve before sending)</span><p>Hi! Saw you are looking for pest control in Austin. We handle apartments in your area. Want me to send you a quote?</p></div>
         <div class="foot"><span>Who · what they said · proof · message</span><span>sorted by intent</span></div>
       </div>
       <p class="cap">Illustrative examples. Real leads carry the real name, words and link.</p>
@@ -355,7 +370,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 </div>
 <section id="preview" class="pv-sec" aria-label="Animation of the MineMyLead app: the Inbox appears, a lead opens, and the panel shows the comment, the proof screenshot, the properties, why it scored and the suggested message.">
   <div class="wrap pv-wide">
-    <figure class="pv-fig"><video class="pv" id="pv" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="/assets/preview/poster-panel-en.jpg?v=7" width="1920" height="1080" aria-label="Animation of the MineMyLead app: the Inbox appears, a lead opens, and the panel shows the comment, the proof screenshot, the properties, why it scored and the suggested message." data-desk="/assets/preview/preview-en" data-desk-poster="/assets/preview/poster-panel-en.jpg" data-mob="/assets/preview/preview-mobile-en" data-mob-poster="/assets/preview/poster-mobile-en.jpg"></video><script>(function(){var v=document.getElementById("pv"),m=window.matchMedia&&matchMedia("(max-width: 700px)").matches,b=v.getAttribute(m?"data-mob":"data-desk");v.muted=true;v.defaultMuted=true;v.setAttribute("muted","");v.setAttribute("playsinline","");v.poster=v.getAttribute(m?"data-mob-poster":"data-desk-poster")+"?v=7";if(m){v.width=720;v.height=1280;v.parentNode.classList.add("pv-mob")}v.src=b+".mp4?v=7"})();</script><button class="pv-play" type="button" aria-label="Play">&#9654; Play</button><figcaption class="cap">Watch a lead open, with its proof</figcaption></figure>
+    <figure class="pv-fig"><video class="pv" id="pv" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="/assets/preview/poster-panel-en.jpg?v=8" width="1920" height="1080" aria-label="Animation of the MineMyLead app: the Inbox appears, a lead opens, and the panel shows the comment, the proof screenshot, the properties, why it scored and the suggested message." data-desk="/assets/preview/preview-en" data-desk-poster="/assets/preview/poster-panel-en.jpg" data-mob="/assets/preview/preview-mobile-en" data-mob-poster="/assets/preview/poster-mobile-en.jpg"></video><script>(function(){var v=document.getElementById("pv"),m=window.matchMedia&&matchMedia("(max-width: 700px)").matches,b=v.getAttribute(m?"data-mob":"data-desk");v.muted=true;v.defaultMuted=true;v.setAttribute("muted","");v.setAttribute("playsinline","");v.poster=v.getAttribute(m?"data-mob-poster":"data-desk-poster")+"?v=8";if(m){v.width=720;v.height=1280;v.parentNode.classList.add("pv-mob")}v.src=b+".mp4?v=8"})();</script><button class="pv-play" type="button" aria-label="Play"><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button><figcaption class="cap">Watch a lead open, with its proof</figcaption></figure>
   </div>
 </section>
 <section id="how" class="aud">
@@ -375,31 +390,31 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div class="head"><p class="kick">What comes with each lead</p><h2>Proof you open in one click.</h2></div>
     <div class="grid"><div class="f"><h3>The proof</h3><p>A link to the original comment and, when possible, a screenshot.</p></div><div class="f"><h3>Who they are</h3><p>The person's public name or profile.</p></div><div class="f"><h3>Open messages on X</h3><p>When the profile allows it, the app notes whether the person accepts messages on X.</p></div><div class="f"><h3>An honest message</h3><p>No prices or numbers that are not on your site, in the lead's language.</p></div><div class="f"><h3>Approval queue</h3><p>Nothing is sent without going through you.</p></div><div class="f"><h3>One-click contact</h3><p>Opens the lead's channel or profile.</p></div></div>
+    <div class="prec"><b>90%+</b> <span>precision on the leads shown*</span><p>* Measured on three test businesses, with small samples (60 to 80 candidates each): B2B course 100%, local pest control 100%, online clothing store 91%. Precision measures how many leads shown are real; the app does not show every real lead.</p></div>
   </div>
 </section>
 <div class="stats">
-  <div class="wrap"><div class="stat"><b>3</b><span>free leads, when your turn comes</span></div><div class="stat"><b>90%+</b><span>precision on the leads shown*</span></div><div class="stat"><b>3 networks</b><span>YouTube, X and Instagram</span></div></div>
-  <div class="wrap"><p class="note" style="margin-top:10px;font-size:13px">* Measured on three test businesses, with small samples (60 to 80 candidates each): B2B course 100%, local pest control 100%, online clothing store 91%. Precision measures how many leads shown are real; the app does not show every real lead.</p></div>
+  <div class="wrap"><div class="stat"><b>3</b><span>free leads, when your turn comes</span></div><div class="stat"><b>3 networks</b><span>YouTube, X and Instagram</span></div></div>
 </div>
 <section id="free">
   <div class="wrap">
     <div class="head"><p class="kick">Start free</p><h2>3 free leads from your niche.</h2><p class="sub">Join the wait list and tell us what you sell and who you sell to. When your turn comes, we email you 3 leads from your niche, free and with no card, so you can judge the quality before you pay.</p></div>
-    <div class="taste"><div><p>No charge. We only use your email to send the 3 leads and tell you when we open.</p></div><div class="tp"><a class="btn lg hl" href="#waitlist-sec">Get my 3 free leads</a></div></div>
+    <div class="taste"><div><p>No charge. We only use your email to send the 3 leads and tell you when we open.</p></div><div class="tp"><a class="btn lg hl" href="#waitlist-sec">Join the list, get 3 free leads</a></div></div>
   </div>
 </section>
 <section id="pricing" class="aud">
   <div class="wrap">
     <div class="head"><p class="kick">Price</p><h2>One payment of R$ 990 (~US$ 180) when we open. No monthly fee.</h2></div>
     <div class="price">
-      <div class="l"><div class="amt"><b>R$ 990</b></div><p>Brazil-first, priced in reais. One plan. Pay once and the app is yours: the Chrome extension, the approval queue and access away from home. We are opening gradually, through the wait list.</p><a class="btn lg" href="#waitlist-sec">Get my 3 free leads</a></div>
-      <div class="r"><ul class="bens"><li>Buy once, own it forever. No subscription.</li><li>Runs on any computer, no cloud.</li><li>Private: we don't store your personal data or your leads.</li></ul><h3>What you get</h3><ul><li>One payment. No monthly fee.</li><li>Leads stay on your computer.</li><li>YouTube, X and Instagram</li><li>You approve every message</li><li>Access away from home, with verification</li></ul></div>
+      <div class="l"><div class="amt"><b>R$ 990</b></div><p>Brazil-first, priced in reais. One plan. Pay once and the app is yours: the Chrome extension, the approval queue and access away from home. We are opening gradually, through the wait list.</p><a class="btn lg" href="#waitlist-sec">Join the list, get 3 free leads</a><p class="safe">Read-only, human pace, nothing is sent without your approval. <a href="#faq-safety">How we protect your account →</a></p></div>
+      <div class="r"><h3>What you get</h3><ul><li>One payment. No monthly fee.</li><li>Leads stay on your computer.</li><li>YouTube, X and Instagram</li><li>You approve every message</li><li>Access away from home, with verification</li></ul></div>
     </div>
   </div>
 </section>
 <section id="faq">
   <div class="wrap">
     <div class="head"><p class="kick">Straight questions</p><h2>Straight questions.</h2></div>
-    <div class="faq"><details><summary>Can my account get blocked?</summary><p>The risk exists and is never zero, because the app uses your own accounts. To lower it: while searching it only reads; it does not like, follow or comment. It does few reads per day, with random pauses (on Instagram, about 40 a day, 1 to 3 minutes apart), and starts even slower in the first week. It does not use platform APIs and never sends anything on its own: every message goes through your approval. You stay responsible for what you send, and each platform's rules apply.</p></details><details><summary>Will it run on my computer?</summary><p>Runs on any computer. The free trial needs no install: your 3 leads arrive by email.</p></details><details><summary>Is this a subscription?</summary><p>No. It is one payment of R$ 990 (~US$ 180), when we open. No monthly fee.</p></details><details><summary>Can I buy now?</summary><p>Not yet. Join the wait list. When your turn comes, we email you your 3 free leads.</p></details><details><summary>Does my data stay on my computer?</summary><p>Yes. The app keeps leads in a file on your machine.</p></details><details><summary>Do you send messages for me?</summary><p>Not without you. Every message lands in a queue, and you approve, edit or discard it. Sending happens in your browser.</p></details><details><summary>How good are the leads?</summary><p>In testing, 90%+ of the leads shown were real leads. Being strict costs volume: on local services, about 1 in 4 real leads is shown; on online businesses, 2 in 3 to 4 in 5. The 3 free leads show the quality in your niche before you pay.</p></details><details><summary>Can someone ask to be removed?</summary><p>Write to contact@minemylead.com. Because leads live on each customer's computer, we stop including you in new results.</p></details></div>
+    <div class="faq"><details id=faq-safety><summary>Can my account get blocked?</summary><p>The risk exists and is never zero, because the app uses your own accounts. To lower it: while searching it only reads; it does not like, follow or comment. It does few reads per day, with random pauses (on Instagram, about 40 a day, 1 to 3 minutes apart), and starts even slower in the first week. It does not use platform APIs and never sends anything on its own: every message goes through your approval. You stay responsible for what you send, and each platform's rules apply.</p></details><details><summary>Will it run on my computer?</summary><p>Runs on any computer. The free trial needs no install: your 3 leads arrive by email.</p></details><details><summary>Is this a subscription?</summary><p>No. It is one payment of R$ 990 (~US$ 180), when we open. No monthly fee.</p></details><details><summary>Can I buy now?</summary><p>Not yet. Join the wait list. When your turn comes, we email you your 3 free leads.</p></details><details><summary>Does my data stay on my computer?</summary><p>Yes. The app keeps leads in a file on your machine.</p></details><details><summary>Do you send messages for me?</summary><p>Not without you. Every message lands in a queue, and you approve, edit or discard it. Sending happens in your browser.</p></details><details><summary>How good are the leads?</summary><p>In testing, 90%+ of the leads shown were real leads. Being strict costs volume: on local services, about 1 in 4 real leads is shown; on online businesses, 2 in 3 to 4 in 5. The 3 free leads show the quality in your niche before you pay.</p></details><details><summary>Can someone ask to be removed?</summary><p>Write to contact@minemylead.com. Because leads live on each customer's computer, we stop including you in new results.</p></details></div>
   </div>
 </section>
 <section id="who" class="aud who-sec">
@@ -419,7 +434,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
         <label>What do you sell, and who do you sell to?<textarea name="niche" rows="3" maxlength="500" placeholder="E.g. pest control in Austin"></textarea></label>
         <label>City/region (if you are a local business)<input name="city" type="text" maxlength="120" autocomplete="address-level2"></label>
         <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
-        <button class="btn lg hl" type="submit">Get my 3 free leads</button>
+        <button class="btn lg hl" type="submit">Join the list, get 3 free leads</button>
         <p class="paynote">No charge. We only use your email to send the 3 leads and tell you when we open.</p>
         <p class="lst" id="lst" aria-live="polite"></p>
       </form>
@@ -435,7 +450,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     <p class="legal">© 2026 MineMyLead. <a href="/privacy.html" style="display:inline;margin-left:12px">Privacy</a> <a href="/terms.html" style="display:inline;margin-left:12px">Terms</a></p>
   </div>
 </footer>
-<script src="/assets/preview.js?v=7"></script>
-<script src="/assets/waitlist.js?v=7"></script>
+<script src="/assets/preview.js?v=8"></script>
+<script src="/assets/waitlist.js?v=8"></script>
 </body>
 </html>
