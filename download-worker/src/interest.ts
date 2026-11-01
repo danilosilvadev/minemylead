@@ -132,7 +132,7 @@ async function sendForm(request: Request, env: Env, client: string, token: strin
   // single use: only the first valid submit wins, atomically
   const res = await env.DB.prepare(
     "UPDATE interest SET status = 'answered', answered_at = ?3, phone = ?4, email = ?5, best_time = ?6, consent = ?7, consent_at = ?8, edited_business = ?9, edited_city = ?10, edited_field = ?11, edited_owner = ?12, edited_website = ?13 WHERE token = ?1 AND client = ?2 AND status = 'open'",
-  ).bind(token, client, now(), phoneOk ? phone : null, emailOk ? email : null, best, consent, consent ? now() : null, clip(data.get("business"), 200), clip(data.get("city"), 120), clip(data.get("field"), 120), clip(data.get("owner"), 120), clip(data.get("website"), 200)).run();
+  ).bind(token, client, now(), phoneOk ? phone : null, emailOk ? email : null, best, consent, consent ? now() : null, clip(data.get("fix_business"), 200), clip(data.get("fix_city"), 120), clip(data.get("fix_field"), 120), clip(data.get("fix_owner"), 120), clip(data.get("fix_website"), 200)).run();
   if (!res.meta.changes) return page(blocked(lang), 410);
   return page(thanks(r, lang, { phone: phoneOk ? phone : "", email: emailOk ? email : "", consent: !!consent }));
 }
@@ -151,11 +151,13 @@ const T = {
     business: "Business", city: "City", field: "Your field", owner: "Your name", website: "Website", phone: "Phone", email: "Email", best: "Best time to talk", send: "Send my details", stop: "Not for me: stop all messages",
     morning: "Weekday mornings", afternoon: "Weekday afternoons", any: "Any time", needOne: "Please give a phone number or an email.", badPhone: "That phone number looks too short.", badEmail: "That email address does not look right.", bad: "Something went wrong, please try again.",
     consent: "I agree that {client} may contact me about this. I can withdraw at any time by writing to the address below.", footerKeep: "We keep your answers for 30 days unless you agree to be contacted.",
+    update: "Update", right: "The right value",
     done: "All set", doneSub: "{client} will be in touch. The three prospects are on their way.", gone: "This link is no longer active.", blocked: "This link was already used. Thank you.", stopped: "Done: no more messages", stoppedSub: "You will not hear from us again." },
   pt: { saved: "Seu interesse foi salvo", thanks: "Obrigado", intro: "Vamos enviar os três contatos próximos para {biz}. Para que {client} possa falar com você, confira os dados abaixo. Preenchemos o que é público sobre o seu negócio; corrija o que estiver errado.",
     business: "Empresa", city: "Cidade", field: "Seu ramo", owner: "Seu nome", website: "Site", phone: "Telefone", email: "E-mail", best: "Melhor horário", send: "Enviar meus dados", stop: "Não tenho interesse: parar mensagens",
     morning: "Manhãs, dias úteis", afternoon: "Tardes, dias úteis", any: "Qualquer horário", needOne: "Informe um telefone ou um e-mail.", badPhone: "Esse telefone parece curto demais.", badEmail: "Esse e-mail não parece correto.", bad: "Algo deu errado, tente de novo.",
     consent: "Concordo que {client} entre em contato comigo sobre isso. Posso retirar o consentimento a qualquer momento escrevendo para o endereço abaixo.", footerKeep: "Guardamos suas respostas por 30 dias, salvo se você concordar em ser contatado.",
+    update: "Atualizar", right: "O valor correto",
     done: "Tudo certo", doneSub: "{client} entrará em contato. Os três contatos estão a caminho.", gone: "Este link não está mais ativo.", blocked: "Este link já foi usado. Obrigado.", stopped: "Pronto: sem mais mensagens", stoppedSub: "Você não receberá mais contato nosso." },
 } as const;
 type L = "en" | "pt";
@@ -174,7 +176,7 @@ function shell(lang: L, inner: string, r?: Row): string {
 .brand{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:22px}.drop{width:12px;height:16px;background:#d2302c;border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
 h1{font:700 28px/1.15 Georgia,'Times New Roman',serif;margin:6px 0 8px}.ok{color:#16744a;font-weight:600;display:flex;gap:8px;align-items:center}
 label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#6b6f76;margin-bottom:12px}input,select{font:inherit;border:1px solid #d9d6cf;border-radius:6px;padding:9px 10px;background:#fff;color:#1b1b1f}
-input.pre{background:#f6f4ee}.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.wide{grid-column:1 / 3}.cb{flex-direction:row;gap:9px;align-items:flex-start;font-size:13px;color:#4a4e57}
+/* what we filled in is text, never an input: Update opens a new field and the original stays on record */.ro{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}.ro .lbl{font-size:12px;color:#6b6f76}.ro .val{padding:9px 10px;background:#f6f4ee;border:1px solid #e6e3dc;border-radius:6px;color:#4a4e57;overflow-wrap:anywhere}details summary{font-size:12px;color:#5e6ad2;cursor:pointer;margin-top:4px}details input{margin-top:6px;width:100%;box-sizing:border-box}.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.wide{grid-column:1 / 3}.cb{flex-direction:row;gap:9px;align-items:flex-start;font-size:13px;color:#4a4e57}
 button{font:inherit;font-weight:600;background:#1b1b1f;color:#fff;border:0;border-radius:7px;padding:11px 18px;cursor:pointer}.stop{background:none;color:#6b6f76;font-weight:400;padding:0;text-decoration:underline}.err{background:#fff5f5;border:1px solid #f0c9cd;color:#b3303b;border-radius:6px;padding:8px 10px;margin:10px 0}
 footer{font-size:11px;color:#8a8f98;padding:12px 22px;max-width:560px;margin:0 auto}@media(max-width:520px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}}</style></head><body><main><div class="brand"><span class="drop"></span>${brand}</div>${inner}</main><footer>${foot}</footer></body></html>`;
 }
@@ -182,7 +184,7 @@ function inactive(lang: L): string { return shell(lang, `<h1>${esc(T[lang].gone)
 function blocked(lang: L): string { return shell(lang, `<h1>${esc(T[lang].blocked)}</h1>`); }
 function formPage(r: Row, errors: string[]): string {
   const lang: L = r.lang === "pt" ? "pt" : "en", t = T[lang];
-  const f = (name: string, label: string, val: string | null, wide = false) => `<label class="${wide ? "wide" : ""}">${esc(label)}<input class="pre" name="${name}" value="${esc(val || "")}" maxlength="200"></label>`;
+  const f = (name: string, label: string, val: string | null, wide = false) => `<div class="ro ${wide ? "wide" : ""}"><span class="lbl">${esc(label)}</span><span class="val">${esc(val || "-")}</span><details><summary>${esc(t.update)}</summary><input name="fix_${name}" maxlength="200" placeholder="${esc(t.right)}" aria-label="${esc(label)} (${esc(t.update)})"></details></div>`;
   const consent = fill(r.consent_text || t.consent, r);
   return shell(lang, `<p class="ok">✓ ${esc(t.saved)}</p><h1>${esc(t.thanks)}${r.owner_name ? ", " + esc(r.owner_name) : ""}.</h1><p>${fill(t.intro, r)}</p>
 ${errors.map((e) => `<div class="err" role="alert">${esc(e)}</div>`).join("")}

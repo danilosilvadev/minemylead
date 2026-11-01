@@ -32,6 +32,9 @@ describe("interest links", () => {
     expect(body).toContain("Cedar Dental Studio"); // prefilled by us
     expect(body).toContain("Dr. A. Rivera");
     expect(body).not.toMatch(/name="consent"[^>]*checked/); // consent is never pre-ticked
+    expect(body).not.toContain('name="owner"'); // what we filled in is text, not an input
+    expect(body).toContain('name="fix_owner"'); // Update opens a new field
+    expect(body).toContain("<summary>Update</summary>");
     expect(page.headers.get("content-security-policy")).toContain("default-src 'none'");
 
     const click = (await results()).find((r) => r.token === t)!;
@@ -39,16 +42,16 @@ describe("interest links", () => {
     expect(click.clicked_at).toBeTruthy();
 
     // missing contact info: the form comes back with an error and the link stays open
-    const bad = await form(`/f/minemylead/${t}`, { business: "Cedar Dental Studio" });
+    const bad = await form(`/f/minemylead/${t}`, { fix_business: "" });
     expect(bad.status).toBe(400);
     expect(await bad.text()).toContain("Please give a phone number or an email");
 
-    const ok = await form(`/f/minemylead/${t}`, { business: "Cedar Dental Studio", city: "Portland, OR", owner: "Dr. Alex Rivera", phone: "(503) 555-0142", email: "Info@Cedar-Dental.example", best_time: "Weekday mornings", consent: "1" });
+    const ok = await form(`/f/minemylead/${t}`, { fix_owner: "Dr. Alex Rivera", phone: "(503) 555-0142", email: "Info@Cedar-Dental.example", best_time: "Weekday mornings", consent: "1" });
     expect(ok.status).toBe(200);
     expect(await ok.text()).toContain("All set");
 
     const done = (await results()).find((r) => r.token === t)!;
-    expect(done).toMatchObject({ status: "answered", phone: "5035550142", email: "info@cedar-dental.example", consent: 1, edited_owner: "Dr. Alex Rivera", best_time: "Weekday mornings" });
+    expect(done).toMatchObject({ status: "answered", phone: "5035550142", email: "info@cedar-dental.example", consent: 1, edited_owner: "Dr. Alex Rivera", edited_business: null, best_time: "Weekday mornings" });
 
     // the link is now blocked, for the form and for a second submit
     expect((await SELF.fetch(`${BASE}/f/minemylead/${t}`)).status).toBe(410);
