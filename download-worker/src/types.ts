@@ -5,6 +5,8 @@ export interface Env {
   ADMIN_TOKEN?: string;
   WEBHOOK_SECRET?: string;
   WAITLIST_NOTIFY?: string;
+  /** The key antiHunt uses to publish links and pull results (wrangler secret put INTEREST_KEY). Not the admin token: it is copied to the local machine. */
+  INTEREST_KEY?: string;
 }
 
 export type Lang = "en" | "pt";

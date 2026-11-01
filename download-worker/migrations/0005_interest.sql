@@ -1,0 +1,35 @@
+-- One row per personal link of the cold outreach (RFC 0005 section 6). A link is a temporary, single-use form: once the details are sent (or the person presses stop) it is blocked.
+-- antiHunt publishes rows (PUT /api/interest) and pulls the results (GET /api/interest/results); answered rows are deleted when antiHunt acknowledges them.
+CREATE TABLE interest (
+  token TEXT PRIMARY KEY,
+  client TEXT NOT NULL,
+  business TEXT NOT NULL,
+  city TEXT,
+  field TEXT,
+  owner_name TEXT,
+  website TEXT,
+  sender TEXT,
+  service TEXT,
+  client_name TEXT,
+  address TEXT,
+  consent_text TEXT,
+  lang TEXT NOT NULL DEFAULT 'en',
+  status TEXT NOT NULL DEFAULT 'open',
+  created_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  clicked_at TEXT,
+  clicked_ack INTEGER NOT NULL DEFAULT 0,
+  device TEXT,
+  answered_at TEXT,
+  phone TEXT,
+  email TEXT,
+  best_time TEXT,
+  consent INTEGER NOT NULL DEFAULT 0,
+  consent_at TEXT,
+  edited_business TEXT,
+  edited_city TEXT,
+  edited_field TEXT,
+  edited_owner TEXT,
+  edited_website TEXT
+);
+CREATE INDEX interest_status ON interest (status, clicked_ack);

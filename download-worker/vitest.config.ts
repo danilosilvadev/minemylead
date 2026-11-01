@@ -12,6 +12,7 @@ export default defineConfig(async () => {
           bindings: {
             MASTER_TOKEN: "master-token-0123456789abcdef0123456789abcdef",
             ADMIN_TOKEN: "admin-token-0123456789abcdef0123456789abcdef",
+            INTEREST_KEY: "interest-key-0123456789abcdef0123456789abcdef",
             TEST_MIGRATIONS: migrations,
             WAITLIST_NOTIFY: "off",
           },

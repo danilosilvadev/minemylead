@@ -25,6 +25,7 @@ import {
   webhookSecret,
 } from "./shared";
 import type { Env } from "./types";
+import { interestRoute } from "./interest";
 import { waitlistList, waitlistRoute } from "./waitlist";
 
 export default {
@@ -43,6 +44,8 @@ async function route(request: Request, env: Env): Promise<Response> {
   const path = normalizePath(url.pathname);
   const method = request.method;
 
+  const interest = await interestRoute(request, env, path);
+  if (interest) return interest;
   if (path === "/waitlist") return waitlistRoute(request, env);
   if (method === "GET" && path === "/admin/waitlist") return waitlistList(request, env);
   if (method === "GET" && path === "/admin") return html(adminPage());
