@@ -98,12 +98,16 @@ async function load(env: Env, client: string, token: string): Promise<Row | null
 }
 const expired = (r: Row) => r.status === "open" && Date.parse(r.expires_at) < Date.now();
 
+/** Link previews and crawlers fetch a link the moment it is sent; that is not interest. Real browsers (also the in-app ones of LinkedIn, Facebook and Instagram) are not matched. */
+export const isPreviewBot = (ua: string): boolean => /bot\b|bot\/|crawl|spider|preview|facebookexternalhit|facebot|whatsapp\/|slurp|curl\/|wget|python-requests|go-http-client|java\/|libwww|headlesschrome|proofpoint|mimecast|barracuda|safelinks|zscaler/i.test(ua);
+
 async function openForm(request: Request, env: Env, client: string, token: string): Promise<Response> {
   const r = await load(env, client, token);
   if (!r || expired(r)) return page(inactive("en"), 404);
   if (r.status !== "open") return page(blocked(r.lang === "pt" ? "pt" : "en"), 410);
-  if (!r.clicked_at) {
-    const ua = request.headers.get("user-agent") || "";
+  const ua = request.headers.get("user-agent") || "";
+  // a link preview (WhatsApp, Slack, Facebook, Telegram...), a search or security crawler opening the link is not a person: the page is served but no click is recorded
+  if (!r.clicked_at && !isPreviewBot(ua)) {
     await env.DB.prepare("UPDATE interest SET clicked_at = ?2, device = ?3 WHERE token = ?1 AND clicked_at IS NULL").bind(token, now(), /mobile|android|iphone/i.test(ua) ? "phone" : "computer").run();
   }
   return page(formPage(r, []));

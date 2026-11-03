@@ -112,4 +112,15 @@ describe("interest links", () => {
     await form(`/f/minemylead/${t}`, { phone: "5035550142", hp: "i am a bot" });
     expect((await SELF.fetch(`${BASE}/f/minemylead/${t}`)).status).toBe(200); // still open
   });
+
+  it("a link preview or a crawler opening the link is not a click, and a person is", async () => {
+    const t = "tok_preview_0123456789abc";
+    await publish([rec(t)]);
+    for (const ua of ["WhatsApp/2.23.20.0 A", "Mozilla/5.0 (compatible; Slackbot-LinkExpanding 1.0)", "facebookexternalhit/1.1", "TelegramBot (like TwitterBot)", "Mozilla/5.0 (compatible; Googlebot/2.1)", "Mozilla/5.0 (Windows) BingPreview/1.0b"]) {
+      expect((await SELF.fetch(`${BASE}/f/minemylead/${t}`, { headers: { "user-agent": ua } })).status).toBe(200); // the page is served to everyone
+    }
+    expect((await results()).some((r) => r.token === t)).toBe(false); // but nobody clicked
+    await SELF.fetch(`${BASE}/f/minemylead/${t}`, { headers: { "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 LinkedInApp" } });
+    expect((await results()).some((r) => r.token === t)).toBe(true); // a person in an in-app browser is a click
+  });
 });
