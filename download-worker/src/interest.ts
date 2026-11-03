@@ -12,6 +12,7 @@ const DAY = 86_400_000;
 type Row = {
   token: string; client: string; business: string; city: string | null; field: string | null; owner_name: string | null; website: string | null;
   sender: string | null; service: string | null; client_name: string | null; address: string | null; consent_text: string | null; lang: string;
+  why: string | null;
   status: string; created_at: string; expires_at: string; clicked_at: string | null; answered_at: string | null;
 };
 
@@ -52,8 +53,8 @@ async function publish(request: Request, env: Env): Promise<Response> {
     const expires = Number.isFinite(exp) ? new Date(Math.min(exp, Date.now() + 90 * DAY)).toISOString() : new Date(Date.now() + 30 * DAY).toISOString();
     // never overwrite a link that exists: an answered or stopped link stays blocked
     const res = await env.DB.prepare(
-      "INSERT OR IGNORE INTO interest (token, client, business, city, field, owner_name, website, sender, service, client_name, address, consent_text, lang, created_at, expires_at) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15)",
-    ).bind(token, client, clip(r.business, 200), clip(r.city, 120), clip(r.field, 120), clip(r.owner_name, 120), clip(r.website, 200), clip(r.sender, 120), clip(r.service, 120), clip(r.client_name, 120), clip(r.address, 300), clip(r.consent_text, 500), r.lang === "pt" ? "pt" : "en", now(), expires).run();
+      "INSERT OR IGNORE INTO interest (token, client, business, city, field, owner_name, website, sender, service, client_name, address, consent_text, lang, created_at, expires_at, why) VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16)",
+    ).bind(token, client, clip(r.business, 200), clip(r.city, 120), clip(r.field, 120), clip(r.owner_name, 120), clip(r.website, 200), clip(r.sender, 120), clip(r.service, 120), clip(r.client_name, 120), clip(r.address, 300), clip(r.consent_text, 500), r.lang === "pt" ? "pt" : "en", now(), expires, clip(r.why, 600)).run();
     if (res.meta.changes) stored++;
   }
   await cleanup(env);
@@ -94,7 +95,7 @@ async function cleanup(env: Env): Promise<void> {
 // ---- the lead's side ----------------------------------------------------------------------------------------------------------------------------------------------------------
 async function load(env: Env, client: string, token: string): Promise<Row | null> {
   if (!SLUG.test(client) || !TOKEN.test(token)) return null;
-  return env.DB.prepare("SELECT token, client, business, city, field, owner_name, website, sender, service, client_name, address, consent_text, lang, status, created_at, expires_at, clicked_at, answered_at FROM interest WHERE token = ?1 AND client = ?2").bind(token, client).first<Row>();
+  return env.DB.prepare("SELECT token, client, business, city, field, owner_name, website, sender, service, client_name, address, consent_text, lang, why, status, created_at, expires_at, clicked_at, answered_at FROM interest WHERE token = ?1 AND client = ?2").bind(token, client).first<Row>();
 }
 const expired = (r: Row) => r.status === "open" && Date.parse(r.expires_at) < Date.now();
 
@@ -151,13 +152,13 @@ async function stopForm(env: Env, client: string, token: string): Promise<Respon
 
 // ---- pages --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const T = {
-  en: { saved: "Your interest is saved", thanks: "Thank you", intro: "We'll send you the three nearby prospects for {biz}. To let {client} reach you, check the details below. We filled in what is public about your business; correct anything that is wrong.",
+  en: { whyTitle: "Why you received this", whySource: "Source: the public CNPJ company registry (Receita Federal), and public pages of your business.", saved: "Your interest is saved", thanks: "Thank you", intro: "We'll send you the three nearby prospects for {biz}. To let {client} reach you, check the details below. We filled in what is public about your business; correct anything that is wrong.",
     business: "Business", city: "City", field: "Your field", owner: "Your name", website: "Website", phone: "Phone", email: "Email", best: "Best time to talk", send: "Send my details", stop: "Not for me: stop all messages",
     morning: "Weekday mornings", afternoon: "Weekday afternoons", any: "Any time", needOne: "Please give a phone number or an email.", badPhone: "That phone number looks too short.", badEmail: "That email address does not look right.", bad: "Something went wrong, please try again.",
     consent: "I agree that {client} may contact me about this. I can withdraw at any time by writing to the address below.", footerKeep: "We keep your answers for 30 days unless you agree to be contacted.",
     update: "Update", right: "The right value",
     done: "All set", doneSub: "{client} will be in touch. The three prospects are on their way.", gone: "This link is no longer active.", blocked: "This link was already used. Thank you.", stopped: "Done: no more messages", stoppedSub: "You will not hear from us again." },
-  pt: { saved: "Seu interesse foi salvo", thanks: "Obrigado", intro: "Vamos enviar os três contatos próximos para {biz}. Para que {client} possa falar com você, confira os dados abaixo. Preenchemos o que é público sobre o seu negócio; corrija o que estiver errado.",
+  pt: { whyTitle: "Por que você recebeu esta mensagem", whySource: "Fonte: cadastro público de CNPJ (Receita Federal) e páginas públicas da sua empresa.", saved: "Seu interesse foi salvo", thanks: "Obrigado", intro: "Vamos enviar os três contatos próximos para {biz}. Para que {client} possa falar com você, confira os dados abaixo. Preenchemos o que é público sobre o seu negócio; corrija o que estiver errado.",
     business: "Empresa", city: "Cidade", field: "Seu ramo", owner: "Seu nome", website: "Site", phone: "Telefone", email: "E-mail", best: "Melhor horário", send: "Enviar meus dados", stop: "Não tenho interesse: parar mensagens",
     morning: "Manhãs, dias úteis", afternoon: "Tardes, dias úteis", any: "Qualquer horário", needOne: "Informe um telefone ou um e-mail.", badPhone: "Esse telefone parece curto demais.", badEmail: "Esse e-mail não parece correto.", bad: "Algo deu errado, tente de novo.",
     consent: "Concordo que {client} entre em contato comigo sobre isso. Posso retirar o consentimento a qualquer momento escrevendo para o endereço abaixo.", footerKeep: "Guardamos suas respostas por 30 dias, salvo se você concordar em ser contatado.",
@@ -177,7 +178,7 @@ function shell(lang: L, inner: string, r?: Row): string {
   const foot = r ? `${brand}${r.address ? " · " + esc(r.address) : ""}` : "";
   return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>${brand || "Interest"}</title>
 <style>body{margin:0;background:#efede8;color:#1b1b1f;font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}main{max-width:560px;margin:0 auto;padding:28px 22px 18px}
-.brand{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:22px}.drop{width:12px;height:16px;background:#d2302c;border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
+.brand{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:22px}.why{background:#f6f4ee;border:1px solid #e3e0d8;border-radius:10px;padding:12px 14px;margin:14px 0 18px;font-size:14px}.why ul{margin:6px 0 4px 18px;padding:0}.why li{margin:2px 0}.why .src{font-size:12px;color:#6b6f76;margin:6px 0 0}.drop{width:12px;height:16px;background:#d2302c;border-radius:50% 50% 50% 50%/60% 60% 40% 40%}
 h1{font:700 28px/1.15 Georgia,'Times New Roman',serif;margin:6px 0 8px}.ok{color:#16744a;font-weight:600;display:flex;gap:8px;align-items:center}
 label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#6b6f76;margin-bottom:12px}input,select{font:inherit;border:1px solid #d9d6cf;border-radius:6px;padding:9px 10px;background:#fff;color:#1b1b1f}
 /* what we filled in is text, never an input: Update opens a new field and the original stays on record */.ro{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}.ro .lbl{font-size:12px;color:#6b6f76}.ro .val{padding:9px 10px;background:#f6f4ee;border:1px solid #e6e3dc;border-radius:6px;color:#4a4e57;overflow-wrap:anywhere}details summary{font-size:12px;color:#5e6ad2;cursor:pointer;margin-top:4px}details input{margin-top:6px;width:100%;box-sizing:border-box}.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.wide{grid-column:1 / 3}.cb{flex-direction:row;gap:9px;align-items:flex-start;font-size:13px;color:#4a4e57}
@@ -186,11 +187,18 @@ footer{font-size:11px;color:#8a8f98;padding:12px 22px;max-width:560px;margin:0 a
 }
 function inactive(lang: L): string { return shell(lang, `<h1>${esc(T[lang].gone)}</h1>`); }
 function blocked(lang: L): string { return shell(lang, `<h1>${esc(T[lang].blocked)}</h1>`); }
+/** Why this business was picked: the reasons antiHunt found (one per line), then where they come from. Shown only when the link carries them. */
+function whyBox(r: Row, t: { whyTitle: string; whySource: string }): string {
+  const lines = (r.why || "").split(/\n+/).map((x) => x.trim()).filter(Boolean).slice(0, 6);
+  if (!lines.length) return "";
+  return `<div class="why"><b>${esc(t.whyTitle)}</b><ul>${lines.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><p class="src">${esc(t.whySource)}</p></div>`;
+}
 function formPage(r: Row, errors: string[]): string {
   const lang: L = r.lang === "pt" ? "pt" : "en", t = T[lang];
   const f = (name: string, label: string, val: string | null, wide = false) => `<div class="ro ${wide ? "wide" : ""}"><span class="lbl">${esc(label)}</span><span class="val">${esc(val || "-")}</span><details><summary>${esc(t.update)}</summary><input name="fix_${name}" maxlength="200" placeholder="${esc(t.right)}" aria-label="${esc(label)} (${esc(t.update)})"></details></div>`;
   const consent = fill(r.consent_text || t.consent, r);
   return shell(lang, `<p class="ok">✓ ${esc(t.saved)}</p><h1>${esc(t.thanks)}${r.owner_name ? ", " + esc(r.owner_name) : ""}.</h1><p>${fill(t.intro, r)}</p>
+${whyBox(r, t)}
 ${errors.map((e) => `<div class="err" role="alert">${esc(e)}</div>`).join("")}
 <form method="post" autocomplete="on"><div class="grid">${f("business", t.business, r.business)}${f("city", t.city, r.city)}${f("field", t.field, r.field)}${f("owner", t.owner, r.owner_name)}${f("website", t.website, r.website, true)}
 <label>${esc(t.phone)}<input name="phone" type="tel" inputmode="tel" maxlength="30" autocomplete="tel"></label><label>${esc(t.email)}<input name="email" type="email" maxlength="254" autocomplete="email"></label>

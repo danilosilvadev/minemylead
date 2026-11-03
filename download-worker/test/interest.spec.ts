@@ -123,4 +123,18 @@ describe("interest links", () => {
     await SELF.fetch(`${BASE}/f/minemylead/${t}`, { headers: { "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 LinkedInApp" } });
     expect((await results()).some((r) => r.token === t)).toBe(true); // a person in an in-app browser is a click
   });
+
+  it("the form says why the business was picked (one reason per line, escaped), and says nothing when the link carries none", async () => {
+    const t = "tok_why_0123456789abcdef";
+    await publish([rec(t, { lang: "pt", why: "Atua em comércio de materiais de construção em Curitiba/PR\nParece vender para outras empresas\n<script>alert(1)</script>" })]);
+    const body = await (await SELF.fetch(`${BASE}/f/minemylead/${t}`, { headers: { "user-agent": "Mozilla/5.0 (iPhone) Mobile" } })).text();
+    expect(body).toContain("Por que você recebeu esta mensagem");
+    expect(body).toContain("<li>Atua em comércio de materiais de construção em Curitiba/PR</li>");
+    expect(body).toContain("<li>Parece vender para outras empresas</li>");
+    expect(body).toContain("&lt;script&gt;"); expect(body).not.toContain("<script>alert");
+    expect(body).toContain("cadastro público de CNPJ");
+    const plain = "tok_nowhy_0123456789abcdef";
+    await publish([rec(plain)]);
+    expect(await (await SELF.fetch(`${BASE}/f/minemylead/${plain}`, { headers: { "user-agent": "Mozilla/5.0 (iPhone) Mobile" } })).text()).not.toContain("Why you received this");
+  });
 });
