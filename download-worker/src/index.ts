@@ -47,7 +47,7 @@ async function route(request: Request, env: Env): Promise<Response> {
 
   // the address leads see (go.minemylead.com) must never show a bare error: plain http goes to https, and the root goes to the site
   if (method === "GET" || method === "HEAD") {
-    if (url.protocol === "http:") { url.protocol = "https:"; return Response.redirect(url.toString(), 301); }
+    if (url.protocol === "http:" && url.hostname !== "127.0.0.1" && url.hostname !== "localhost") { url.protocol = "https:"; return Response.redirect(url.toString(), 301); }
     if (path === "/") return Response.redirect("https://minemylead.com/pt/", 302);
   }
 
