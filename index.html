@@ -324,6 +324,13 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 .who-sec p{max-width:40em;color:var(--ink2);font-size:17px}
 .lf select{width:100%;font:inherit;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink);margin-top:6px}
 </style>
+<style>.pv-fig{margin:0}.pv-fig .pv{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:14px;box-shadow:var(--shadow)}.pv-fig .pv-still{display:none}@media(prefers-reduced-motion:reduce){.pv-fig video.pv{display:none}.pv-fig .pv-still{display:block}}html.reduce .pv-fig video.pv{display:none}html.reduce .pv-fig .pv-still{display:block}.pv-sec{padding:8px 0 56px}.pv-wide{max-width:1320px}</style>
+<style>
+.pv-fig{position:relative}.pv-fig .pv-still{display:none!important}.pv-fig video.pv{display:block!important}
+.pv-fig.pv-mob video.pv{width:100%!important;max-width:420px;height:auto!important;aspect-ratio:9/16!important;margin:0 auto;border-radius:22px}
+.pv-play{position:absolute;left:50%;top:calc(50% - 18px);transform:translate(-50%,-50%);display:none;align-items:center;justify-content:center;width:92px;height:92px;padding:0 0 0 6px;border:0;border-radius:50%;background:rgba(15,27,45,.82);color:#fff;cursor:pointer;box-shadow:0 12px 40px rgba(15,27,45,.35),0 0 0 10px rgba(255,255,255,.45);transition:transform .15s}.pv-play:hover{transform:translate(-50%,-50%) scale(1.06)}.pv-fig.paused video.pv{filter:saturate(.95)}
+.pv-fig.paused .pv-play{display:inline-flex}@media(max-width:600px){.pv-play{width:76px;height:76px}}
+</style>
 </head>
 <body>
 <nav class="nav">
@@ -369,6 +376,11 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     </figure>
   </div>
 </div>
+<section id="preview" class="pv-sec" aria-label="Animação do app MineMyLead: a lista de empresas, a prova de um lead, as estatísticas, o mapa e o menu de comandos.">
+  <div class="wrap pv-wide">
+    <figure class="pv-fig"><video class="pv" id="pv" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="/assets/preview/poster-panel.jpg?v=9" width="1920" height="1080" aria-label="Animação do app MineMyLead: a lista de empresas, a prova de um lead, as estatísticas, o mapa e o menu de comandos." data-desk="/assets/preview/preview" data-desk-poster="/assets/preview/poster-panel.jpg" data-mob="/assets/preview/preview-mobile" data-mob-poster="/assets/preview/poster-mobile.jpg"></video><script>(function(){var v=document.getElementById("pv"),m=window.matchMedia&&matchMedia("(max-width: 700px)").matches,b=v.getAttribute(m?"data-mob":"data-desk");v.muted=true;v.defaultMuted=true;v.setAttribute("muted","");v.setAttribute("playsinline","");v.poster=v.getAttribute(m?"data-mob-poster":"data-desk-poster")+"?v=9";if(m){v.width=720;v.height=1280;v.parentNode.classList.add("pv-mob")}v.src=b+".mp4?v=9"})();</script><button class="pv-play" type="button" aria-label="Assistir"><svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button><figcaption class="cap">Veja uma empresa aberta, com a prova</figcaption></figure>
+  </div>
+</section>
 <section id="pack" class="aud">
   <div class="wrap">
     <div class="head"><p class="kick">O que chega</p><h2>Um pacote de 100 empresas, prontas para abordar.</h2></div>
@@ -452,7 +464,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
     <p class="legal">© 2026 MineMyLead. <a href="/pt/privacidade.html" style="display:inline;margin-left:12px">Privacidade</a> <a href="/pt/termos.html" style="display:inline;margin-left:12px">Termos</a></p>
   </div>
 </footer>
-<script src="/assets/preview.js?v=8"></script>
+<script src="/assets/preview.js?v=9"></script>
 <script src="/assets/waitlist.js?v=8"></script>
 <script>window.AH_API = "";</script><script src="/pt/trial/ah.js?v=2"></script>
 </body>
