@@ -129,13 +129,15 @@ async function found(request: Request, env: Env): Promise<Response> {
 async function deliver(request: Request, env: Env): Promise<Response> {
   if (!(await keyOk(request, env))) return unauthorized();
   const raw = await request.text();
-  if (raw.length > MAX_SAMPLE + 2000) return json({ error: "too large" }, 413);
-  let b: { id?: number; html?: string };
+  if (raw.length > MAX_SAMPLE + 8000) return json({ error: "too large" }, 413);
+  let b: { id?: number; html?: string; subject?: string; body?: string };
   try { b = JSON.parse(raw); } catch { return json({ error: "bad request" }, 400); }
   const id = Number(b.id);
   if (!Number.isInteger(id) || id <= 0 || typeof b.html !== "string" || !b.html.includes("<html") || b.html.length > MAX_SAMPLE) return json({ error: "bad request" }, 400);
   const r = await env.DB.prepare("UPDATE intake SET sample_html = ?2, sample_at = ?3, stage = 'sample' WHERE id = ?1").bind(id, b.html, new Date().toISOString()).run();
-  return json({ ok: (r.meta.changes ?? 0) > 0 });
+  if ((r.meta.changes ?? 0) === 0) return json({ ok: false });
+  const mail = await sendSampleMail(env, id, clip(b.subject, 200), String(b.body ?? "").slice(0, 4000));
+  return json({ ok: true, ...mail });
 }
 
 async function byCode(env: Env, code: string): Promise<Row | null> {
@@ -183,4 +185,23 @@ async function buy(env: Env, code: string): Promise<Response> {
   if (!r) return text("Not found", 404);
   if (!r.buy_at) await env.DB.prepare("UPDATE intake SET buy_at = ?2, buy_taken = 0, stage = 'buy' WHERE code = ?1").bind(code, new Date().toISOString()).run();
   return page((await byCode(env, code)) ?? r, "");
+}
+
+/** Sends the sample email to the client, once. Nothing here throws: a Worker without the binding, a domain not set up yet or a refused address only means the email is left for a person
+ * (the reason is kept in the order and told to antiHunt). A client is mailed once, however many times the sample is delivered. */
+async function sendSampleMail(env: Env, id: number, subject: string | null, body: string): Promise<{ mailed: boolean; error?: string }> {
+  const row = await env.DB.prepare("SELECT email, mailed_at FROM intake WHERE id = ?1").bind(id).first<{ email: string; mailed_at: string | null }>();
+  if (!row) return { mailed: false, error: "no such order" };
+  if (row.mailed_at) return { mailed: true };
+  if (!env.EMAIL || !env.MAIL_FROM) return { mailed: false, error: "automatic email is not set up" };
+  if (!subject || !body.trim()) return { mailed: false, error: "no subject or text to send" };
+  try {
+    await env.EMAIL.send({ to: row.email, from: { email: env.MAIL_FROM, name: "MineMyLead" }, subject, text: body, ...(env.MAIL_REPLY_TO ? { replyTo: env.MAIL_REPLY_TO } : {}) });
+    await env.DB.prepare("UPDATE intake SET mailed_at = ?2, mail_error = NULL WHERE id = ?1").bind(id, new Date().toISOString()).run();
+    return { mailed: true };
+  } catch (e) {
+    const err = String((e as { code?: string; message?: string }).code ?? "") + " " + String((e as Error).message ?? e);
+    await env.DB.prepare("UPDATE intake SET mail_error = ?2 WHERE id = ?1").bind(id, err.trim().slice(0, 300)).run();
+    return { mailed: false, error: err.trim().slice(0, 300) };
+  }
 }

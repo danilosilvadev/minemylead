@@ -84,6 +84,19 @@ describe("the free-sample order", () => {
     expect((await list()).find((x) => x.email === "g@gamma.com.br")).toBeUndefined();
   });
 
+  it("delivering the sample sends the email to the client (the local binding accepts it), and without a subject and text it says why instead", async () => {
+    const a = (await (await post({ website: "delta.com.br", email: "d@delta.com.br" })).json()) as { order: string };
+    const row = await mine("d@delta.com.br");
+    const full = { id: row.id, html: "<!doctype html><html><body>3 leads</body></html>", subject: "Seus 3 super leads", body: `Aqui: https://go.test${a.order}` };
+    expect(await (await apost("/api/intake/deliver", full)).json()).toEqual({ ok: true, mailed: true });
+    // delivered again (antiHunt retries): still one email, and the answer stays "mailed"
+    expect(await (await apost("/api/intake/deliver", { ...full, subject: "another", body: "another" })).json()).toEqual({ ok: true, mailed: true });
+    await post({ website: "epsilon.com.br", email: "e@epsilon.com.br" });
+    const e = await mine("e@epsilon.com.br");
+    const bare = (await (await apost("/api/intake/deliver", { id: e.id, html: "<!doctype html><html><body>3 leads</body></html>" })).json()) as { ok: boolean; mailed: boolean; error?: string };
+    expect([bare.ok, bare.mailed, bare.error]).toEqual([true, false, "no subject or text to send"]);
+  });
+
   it("an unknown code is not found", async () => {
     expect((await SELF.fetch(`${BASE}/o/ZZZZZZZZZZZZ`)).status).toBe(404);
     expect((await SELF.fetch(`${BASE}/o/ZZZZZZZZZZZZ/sample`)).status).toBe(404);
