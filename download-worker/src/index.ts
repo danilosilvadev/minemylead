@@ -26,6 +26,7 @@ import {
 } from "./shared";
 import type { Env } from "./types";
 import { interestRoute } from "./interest";
+import { intakeRoute } from "./intake";
 import { waitlistList, waitlistRoute } from "./waitlist";
 
 export default {
@@ -50,6 +51,8 @@ async function route(request: Request, env: Env): Promise<Response> {
     if (path === "/") return Response.redirect("https://minemylead.com/pt/", 302);
   }
 
+  const intake = await intakeRoute(request, env, path);
+  if (intake) return intake;
   const interest = await interestRoute(request, env, path);
   if (interest) return interest;
   if (path === "/waitlist") return waitlistRoute(request, env);
