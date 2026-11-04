@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Your pilot details · MineMyLead</title>
+<style>
+:root{--ink:#0F1B2D;--yellow:#FFE14D;--line:#e3e6eb;--bg:#f7f8fa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:560px;margin:0 auto;padding:36px 22px 60px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;margin-bottom:26px}.brand i{width:22px;height:22px;border-radius:7px;background:var(--yellow);border:2px solid var(--ink);display:block}
+h1{font-size:30px;line-height:1.15;margin:0 0 8px;letter-spacing:-.02em}p.l{color:#4a5565;margin:0 0 22px}
+form{display:grid;gap:14px}label{display:grid;gap:6px;font-weight:600;font-size:14px}
+input,select{font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--yellow);border-color:var(--ink)}
+button{font:inherit;font-weight:700;padding:13px 18px;border-radius:12px;border:0;background:var(--ink);color:#fff;cursor:pointer;margin-top:6px}
+.n{color:#6b7686;font-size:13px}a{color:var(--ink)}.hp{position:absolute;left:-9999px;width:1px;height:1px}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><i></i>MineMyLead</div>
+<h1>Your pilot details</h1>
+<p class="l">With these details we write the messages and the reply page in your company's name. It takes two minutes. We only use them for the pilot.</p>
+<form method="post" action="https://go.minemylead.com/api/intake">
+<label>Your company name *<input name="client_name" type="text" required placeholder="" maxlength="240"></label><label>Your email *<input name="email" type="email" required placeholder="" maxlength="240"></label><label>What you sell (one sentence)<input name="service" type="text"  placeholder="E.g. management software for clinics" maxlength="240"></label><label>Company postal address (goes in the footer of the messages)<input name="address" type="text"  placeholder="Street, number, city/state" maxlength="240"></label><label>A link with more information (your site or a page of yours)<input name="info_link" type="url"  placeholder="https://" maxlength="240"></label><label>Name of the person who sends the messages<input name="sender_name" type="text"  placeholder="" maxlength="240"></label><label>Sender's WhatsApp (optional)<input name="phone" type="tel"  placeholder="" maxlength="240"></label>
+<label>Sending channel<select name="sender_channel"><option value="whatsapp">WhatsApp</option><option value="email">Email</option><option value="linkedin">LinkedIn</option><option value="instagram">Instagram</option><option value="other">Other</option></select></label>
+<input class="hp" name="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+<input type="hidden" name="lang" value="en">
+<button type="submit">Send the details</button>
+</form>
+<p class="n" style="margin-top:18px">You approve every message before it goes out; nothing is sent without you.</p>
+<p class="n"><a href="/en/">Back to the site</a></p>
+</main>
+</body>
+</html>
