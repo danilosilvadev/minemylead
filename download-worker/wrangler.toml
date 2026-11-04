@@ -1,6 +1,8 @@
 name = "mml-downloads"
 main = "src/index.ts"
 compatibility_date = "2026-08-01"
+# Keeps the markpetrelli.workers.dev address the website uses (waitlist, downloads) working next to go.minemylead.com
+workers_dev = true
 
 # Secrets, set with wrangler and never committed:
 #   wrangler secret put MASTER_TOKEN
