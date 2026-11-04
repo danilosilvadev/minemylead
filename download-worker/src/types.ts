@@ -7,9 +7,9 @@ export interface Env {
   WAITLIST_NOTIFY?: string;
   /** The key antiHunt uses to publish links and pull results (wrangler secret put INTEREST_KEY). Not the admin token: it is copied to the local machine. */
   INTEREST_KEY?: string;
-  /** Cloudflare Email Service binding ([[send_email]] in wrangler.toml): sends the free-sample email from the minemylead domain. Absent or not set up: the email is left for a person to send. */
-  EMAIL?: { send(message: { to: string; from: string | { email: string; name?: string }; subject: string; text: string; replyTo?: string }): Promise<{ messageId?: string }> };
-  /** The sender of the sample email, on a domain onboarded for Email Sending (for example samples@minemylead.com). Empty: no automatic email. */
+  /** Secret: the API key of Resend (free plan: 3000 a month, 100 a day), which sends the free-sample email. Absent: the email is left for a person to send. */
+  RESEND_API_KEY?: string;
+  /** The sender of the sample email, on a domain verified in Resend (for example samples@minemylead.com). Empty: no automatic email. */
   MAIL_FROM?: string;
   /** Where a client's reply goes (a real inbox). Optional. */
   MAIL_REPLY_TO?: string;

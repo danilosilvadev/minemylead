@@ -1,5 +1,5 @@
 import { SELF } from "cloudflare:test";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { cleanWebsite } from "../src/intake";
 
 const BASE = "https://mml-downloads.test";
@@ -84,17 +84,40 @@ describe("the free-sample order", () => {
     expect((await list()).find((x) => x.email === "g@gamma.com.br")).toBeUndefined();
   });
 
-  it("delivering the sample sends the email to the client (the local binding accepts it), and without a subject and text it says why instead", async () => {
-    const a = (await (await post({ website: "delta.com.br", email: "d@delta.com.br" })).json()) as { order: string };
+  it("delivering the sample sends the email through Resend once; a refusal, a missing subject or a missing key leaves it for a person with the reason", async () => {
+    const sent: Record<string, unknown>[] = [];
+    const real = globalThis.fetch;
+    const spy = vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => {
+      if (String(input).startsWith("https://api.resend.com/emails")) { sent.push(JSON.parse(String(init?.body))); return new Response(JSON.stringify({ id: "msg_1" }), { status: 200 }); }
+      return real(input, init);
+    });
+    await post({ website: "delta.com.br", email: "d@delta.com.br" });
     const row = await mine("d@delta.com.br");
-    const full = { id: row.id, html: "<!doctype html><html><body>3 leads</body></html>", subject: "Seus 3 super leads", body: `Aqui: https://go.test${a.order}` };
+    const full = { id: row.id, html: "<!doctype html><html><body>3 leads</body></html>", subject: "Seus 3 super leads", body: "Aqui: https://go.test/o/ABC" };
     expect(await (await apost("/api/intake/deliver", full)).json()).toEqual({ ok: true, mailed: true });
-    // delivered again (antiHunt retries): still one email, and the answer stays "mailed"
-    expect(await (await apost("/api/intake/deliver", { ...full, subject: "another", body: "another" })).json()).toEqual({ ok: true, mailed: true });
+    expect(sent.length).toBe(1);
+    expect([sent[0].from, sent[0].to, sent[0].subject, sent[0].text]).toEqual(["MineMyLead <samples@minemylead.com>", ["d@delta.com.br"], "Seus 3 super leads", "Aqui: https://go.test/o/ABC"]);
+    // delivered again (antiHunt retries): the same client is not mailed twice
+    expect(await (await apost("/api/intake/deliver", { ...full, subject: "another" })).json()).toEqual({ ok: true, mailed: true });
+    expect(sent.length).toBe(1);
+    // no subject or text: nothing is sent, and the reason is given
     await post({ website: "epsilon.com.br", email: "e@epsilon.com.br" });
     const e = await mine("e@epsilon.com.br");
     const bare = (await (await apost("/api/intake/deliver", { id: e.id, html: "<!doctype html><html><body>3 leads</body></html>" })).json()) as { ok: boolean; mailed: boolean; error?: string };
-    expect([bare.ok, bare.mailed, bare.error]).toEqual([true, false, "no subject or text to send"]);
+    expect([bare.ok, bare.mailed, bare.error, sent.length]).toEqual([true, false, "no subject or text to send", 1]);
+    spy.mockRestore();
+  });
+
+  it("when Resend refuses (domain not verified yet), the sample is still delivered and the reason comes back", async () => {
+    const real = globalThis.fetch;
+    const spy = vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => String(input).startsWith("https://api.resend.com/emails") ? new Response(JSON.stringify({ name: "validation_error", message: "The minemylead.com domain is not verified." }), { status: 403 }) : real(input, init));
+    await post({ website: "zeta.com.br", email: "z@zeta.com.br" });
+    const z = await mine("z@zeta.com.br");
+    const r = (await (await apost("/api/intake/deliver", { id: z.id, html: "<!doctype html><html><body>3 leads</body></html>", subject: "S", body: "B" })).json()) as { ok: boolean; mailed: boolean; error?: string };
+    expect([r.ok, r.mailed]).toEqual([true, false]);
+    expect(r.error).toContain("Resend 403");
+    expect(r.error).toContain("not verified");
+    spy.mockRestore();
   });
 
   it("an unknown code is not found", async () => {

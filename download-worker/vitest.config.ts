@@ -13,6 +13,8 @@ export default defineConfig(async () => {
             MASTER_TOKEN: "master-token-0123456789abcdef0123456789abcdef",
             ADMIN_TOKEN: "admin-token-0123456789abcdef0123456789abcdef",
             INTEREST_KEY: "interest-key-0123456789abcdef0123456789abcdef",
+            RESEND_API_KEY: "re_test_key",
+            MAIL_FROM: "samples@minemylead.com",
             TEST_MIGRATIONS: migrations,
             WAITLIST_NOTIFY: "off",
           },

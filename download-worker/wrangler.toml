@@ -16,8 +16,8 @@ workers_dev = true
 # also notify from the Worker.
 [vars]
 WAITLIST_NOTIFY = "off"
-# The sample email is sent from this address by Cloudflare Email Service (needs the Workers Paid plan and the domain onboarded for Email Sending).
-# While that is not set up the send fails, is recorded, and antiHunt leaves the email for a person to send.
+# The sample email is sent from this address through Resend (free plan; secret RESEND_API_KEY, domain verified in Resend).
+# While that is not set up nothing is sent, the reason is recorded, and antiHunt leaves the email for a person to send.
 MAIL_FROM = "samples@minemylead.com"
 
 [[d1_databases]]
@@ -29,7 +29,3 @@ migrations_dir = "migrations"
 [[r2_buckets]]
 binding = "DOWNLOADS"
 bucket_name = "mml-downloads"
-
-# Cloudflare Email Service: sends the free-sample email (src/intake.ts).
-[[send_email]]
-name = "EMAIL"

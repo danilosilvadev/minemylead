@@ -187,21 +187,31 @@ async function buy(env: Env, code: string): Promise<Response> {
   return page((await byCode(env, code)) ?? r, "");
 }
 
-/** Sends the sample email to the client, once. Nothing here throws: a Worker without the binding, a domain not set up yet or a refused address only means the email is left for a person
+/** Sends the sample email to the client, once, through Resend's API. Nothing here throws: no key, a domain not verified yet or a refused address only means the email is left for a person
  * (the reason is kept in the order and told to antiHunt). A client is mailed once, however many times the sample is delivered. */
 async function sendSampleMail(env: Env, id: number, subject: string | null, body: string): Promise<{ mailed: boolean; error?: string }> {
   const row = await env.DB.prepare("SELECT email, mailed_at FROM intake WHERE id = ?1").bind(id).first<{ email: string; mailed_at: string | null }>();
   if (!row) return { mailed: false, error: "no such order" };
   if (row.mailed_at) return { mailed: true };
-  if (!env.EMAIL || !env.MAIL_FROM) return { mailed: false, error: "automatic email is not set up" };
+  if (!env.RESEND_API_KEY || !env.MAIL_FROM) return { mailed: false, error: "automatic email is not set up" };
   if (!subject || !body.trim()) return { mailed: false, error: "no subject or text to send" };
   try {
-    await env.EMAIL.send({ to: row.email, from: { email: env.MAIL_FROM, name: "MineMyLead" }, subject, text: body, ...(env.MAIL_REPLY_TO ? { replyTo: env.MAIL_REPLY_TO } : {}) });
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+      body: JSON.stringify({ from: `MineMyLead <${env.MAIL_FROM}>`, to: [row.email], subject, text: body, ...(env.MAIL_REPLY_TO ? { reply_to: env.MAIL_REPLY_TO } : {}) }),
+    });
+    if (!r.ok) {
+      const t = (await r.text()).slice(0, 240);
+      const err = `Resend ${r.status} ${t}`;
+      await env.DB.prepare("UPDATE intake SET mail_error = ?2 WHERE id = ?1").bind(id, err).run();
+      return { mailed: false, error: err };
+    }
     await env.DB.prepare("UPDATE intake SET mailed_at = ?2, mail_error = NULL WHERE id = ?1").bind(id, new Date().toISOString()).run();
     return { mailed: true };
   } catch (e) {
-    const err = String((e as { code?: string; message?: string }).code ?? "") + " " + String((e as Error).message ?? e);
-    await env.DB.prepare("UPDATE intake SET mail_error = ?2 WHERE id = ?1").bind(id, err.trim().slice(0, 300)).run();
-    return { mailed: false, error: err.trim().slice(0, 300) };
+    const err = `could not reach Resend: ${String((e as Error).message ?? e)}`.slice(0, 300);
+    await env.DB.prepare("UPDATE intake SET mail_error = ?2 WHERE id = ?1").bind(id, err).run();
+    return { mailed: false, error: err };
   }
 }
