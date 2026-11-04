@@ -138,3 +138,14 @@ describe("interest links", () => {
     expect(await (await SELF.fetch(`${BASE}/f/minemylead/${plain}`, { headers: { "user-agent": "Mozilla/5.0 (iPhone) Mobile" } })).text()).not.toContain("Why you received this");
   });
 });
+
+describe("the address leads see", () => {
+  it("the root goes to the site and plain http goes to https", async () => {
+    const root = await SELF.fetch(`${BASE}/`, { redirect: "manual" });
+    expect([root.status, root.headers.get("location")]).toEqual([302, "https://minemylead.com/pt/"]);
+    const http = await SELF.fetch("http://go.example.test/f/minemylead/abc", { redirect: "manual" });
+    expect([http.status, http.headers.get("location")]).toEqual([301, "https://go.example.test/f/minemylead/abc"]);
+    const api = await SELF.fetch(`${BASE}/api/interest/results`);
+    expect(api.status).toBe(401); // the API is untouched
+  });
+});
