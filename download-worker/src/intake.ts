@@ -19,9 +19,31 @@ export function cleanWebsite(v: unknown): string | null {
   return `${u.protocol}//${h}${u.pathname === "/" ? "" : u.pathname}`.replace(/\/$/, "");
 }
 
+/** The company's website, or when it has none a social profile: a handle (@empresa) is kept as typed, anything else must be a public web address. */
+export function siteOrSocial(v: unknown): string | null {
+  const s = String(v ?? "").trim();
+  if (/^@[A-Za-z0-9._]{2,60}$/.test(s)) return s;
+  return cleanWebsite(s);
+}
+
+const ORIGINS = new Set(["https://minemylead.com", "https://www.minemylead.com", "http://localhost:8931"]);
+/** The landing page posts the form from the browser, so the answer to a POST (and the preflight) carries the page's origin. */
+function cors(request: Request, response: Response): Response {
+  const origin = request.headers.get("origin") || "";
+  if (ORIGINS.has(origin)) {
+    response.headers.set("access-control-allow-origin", origin);
+    response.headers.set("vary", "origin");
+    response.headers.set("access-control-allow-methods", "POST, OPTIONS");
+    response.headers.set("access-control-allow-headers", "content-type");
+    response.headers.set("access-control-max-age", "86400");
+  }
+  return response;
+}
+
 export async function intakeRoute(request: Request, env: Env, path: string, ctx?: { waitUntil(p: Promise<unknown>): void }): Promise<Response | null> {
   if (path === "/api/intake") {
-    if (request.method === "POST") return submit(request, env, ctx);
+    if (request.method === "OPTIONS") return cors(request, new Response(null, { status: 204 }));
+    if (request.method === "POST") return cors(request, await submit(request, env, ctx));
     if (request.method === "GET") return list(request, env);
     return text("Method not allowed", 405);
   }
@@ -60,7 +82,8 @@ async function submit(request: Request, env: Env, ctx?: { waitUntil(p: Promise<u
   const l = lang(f.lang);
   const thanks = () => (wantsJson ? json({ ok: true }) : shell(l, `<h1>${esc(T[l].title)}</h1><p>${esc(T[l].body)}</p>`));
   if (String(f.hp ?? "").trim()) return thanks(); // honeypot: pretend it worked
-  const website = cleanWebsite(f.website), email = String(f.email ?? "").trim().toLowerCase().slice(0, 254);
+  const email = String(f.email ?? "").trim().toLowerCase().slice(0, 254);
+  const website = siteOrSocial(f.site ?? f.website);
   if (!website || !EMAIL.test(email)) return wantsJson ? json({ error: "check the website and the email" }, 400) : shell(l, `<h1>${esc(T[l].bad)}</h1>`, 400);
   // a flood is stopped, not stored
   const recent = await env.DB.prepare("SELECT COUNT(*) AS n FROM intake WHERE created_at > ?1").bind(new Date(Date.now() - 3_600_000).toISOString()).first<{ n: number }>();
@@ -95,7 +118,7 @@ async function ack(request: Request, env: Env): Promise<Response> {
 async function notifyOwner(env: Env, id: number, d: { email: string; website: string; name: string | null; service: string | null; lang: string }): Promise<void> {
   const fail = (err: string) => env.DB.prepare("UPDATE intake SET notify_error = ?2 WHERE id = ?1").bind(id, err.slice(0, 300)).run();
   if (!env.RESEND_API_KEY || !env.MAIL_FROM || !env.NOTIFY_TO) { await fail("the email to the owner is not set up (RESEND_API_KEY, MAIL_FROM, NOTIFY_TO)"); return; }
-  const lines = ["New request for a free sample.", "", `Website: ${d.website}`, `Email: ${d.email}`, ...(d.name ? [`Name: ${d.name}`] : []), ...(d.service ? [`Sells: ${d.service}`] : []), `Language: ${d.lang}`, "", "Make the 3-lead sample by hand and answer this email address."];
+  const lines = ["New request for a free sample.", "", `Site or social: ${d.website}`, `Email: ${d.email}`, ...(d.name ? [`Name: ${d.name}`] : []), ...(d.service ? [`Sells: ${d.service}`] : []), `Language: ${d.lang}`, "", "Make the 3-lead sample by hand and answer this email address."];
   try {
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",

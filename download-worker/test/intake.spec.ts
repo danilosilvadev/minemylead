@@ -1,6 +1,6 @@
 import { SELF } from "cloudflare:test";
 import { describe, expect, it, vi } from "vitest";
-import { cleanWebsite } from "../src/intake";
+import { cleanWebsite, siteOrSocial } from "../src/intake";
 
 const BASE = "https://mml-downloads.test";
 const KEY = "interest-key-0123456789abcdef0123456789abcdef";
@@ -16,6 +16,32 @@ describe("the website address", () => {
     expect(cleanWebsite("Acme.com.br")).toBe("https://acme.com.br");
     expect(cleanWebsite("http://www.acme.com.br/")).toBe("http://www.acme.com.br");
     for (const bad of ["", "javascript:alert(1)", "ftp://acme.com", "https://user:pw@acme.com", "https://acme.com:8443", "localhost", "http://127.0.0.1", "https://intranet.local", "no-dot", "file:///etc/passwd"]) expect(cleanWebsite(bad), bad).toBeNull();
+  });
+});
+
+describe("the site or social field", () => {
+  it("takes a website, a profile address or an @handle, and refuses the rest", () => {
+    expect(siteOrSocial("acme.com.br")).toBe("https://acme.com.br");
+    expect(siteOrSocial("instagram.com/acme.ltda")).toBe("https://instagram.com/acme.ltda");
+    expect(siteOrSocial("@acme.ltda")).toBe("@acme.ltda");
+    for (const bad of ["", "@", "@a", "just words", "http://127.0.0.1", "javascript:alert(1)"]) expect(siteOrSocial(bad), bad).toBeNull();
+  });
+  it("accepts a request with a name and only an Instagram handle", async () => {
+    const r = await post({ name: "Ana", site: "@loja.da.ana", email: "ana@loja.com.br", lang: "pt" });
+    expect(r.status).toBe(200);
+    const row = (await list()).find((x) => x.email === "ana@loja.com.br")!;
+    expect([row.client_name, row.website]).toEqual(["Ana", "@loja.da.ana"]);
+  });
+});
+
+describe("the browser form", () => {
+  it("answers the preflight and the POST for the landing page's origin, and for no other", async () => {
+    const pre = await SELF.fetch(`${BASE}/api/intake`, { method: "OPTIONS", headers: { origin: "https://minemylead.com" } });
+    expect([pre.status, pre.headers.get("access-control-allow-origin")]).toEqual([204, "https://minemylead.com"]);
+    const r = await SELF.fetch(`${BASE}/api/intake`, { method: "POST", headers: { origin: "https://minemylead.com", "content-type": "application/json", accept: "application/json" }, body: JSON.stringify({ name: "Bia", site: "bia.com.br", email: "bia@bia.com.br" }) });
+    expect([r.status, r.headers.get("access-control-allow-origin")]).toEqual([200, "https://minemylead.com"]);
+    const other = await SELF.fetch(`${BASE}/api/intake`, { method: "OPTIONS", headers: { origin: "https://evil.example" } });
+    expect(other.headers.get("access-control-allow-origin")).toBeNull();
   });
 });
 
