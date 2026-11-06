@@ -16,22 +16,24 @@ input,select{font:inherit;padding:11px 12px;border:1px solid var(--line);border-
 input:focus,select:focus{outline:2px solid var(--yellow);border-color:var(--ink)}
 button{font:inherit;font-weight:700;padding:13px 18px;border-radius:12px;border:0;background:var(--ink);color:#fff;cursor:pointer;margin-top:6px}
 .n{color:#6b7686;font-size:13px}a{color:var(--ink)}.hp{position:absolute;left:-9999px;width:1px;height:1px}
-</style>
+.lst.bad{color:#b3261e;font-weight:600}.lst.bad a{color:#b3261e}button[disabled]{opacity:.6;cursor:wait}</style>
 </head>
 <body>
 <main>
 <div class="brand"><img src="/assets/brand/mark.svg" alt="" width="28" height="28">MineMyLead</div>
 <h1>3 super leads grátis, em até 24 horas</h1>
-<p class="l">Coloque o endereço do seu site e o seu e-mail. Nós lemos o seu site para entender o que você vende e, em até 24 horas, enviamos por e-mail 3 super leads escolhidos para você, com o dono, o contato direto e a prova.</p>
-<form method="post" action="https://go.minemylead.com/api/intake">
-<label>Site da sua empresa *<input name="website" type="text" inputmode="url" required placeholder="suaempresa.com.br" maxlength="200" autocomplete="url"></label>
+<p class="l">Preencha o seu nome, o seu e-mail e o site ou a rede social da empresa. Nós vemos o que você vende e, em até 24 horas, enviamos por e-mail 3 super leads escolhidos para você, com o dono, o contato direto e a prova.</p>
+<form data-contact data-lang="pt" data-kind="teste grátis (3 super leads)" data-ok="Pronto! Recebemos o seu pedido. Em até 24 horas enviamos os 3 super leads por e-mail." data-bad-name="Escreva o seu nome." data-bad-email="Confira o e-mail." data-bad-site="Coloque o site ou a rede social." data-fail="Não conseguimos enviar agora." data-mailto="Enviar por e-mail" data-sending="Enviando..." novalidate>
+<label>Seu nome *<input name="name" type="text" required maxlength="120" autocomplete="name"></label>
 <label>Seu e-mail *<input name="email" type="email" required maxlength="240" autocomplete="email"></label>
-<input class="hp" name="hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-<input type="hidden" name="lang" value="pt">
+<label>Site ou rede social da empresa *<input name="site" type="text" inputmode="url" required placeholder="suaempresa.com.br ou @suaempresa" maxlength="200" autocomplete="url"><span class="n">Sem site? Coloque o Instagram ou outra rede social da empresa. Se a empresa não tiver nenhuma, coloque a sua rede social pessoal.</span></label>
+<input class="hp" name="_honey" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
 <button type="submit">Quero os 3 super leads</button>
+<p class="n lst" aria-live="polite"></p>
 </form>
 <p class="n" style="margin-top:18px">Sem cartão e sem compromisso. Usamos o e-mail só para enviar a amostra e responder sobre o pacote de 100.</p>
 <p class="n"><a href="/pt/">Voltar ao site</a></p>
 </main>
+<script src="/assets/contact.js?v=1"></script>
 </body>
 </html>
