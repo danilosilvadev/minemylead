@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MineMyLead">
+  <rect width="512" height="512" rx="116" fill="#FFE14D"/>
+  <g transform="translate(66 66) scale(3.8)">
+    <circle cx="50" cy="58" r="34" fill="#0F1B2D"/>
+    <path d="M14 54 A36 36 0 0 1 86 54 Z" fill="#FFFFFF" stroke="#0F1B2D" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="9" y="52" width="82" height="9" rx="4.5" fill="#FFFFFF" stroke="#0F1B2D" stroke-width="5"/>
+    <circle cx="39" cy="73" r="5" fill="#FFFFFF"/>
+    <circle cx="61" cy="73" r="5" fill="#FFFFFF"/>
+  </g>
+</svg>
