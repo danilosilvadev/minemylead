@@ -1,0 +1,55 @@
+// The pilot / free-test request form. Name, email and a website or social profile go to two places at once:
+//  1. the MineMyLead Worker (keeps the request, and emails the owner once its mail is set up), and
+//  2. FormSubmit, which emails contact@minemylead.com straight from here.
+// The visitor sees "sent" when at least one of them took it. If both fail, the message and a ready email link are shown.
+(function () {
+  var TO = "contact@minemylead.com";
+  var WORKER = "https://mml-downloads.markpetrelli.workers.dev/api/intake";
+  var RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function el(f, n) { return f.elements[n]; }
+  function val(f, n) { var x = el(f, n); return x ? String(x.value || "").trim() : ""; }
+  function post(url, body) {
+    var ctl = typeof AbortController === "function" ? new AbortController() : null;
+    var t = ctl ? setTimeout(function () { ctl.abort(); }, 12000) : null;
+    return fetch(url, { method: "POST", headers: { "content-type": "application/json", accept: "application/json" }, body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { if (t) clearTimeout(t); return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); });
+  }
+  function sentOk(r) { return r.ok && !(r.j && (r.j.success === false || r.j.success === "false")); }
+
+  Array.prototype.forEach.call(document.querySelectorAll("form[data-contact]"), function (f) {
+    var st = f.querySelector(".lst"), d = f.dataset, btn = f.querySelector("button[type=submit]");
+    function say(t, bad) { if (st) { st.textContent = t; st.className = "lst" + (bad ? " bad" : ""); } }
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (val(f, "_honey")) { say(d.ok); return; }
+      var data = { name: val(f, "name"), email: val(f, "email").toLowerCase(), site: val(f, "site"), niche: val(f, "niche") };
+      if (!data.name) { say(d.badName, true); el(f, "name").focus(); return; }
+      if (!RE.test(data.email)) { say(d.badEmail, true); el(f, "email").focus(); return; }
+      if (data.site.length < 3) { say(d.badSite, true); el(f, "site").focus(); return; }
+      say(d.sending); btn.disabled = true;
+      var kind = d.kind || "piloto";
+      var toWorker = post(WORKER, { name: data.name, email: data.email, site: data.site, service: data.niche, lang: d.lang, hp: "" });
+      var toMail = post("https://formsubmit.co/ajax/" + TO, {
+        _subject: "MineMyLead: pedido de " + kind + " (" + data.name + ")", _template: "table", _captcha: "false", _replyto: data.email,
+        "Nome": data.name, "E-mail": data.email, "Site ou rede social": data.site, "O que vende e para quem": data.niche || "(não informado)", "Pedido": kind, "Idioma": d.lang
+      });
+      Promise.all([toWorker.then(sentOk, function () { return false; }), toMail.then(sentOk, function () { return false; })]).then(function (res) {
+        if (res[0] || res[1]) { say(d.ok); f.reset(); return; }
+        var body = "Nome: " + data.name + "\nE-mail: " + data.email + "\nSite ou rede social: " + data.site + "\nO que vende e para quem: " + data.niche;
+        var href = "mailto:" + TO + "?subject=" + encodeURIComponent("MineMyLead: pedido de " + kind) + "&body=" + encodeURIComponent(body);
+        if (st) { st.className = "lst bad"; st.innerHTML = ""; st.appendChild(document.createTextNode(d.fail + " ")); var a = document.createElement("a"); a.href = href; a.textContent = d.mailto; st.appendChild(a); }
+      }).then(function () { btn.disabled = false; });
+    });
+  });
+
+  // The button at the top of the page takes the visitor to the form.
+  Array.prototype.forEach.call(document.querySelectorAll("a[data-to-form]"), function (a) {
+    a.addEventListener("click", function (e) {
+      var sec = document.getElementById("waitlist-sec"), first = sec && sec.querySelector("input[name=name]");
+      if (!sec) return;
+      e.preventDefault();
+      sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (first) setTimeout(function () { try { first.focus({ preventScroll: true }); } catch (x) { first.focus(); } }, 700);
+    });
+  });
+})();
