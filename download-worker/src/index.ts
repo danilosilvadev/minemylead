@@ -30,9 +30,9 @@ import { intakeRoute } from "./intake";
 import { waitlistList, waitlistRoute } from "./waitlist";
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     try {
-      return await route(request, env);
+      return await route(request, env, ctx);
     } catch (err) {
       console.error("download worker failed", err instanceof Error ? err.message : "error");
       return text("Something went wrong.", 500);
@@ -40,7 +40,7 @@ export default {
   },
 };
 
-async function route(request: Request, env: Env): Promise<Response> {
+async function route(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   const url = new URL(request.url);
   const path = normalizePath(url.pathname);
   const method = request.method;
@@ -51,7 +51,7 @@ async function route(request: Request, env: Env): Promise<Response> {
     if (path === "/") return Response.redirect("https://minemylead.com/pt/", 302);
   }
 
-  const intake = await intakeRoute(request, env, path);
+  const intake = await intakeRoute(request, env, path, ctx);
   if (intake) return intake;
   const interest = await interestRoute(request, env, path);
   if (interest) return interest;

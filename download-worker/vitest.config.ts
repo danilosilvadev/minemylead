@@ -15,6 +15,7 @@ export default defineConfig(async () => {
             INTEREST_KEY: "interest-key-0123456789abcdef0123456789abcdef",
             RESEND_API_KEY: "re_test_key",
             MAIL_FROM: "samples@minemylead.com",
+            NOTIFY_TO: "owner@minemylead.test",
             TEST_MIGRATIONS: migrations,
             WAITLIST_NOTIFY: "off",
           },

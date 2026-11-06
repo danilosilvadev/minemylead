@@ -16,8 +16,8 @@ workers_dev = true
 # also notify from the Worker.
 [vars]
 WAITLIST_NOTIFY = "off"
-# The sample email is sent from this address through Resend (free plan; secret RESEND_API_KEY, domain verified in Resend).
-# While that is not set up nothing is sent, the reason is recorded, and antiHunt leaves the email for a person to send.
+# A request for a free sample emails the owner from this address through Resend (free plan; secrets RESEND_API_KEY and NOTIFY_TO, domain verified in Resend).
+# While that is not set up the request is still kept, the reason is recorded, and antiHunt pulls it. Nothing is ever sent to the visitor from here.
 MAIL_FROM = "samples@minemylead.com"
 
 [[d1_databases]]

@@ -9,6 +9,7 @@ const post = (fields: Record<string, string>, accept = "application/json") => SE
 const list = async () => ((await (await SELF.fetch(`${BASE}/api/intake`, { headers: auth })).json()) as { intake: Record<string, any>[] }).intake;
 const mine = async (email: string) => (await list()).find((x) => x.email === email)!;
 const apost = (path: string, body: unknown) => SELF.fetch(`${BASE}${path}`, { method: "POST", headers: auth, body: JSON.stringify(body) });
+const mailSpy = () => { const sent: Record<string, any>[] = []; const real = globalThis.fetch; const spy = vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => { if (String(input).startsWith("https://api.resend.com/emails")) { sent.push(JSON.parse(String(init?.body))); return new Response(JSON.stringify({ id: "m" }), { status: 200 }); } return real(input, init); }); return { sent, spy }; };
 
 describe("the website address", () => {
   it("accepts a public site (with or without https), and refuses anything else", () => {
@@ -18,20 +19,37 @@ describe("the website address", () => {
   });
 });
 
-describe("the free-sample order", () => {
-  it("stores the order from a website and an email, answers with the client's page, and lists it only for antiHunt's key", async () => {
+describe("the request for a free sample", () => {
+  it("stores the request, tells the visitor it arrived, and lists it only for antiHunt's key", async () => {
+    const { spy } = mailSpy();
     const r = await post({ website: "acme.com.br", email: "Dono@Acme.com.br", lang: "pt" });
-    expect(r.status).toBe(200);
-    const { order } = (await r.json()) as { order: string };
-    expect(order).toMatch(/^\/o\/[A-Za-z0-9]{8,16}$/);
+    expect([r.status, await r.json()]).toEqual([200, { ok: true }]);
     expect((await SELF.fetch(`${BASE}/api/intake`)).status).toBe(401);
     const row = await mine("dono@acme.com.br");
-    expect([row.website, row.status, row.stage, row.code]).toEqual(["https://acme.com.br", "new", "received", order.slice(3)]);
-    const page = await SELF.fetch(`${BASE}${order}`);
-    expect(await page.text()).toContain("em até 24 horas");
-    // asking again with the same email and site gives the same order, not a second one
-    expect(((await (await post({ website: "https://acme.com.br/", email: "dono@acme.com.br" })).json()) as { order: string }).order).toBe(order);
-    expect((await list()).filter((x) => x.email === "dono@acme.com.br").length).toBe(1);
+    expect([row.website, row.status, row.lang]).toEqual(["https://acme.com.br", "new", "pt"]);
+    expect(await (await post({ website: "acme.com.br", email: "dono@acme.com.br" }, "text/html")).text()).toContain("em até 24 horas");
+    spy.mockRestore();
+  });
+
+  it("emails the owner the data once, with the visitor as reply-to, and never writes to the visitor", async () => {
+    const { sent, spy } = mailSpy();
+    await post({ website: "beta.com.br", email: "x@beta.com.br", name: "Beta", service: "ferramentas" });
+    await post({ website: "https://beta.com.br/", email: "x@beta.com.br" });
+    await new Promise((r) => setTimeout(r, 50));
+    expect(sent.length, "the same email and site asking again does not mail twice").toBe(1);
+    expect([sent[0].from, sent[0].to, sent[0].reply_to, sent[0].subject]).toEqual(["MineMyLead <samples@minemylead.com>", ["owner@minemylead.test"], "x@beta.com.br", "Sample request: beta.com.br"]);
+    expect(sent[0].text).toContain("Sells: ferramentas");
+    expect(sent[0].text).toContain("Email: x@beta.com.br");
+    expect((await list()).filter((x) => x.email === "x@beta.com.br").length).toBe(1);
+    spy.mockRestore();
+  });
+
+  it("keeps the request even when the email to the owner fails", async () => {
+    const real = globalThis.fetch;
+    const spy = vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => String(input).startsWith("https://api.resend.com/emails") ? new Response("domain not verified", { status: 403 }) : real(input, init));
+    expect((await post({ website: "gamma.com.br", email: "g@gamma.com.br" })).status).toBe(200);
+    expect((await mine("g@gamma.com.br")).website).toBe("https://gamma.com.br");
+    spy.mockRestore();
   });
 
   it("refuses a missing or bad website or email, ignores the honeypot", async () => {
@@ -42,86 +60,11 @@ describe("the free-sample order", () => {
     expect((await list()).find((x) => x.email === "bot@bot.co")).toBeUndefined();
   });
 
-  it("asks only what is missing, takes the answer, and puts the order back for antiHunt", async () => {
-    const { order } = (await (await post({ website: "beta.com", email: "x@beta.com", lang: "en" })).json()) as { order: string };
-    const row = await mine("x@beta.com");
-    expect((await apost("/api/intake/ack", { ids: [row.id] })).status).toBe(200);
-    expect((await list()).find((x) => x.email === "x@beta.com")).toBeUndefined();
-    await apost("/api/intake/found", { id: row.id, found: { name: "Beta Tools", description: "tools" }, missing: ["service"] });
-    let html = await (await SELF.fetch(`${BASE}${order}`)).text();
-    expect(html).toContain("Only this is missing");
-    expect(html).toContain('name="service"');
-    expect(html).not.toContain('name="name"');
-    const sent = await SELF.fetch(`${BASE}${order}`, { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ service: "payroll software for small firms" }).toString() });
-    expect(await sent.text()).toContain("We are using it already");
-    const back = await mine("x@beta.com");
-    expect([back.service, back.client_name, back.status, back.stage, back.missing]).toEqual(["payroll software for small firms", "Beta Tools", "updated", "making", "[]"]);
-  });
-
-  it("delivers the sample on the client's page, serves it privately, and records the request for the 100 once", async () => {
-    const { order } = (await (await post({ website: "gamma.com.br", email: "g@gamma.com.br" })).json()) as { order: string };
-    const row = await mine("g@gamma.com.br");
-    expect((await SELF.fetch(`${BASE}${order}/sample`)).status).toBe(404);
-    expect((await apost("/api/intake/deliver", { id: row.id, html: "not a page" })).status).toBe(400);
-    expect((await SELF.fetch(`${BASE}/api/intake/deliver`, { method: "POST", body: "{}" })).status).toBe(401);
-    expect((await apost("/api/intake/deliver", { id: row.id, html: "<!doctype html><html><body>3 super leads</body></html>" })).status).toBe(200);
-    const s = await SELF.fetch(`${BASE}${order}/sample`);
-    expect([s.status, s.headers.get("x-robots-tag"), s.headers.get("cache-control")]).toEqual([200, "noindex, nofollow", "no-store"]);
-    expect(await s.text()).toContain("3 super leads");
-    const pg = await (await SELF.fetch(`${BASE}${order}`)).text();
-    expect(pg).toContain("Abrir os 3 super leads");
-    expect(pg).toContain(`action="/o/${order.slice(3)}/buy"`);
-    await SELF.fetch(`${BASE}${order}/buy`, { method: "POST" });
-    await SELF.fetch(`${BASE}${order}/buy`, { method: "POST" });
-    const asked = (await list()).filter((x) => x.email === "g@gamma.com.br");
-    expect(asked.length).toBe(1);
-    expect(asked[0].buy_at).toBeTruthy();
-    expect(asked[0].has_sample).toBe(1);
-    const after = await (await SELF.fetch(`${BASE}${order}`)).text();
-    expect(after).toContain("Recebemos o seu pedido dos 100");
-    expect(after, "the sample stays reachable after asking for the 100").toContain(`/o/${order.slice(3)}/sample`);
-    await apost("/api/intake/ack", { ids: [row.id] });
-    expect((await list()).find((x) => x.email === "g@gamma.com.br")).toBeUndefined();
-  });
-
-  it("delivering the sample sends the email through Resend once; a refusal, a missing subject or a missing key leaves it for a person with the reason", async () => {
-    const sent: Record<string, unknown>[] = [];
-    const real = globalThis.fetch;
-    const spy = vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => {
-      if (String(input).startsWith("https://api.resend.com/emails")) { sent.push(JSON.parse(String(init?.body))); return new Response(JSON.stringify({ id: "msg_1" }), { status: 200 }); }
-      return real(input, init);
-    });
+  it("antiHunt takes a request once; the pages for samples and the pack no longer exist", async () => {
     await post({ website: "delta.com.br", email: "d@delta.com.br" });
     const row = await mine("d@delta.com.br");
-    const full = { id: row.id, html: "<!doctype html><html><body>3 leads</body></html>", subject: "Seus 3 super leads", body: "Aqui: https://go.test/o/ABC" };
-    expect(await (await apost("/api/intake/deliver", full)).json()).toEqual({ ok: true, mailed: true });
-    expect(sent.length).toBe(1);
-    expect([sent[0].from, sent[0].to, sent[0].subject, sent[0].text]).toEqual(["MineMyLead <samples@minemylead.com>", ["d@delta.com.br"], "Seus 3 super leads", "Aqui: https://go.test/o/ABC"]);
-    // delivered again (antiHunt retries): the same client is not mailed twice
-    expect(await (await apost("/api/intake/deliver", { ...full, subject: "another" })).json()).toEqual({ ok: true, mailed: true });
-    expect(sent.length).toBe(1);
-    // no subject or text: nothing is sent, and the reason is given
-    await post({ website: "epsilon.com.br", email: "e@epsilon.com.br" });
-    const e = await mine("e@epsilon.com.br");
-    const bare = (await (await apost("/api/intake/deliver", { id: e.id, html: "<!doctype html><html><body>3 leads</body></html>" })).json()) as { ok: boolean; mailed: boolean; error?: string };
-    expect([bare.ok, bare.mailed, bare.error, sent.length]).toEqual([true, false, "no subject or text to send", 1]);
-    spy.mockRestore();
-  });
-
-  it("when Resend refuses (domain not verified yet), the sample is still delivered and the reason comes back", async () => {
-    const real = globalThis.fetch;
-    const spy = vi.spyOn(globalThis, "fetch").mockImplementation(async (input, init) => String(input).startsWith("https://api.resend.com/emails") ? new Response(JSON.stringify({ name: "validation_error", message: "The minemylead.com domain is not verified." }), { status: 403 }) : real(input, init));
-    await post({ website: "zeta.com.br", email: "z@zeta.com.br" });
-    const z = await mine("z@zeta.com.br");
-    const r = (await (await apost("/api/intake/deliver", { id: z.id, html: "<!doctype html><html><body>3 leads</body></html>", subject: "S", body: "B" })).json()) as { ok: boolean; mailed: boolean; error?: string };
-    expect([r.ok, r.mailed]).toEqual([true, false]);
-    expect(r.error).toContain("Resend 403");
-    expect(r.error).toContain("not verified");
-    spy.mockRestore();
-  });
-
-  it("an unknown code is not found", async () => {
-    expect((await SELF.fetch(`${BASE}/o/ZZZZZZZZZZZZ`)).status).toBe(404);
-    expect((await SELF.fetch(`${BASE}/o/ZZZZZZZZZZZZ/sample`)).status).toBe(404);
+    expect((await apost("/api/intake/ack", { ids: [row.id] })).status).toBe(200);
+    expect((await list()).find((x) => x.email === "d@delta.com.br")).toBeUndefined();
+    for (const p of ["/o/ABCDEFGHIJKL", "/o/ABCDEFGHIJKL/sample", "/api/intake/deliver", "/api/intake/found"]) expect((await SELF.fetch(`${BASE}${p}`, { method: "POST", headers: auth, body: "{}" })).status, p).toBe(404);
   });
 });

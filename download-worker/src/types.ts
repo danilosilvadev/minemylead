@@ -7,12 +7,12 @@ export interface Env {
   WAITLIST_NOTIFY?: string;
   /** The key antiHunt uses to publish links and pull results (wrangler secret put INTEREST_KEY). Not the admin token: it is copied to the local machine. */
   INTEREST_KEY?: string;
-  /** Secret: the API key of Resend (free plan: 3000 a month, 100 a day), which sends the free-sample email. Absent: the email is left for a person to send. */
+  /** Secret: the API key of Resend (free plan: 3000 a month, 100 a day), which sends the owner the email about a new sample request. Absent: the request is only kept. */
   RESEND_API_KEY?: string;
-  /** The sender of the sample email, on a domain verified in Resend (for example samples@minemylead.com). Empty: no automatic email. */
+  /** The sender of that email, on a domain verified in Resend (for example samples@minemylead.com). Empty: no email. */
   MAIL_FROM?: string;
-  /** Where a client's reply goes (a real inbox). Optional. */
-  MAIL_REPLY_TO?: string;
+  /** Who gets the email about a new sample request (the owner's inbox; wrangler secret put NOTIFY_TO). The visitor's address is the reply-to. */
+  NOTIFY_TO?: string;
 }
 
 export type Lang = "en" | "pt";
