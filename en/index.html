@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="MineMyLead: packs of companies that sell to companies">
 <meta property="og:description" content="100 Brazilian companies that sell to companies, with the owner's name, the best contact and the reason for each.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Crect x='14' y='26' width='36' height='12' rx='3' fill='%23ffe14d'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg"><link rel="apple-touch-icon" href="/assets/brand/app-icon-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -91,8 +91,7 @@ mark{background:linear-gradient(transparent 58%,var(--hl) 58%,var(--hl) 92%,tran
 .nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
 .logo{font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo .mk{width:28px;height:28px;border-radius:8px;background:var(--brand);display:grid;place-items:center}
-.logo .mk i{display:block;width:16px;height:6px;border-radius:2px;background:var(--hl)}
+.logo .mk{width:32px;height:32px;display:block;flex:none}
 .logo b{font-weight:800}
 .links{display:flex;gap:18px;font-size:15px;font-weight:500;color:var(--ink2)}
 .links a{text-decoration:none}.links a:hover{color:var(--ink)}
@@ -233,7 +232,7 @@ details p{padding:0 0 22px;color:var(--ink2);font-size:16px;max-width:44em}
 footer{background:var(--deep);color:var(--deep-mute);border-top:1px solid #1a2a42;padding:44px 0;font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:flex-start}
 footer .logo{color:var(--deep-ink)}
-footer .logo .mk{background:var(--hl)}footer .logo .mk i{background:#0f1b2d}
+
 footer .cols{display:flex;gap:56px;flex-wrap:wrap}
 footer h4{font:500 12px "JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--deep-ink);margin-bottom:12px}
 footer a{display:block;text-decoration:none;margin-bottom:8px;color:var(--deep-mute)}footer a:hover{color:var(--deep-ink)}
@@ -335,7 +334,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 <body>
 <nav class="nav">
   <div class="wrap">
-    <a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a>
+    <a class="logo" href="#top"><img class="mk" src="/assets/brand/mark.svg" alt="" width="32" height="32"><span>Mine<b>My</b>Lead</span></a>
     <div class="links"><a href="#how">How it works</a><a href="#pack">What arrives</a><a href="#pricing">Price</a><a href="#faq">FAQ</a></div>
     <div class="navr"><a class="lang" href="/" hreflang="pt-BR" lang="pt-BR" onclick="try{localStorage.setItem('mml_lang','pt')}catch(e){}">PT</a><a class="btn navwl" href="#waitlist-sec"><span class="wl-full">I want the pilot</span><span class="wl-short">Pilot</span></a></div>
   </div>
@@ -459,7 +458,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
 </main>
 <footer>
   <div class="wrap">
-    <div><a class="logo" href="#top"><span class="mk"><i></i></span><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">We only use public data from the CNPJ registry. Ask for removal at any time: <a href="mailto:contact@minemylead.com">contact@minemylead.com</a></p></div>
+    <div><a class="logo" href="#top"><img class="mk" src="/assets/brand/mark-on-dark.svg" alt="" width="32" height="32"><span>Mine<b>My</b>Lead</span></a><p style="margin-top:12px;max-width:28em">We only use public data from the CNPJ registry. Ask for removal at any time: <a href="mailto:contact@minemylead.com">contact@minemylead.com</a></p></div>
     <div class="cols"><div><h4>Product</h4><a href="#how">How it works</a><a href="#pack">What arrives</a><a href="#pricing">Price</a><a href="#faq">FAQ</a></div><div><h4>Contact</h4><a href="mailto:contact@minemylead.com">contact@minemylead.com</a></div></div>
     <p class="legal">© 2026 MineMyLead. <a href="/privacy.html" style="display:inline;margin-left:12px">Privacy</a> <a href="/terms.html" style="display:inline;margin-left:12px">Terms</a></p>
   </div>
