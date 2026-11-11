@@ -104,8 +104,11 @@ if (is_array($cfg) && !empty($cfg['user']) && !empty($cfg['pass']) && $cfg['pass
 }
 // 2) otherwise (or when SMTP failed) PHP's mail(), which Hostinger often delivers to spam or drops
 if (!$sent) {
-    $headers = "From: MineMyLead <" . FROM . ">\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8\r\n";
-    $sent = @mail(TO, $subject, $body, $headers);
+    // sent as the site's own host (the address the server really sends from), so the receiving mail server does not see a forged minemylead.com sender; the visitor is the Reply-To
+    $host = preg_replace('/^www\./', '', strtolower((string) ($_SERVER['HTTP_HOST'] ?? 'localhost')));
+    $sender = 'forms@' . $host;
+    $headers = "From: MineMyLead <$sender>\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8\r\n";
+    $sent = @mail(TO, $subject, $body, $headers, '-f' . $sender);
     if (!$sent) $err .= ' mail() failed';
 }
 if ($err !== '') { file_put_contents($dir . '/mail-errors.log', gmdate('c') . " for $email:$err\n", FILE_APPEND | LOCK_EX); }
