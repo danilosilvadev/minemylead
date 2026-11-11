@@ -1,11 +1,11 @@
 // The request form (package or free test). Name, email, a website or social profile and an optional CNPJ go to two places at once:
-//  1. the MineMyLead Worker (keeps the request, and emails the owner once its mail is set up), and
+//  1. /intake.php on the same host (keeps the request in a file and emails the owner), and
 //  2. FormSubmit, which emails contact@minemylead.com straight from here, and
 //  3. Web3Forms (set W3F_KEY below), the same, through a different provider, so one outage does not stop the emails.
 // The visitor sees "sent" when at least one of them took it. If both fail, the message and a ready email link are shown.
 (function () {
   var TO = "contact@minemylead.com";
-  var WORKER = "https://mml-downloads.markpetrelli.workers.dev/api/intake";
+  var WORKER = "/intake.php";
   var W3F_KEY = ""; // Web3Forms access key (free, sent to contact@minemylead.com at web3forms.com). Empty: that channel is skipped.
   var RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   function el(f, n) { return f.elements[n]; }
