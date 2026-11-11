@@ -7,6 +7,35 @@ const TO = 'contact@minemylead.com';   // who gets the email
 const FROM = 'contact@minemylead.com'; // a mailbox of this domain, so Hostinger's mail accepts it
 const MAX_PER_HOUR = 40;
 
+/** Sends one plain-text message through an SMTP server over SSL (port 465) with AUTH LOGIN. True when the server accepted it; $err says which step failed (never the login). */
+function smtp_send(string $host, int $port, string $user, string $pass, string $from, string $to, string $replyTo, string $subject, string $body, string &$err): bool {
+    $fp = @stream_socket_client("ssl://$host:$port", $errno, $errstr, 15);
+    if (!$fp) { $err = " smtp connect failed: $errstr"; return false; }
+    stream_set_timeout($fp, 15);
+    $read = static function () use ($fp): string {
+        $all = '';
+        while (($l = fgets($fp, 515)) !== false) { $all .= $l; if (strlen($l) < 4 || $l[3] === ' ') break; }
+        return $all;
+    };
+    $step = static function (string $line, string $want, string $label) use ($fp, $read, &$err): bool {
+        fwrite($fp, $line . "\r\n");
+        $r = $read();
+        if (strpos($r, $want) !== 0) { $err = " smtp $label refused: " . trim(substr($r, 0, 160)); return false; }
+        return true;
+    };
+    if (strpos($read(), '220') !== 0) { fclose($fp); $err = ' smtp: no greeting'; return false; }
+    $ok = $step('EHLO minemylead.com', '250', 'EHLO') && $step('AUTH LOGIN', '334', 'AUTH') && $step(base64_encode($user), '334', 'user') && $step(base64_encode($pass), '235', 'login')
+        && $step("MAIL FROM:<$from>", '250', 'MAIL FROM') && $step("RCPT TO:<$to>", '250', 'RCPT TO') && $step('DATA', '354', 'DATA');
+    if ($ok) {
+        $msg = "From: MineMyLead <$from>\r\nTo: <$to>\r\nReply-To: <$replyTo>\r\nSubject: $subject\r\nDate: " . date('r') . "\r\nMessage-ID: <" . bin2hex(random_bytes(8)) . "@minemylead.com>\r\n"
+            . "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode($body));
+        $ok = $step($msg . "\r\n.", '250', 'message');
+    }
+    @fwrite($fp, "QUIT\r\n");
+    fclose($fp);
+    return $ok;
+}
+
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 function out(int $code, array $body): void { http_response_code($code); echo json_encode($body, JSON_UNESCAPED_UNICODE); exit; }
@@ -64,7 +93,20 @@ file_put_contents($file, json_encode($row, JSON_UNESCAPED_UNICODE) . "\n", FILE_
 $lines = ['Novo pedido pelo site.', '', "Site ou rede social: $site", "E-mail: $email", 'Nome: ' . ($name ?: '(não informado)'),
           'CNPJ: ' . ($cnpj ?: '(não informado)'), 'O que vende e para quem: ' . ($service ?: '(não informado)'), "Idioma: $lang"];
 $subject = '=?UTF-8?B?' . base64_encode('MineMyLead: pedido (' . ($name ?: $email) . ')') . '?=';
-$headers = "From: MineMyLead <" . FROM . ">\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8\r\n";
-$sent = @mail(TO, $subject, implode("\n", $lines), $headers);
-if (!$sent) { file_put_contents($dir . '/mail-errors.log', gmdate('c') . " mail() failed for $email\n", FILE_APPEND | LOCK_EX); }
+$body = implode("\n", $lines);
+$err = '';
+$sent = false;
+// 1) the mailbox's own SMTP login (mml-data/smtp.php returns ['user' => ..., 'pass' => ...]); mail sent this way is authenticated and lands in the inbox
+$cfgFile = $dir . '/smtp.php';
+$cfg = is_file($cfgFile) ? include $cfgFile : null;
+if (is_array($cfg) && !empty($cfg['user']) && !empty($cfg['pass']) && $cfg['pass'] !== 'PUT_THE_PASSWORD_HERE') {
+    $sent = smtp_send($cfg['host'] ?? 'smtp.hostinger.com', (int) ($cfg['port'] ?? 465), $cfg['user'], $cfg['pass'], FROM, TO, $email, $subject, $body, $err);
+}
+// 2) otherwise (or when SMTP failed) PHP's mail(), which Hostinger often delivers to spam or drops
+if (!$sent) {
+    $headers = "From: MineMyLead <" . FROM . ">\r\nReply-To: $email\r\nContent-Type: text/plain; charset=UTF-8\r\n";
+    $sent = @mail(TO, $subject, $body, $headers);
+    if (!$sent) $err .= ' mail() failed';
+}
+if ($err !== '') { file_put_contents($dir . '/mail-errors.log', gmdate('c') . " for $email:$err\n", FILE_APPEND | LOCK_EX); }
 out(200, ['ok' => true]); // the request is kept either way
