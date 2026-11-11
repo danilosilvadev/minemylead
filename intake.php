@@ -64,6 +64,9 @@ if (preg_match('/^@[A-Za-z0-9._]{2,60}$/', $site)) {
     $site = 'https://' . $h . rtrim($p['path'] ?? '', '/');
 }
 
+$wa = preg_replace('/[^\d+]/', '', $clip($f['whatsapp'] ?? '', 30));
+if (!preg_match('/^\+?\d{10,14}$/', $wa)) out(400, ['error' => 'check the WhatsApp number']);
+
 $cnpjRaw = $clip($f['cnpj'] ?? '', 30);
 $cnpj = preg_replace('/[.\/\-\s]/', '', $cnpjRaw);
 if ($cnpj !== '' && !preg_match('/^\d{14}$/', $cnpj)) out(400, ['error' => 'check the CNPJ']);
@@ -87,10 +90,10 @@ foreach (array_slice($rows, -200) as $line) {
 if ($recent >= MAX_PER_HOUR) out(429, ['error' => 'too many requests']);
 if ($seen) out(200, ['ok' => true]); // the same request again is kept once
 
-$row = ['at' => gmdate('c'), 'name' => $name, 'email' => $email, 'site' => $site, 'cnpj' => $cnpj, 'service' => $service, 'lang' => $lang];
+$row = ['at' => gmdate('c'), 'name' => $name, 'email' => $email, 'whatsapp' => $wa, 'site' => $site, 'cnpj' => $cnpj, 'service' => $service, 'lang' => $lang];
 file_put_contents($file, json_encode($row, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
 
-$lines = ['Novo pedido pelo site.', '', "Site ou rede social: $site", "E-mail: $email", 'Nome: ' . ($name ?: '(não informado)'),
+$lines = ['Novo pedido pelo site.', '', "Site ou rede social: $site", "E-mail: $email", "WhatsApp: $wa", 'Nome: ' . ($name ?: '(não informado)'),
           'CNPJ: ' . ($cnpj ?: '(não informado)'), 'O que vende e para quem: ' . ($service ?: '(não informado)'), "Idioma: $lang"];
 $subject = '=?UTF-8?B?' . base64_encode('MineMyLead: pedido (' . ($name ?: $email) . ')') . '?=';
 $body = implode("\n", $lines);

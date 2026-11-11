@@ -428,9 +428,10 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   <div class="wrap">
     <div><h2>Want the pack?</h2><p>Fill in below. We reply by email with the next step. No charge now.</p></div>
     <div class="side">
-      <form id="waitlist" class="lf" data-contact data-lang="en" data-kind="pacote de 100" data-ok="Done! We got your request and will reply by email." data-bad-name="Enter your name." data-bad-email="Check the email." data-bad-site="Enter the website or social profile." data-bad-cnpj="Check the CNPJ (14 digits) or leave it empty." data-fail="We could not send it right now." data-mailto="Send by email" data-sending="Sending..." novalidate>
+      <form id="waitlist" class="lf" data-contact data-lang="en" data-kind="pacote de 100" data-ok="Done! We got your request. Our team will send you a message within 24 hours." data-bad-name="Enter your name." data-bad-email="Check the email." data-bad-site="Enter the website or social profile." data-bad-cnpj="Check the CNPJ (14 digits) or leave it empty." data-bad-whatsapp="Check the WhatsApp number (with area code)." data-fail="We could not send it right now." data-mailto="Send by email" data-sending="Sending..." novalidate>
         <label>Your name *<input name="name" type="text" required maxlength="120" autocomplete="name"></label>
         <label>Your email *<input name="email" type="email" required maxlength="240" autocomplete="email"></label>
+        <label>Your WhatsApp *<input name="whatsapp" type="tel" required maxlength="24" inputmode="tel" autocomplete="tel" placeholder="+55 11 99999-9999"></label>
         <label>Your company's website or social profile *<input name="site" type="text" required maxlength="200" inputmode="url" autocomplete="url" placeholder="yourcompany.com or @yourcompany"><span class="hint">No website? Use the company Instagram or another company social profile. If the company has none, use your own personal one.</span></label>
         <label>Company CNPJ (optional)<input name="cnpj" type="text" maxlength="18" inputmode="numeric" autocomplete="off" placeholder="00.000.000/0000-00"></label>
         <label>What do you sell, and to whom? (optional)<textarea name="niche" rows="3" maxlength="500" placeholder="E.g. management software for clinics"></textarea></label>
@@ -452,7 +453,7 @@ footer .legal{width:100%;padding-top:24px;border-top:1px solid #1a2a42;font-size
   </div>
 </footer>
 <script src="/assets/preview.js?v=10"></script>
-<script src="/assets/contact.js?v=3"></script>
+<script src="/assets/contact.js?v=4"></script>
 <script>window.AH_API = "";</script><script src="/pt/trial/ah.js?v=2"></script>
 </body>
 </html>
