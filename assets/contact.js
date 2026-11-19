@@ -86,3 +86,5 @@
     });
   });
 })();
+
+;(function(){document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("[data-kit]");if(!a)return;var f=document.getElementById("waitlist");if(f)f.setAttribute("data-kind",a.getAttribute("data-kit"));});})();
